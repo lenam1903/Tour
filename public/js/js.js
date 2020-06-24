@@ -202,6 +202,8 @@ var priceAdult = 0;
 var priceChildren = 0;
 var priceBaby = 0;
 
+
+
 function formAdult(results) {
     guestNumber(adult, baby, children);
     $("#formAdult").empty();
@@ -244,7 +246,7 @@ function adultAjax(id) {
 
                 total += Number($("#priceAdult0").text());
                 priceAdult = total;
-                $("#totalPrice").text(priceAdult + priceChildren + priceBaby);
+                totalPrice();
 
                 alert(
                     "Không được nhập quá số chỗ trống của Tour " +
@@ -275,9 +277,7 @@ function adultAjax(id) {
                         total += Number($("#priceAdult" + i).text());
                     }
                     priceAdult = total;
-                    $("#totalPrice").text(
-                        priceAdult + priceChildren + priceBaby
-                    );
+                    totalPrice();
                 }
             }
         })
@@ -291,6 +291,7 @@ function formChildren(results) {
 }
 
 function childrenAjax(id) {
+    priceAdult = Number($("#priceAdult0").attr("maxprice"));
     children = $("#children").val();
     guestNumberMax = $("#guestNumber").attr("guestNumberMax");
     let total = 0;
@@ -343,7 +344,7 @@ function childrenAjax(id) {
                     total += Number($("#priceChildren" + i).text());
                 }
                 priceChildren = total;
-                $("#totalPrice").text(priceAdult + priceChildren + priceBaby);
+                totalPrice();
             }
         })
         .fail(function (data) {});
@@ -356,6 +357,7 @@ function formBaby(results) {
 }
 
 function babyAjax(id) {
+    priceAdult = Number($("#priceAdult0").attr("maxprice"));
     let total = 0;
     baby = $("#baby").val();
     guestNumberMax = $("#guestNumber").attr("guestNumberMax");
@@ -401,7 +403,7 @@ function babyAjax(id) {
                     total += Number($("#priceBaby" + i).text());
                 }
                 priceBaby = total;
-                $("#totalPrice").text(priceAdult + priceChildren + priceBaby);
+                totalPrice();
             }
         })
         .fail(function (data) {});
@@ -415,11 +417,6 @@ function guestNumber(adult, baby, children) {
 
 function totalPrice() {
     return $("#totalPrice").text(priceAdult + priceChildren + priceBaby);
-}
-function updatePrice() {
-    $("#totalPrice").text(
-        Number(priceAdult) + Number(priceChildren) + Number(priceBaby)
-    );
 }
 
 function singleRoom(value, id, price, idGuest) {
