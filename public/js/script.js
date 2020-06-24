@@ -216,90 +216,155 @@ function show_text(t, dname) {
     }
 }
 
-var adult = 0;
+var adult = 1;
 var children = 0;
 var baby = 0;
-var guest = 0;
 var guestNumberMax = 0;
 
-function adultCheck() {
+
+function adultCheck(id) {
     adult = $("#adult").val();
-
-    if(adult == ''){
-        adult = 0;
-        $("#adult").val(0);
-    }
     guestNumberMax = $("#guestNumber").attr("guestNumberMax");
-    
-
-    guestNumber(adult, baby, children)
-
     // Điều này xóa phần tử bật lên
     ent = document.getElementById("ent");
     if (ent) {
         document.body.removeChild(ent);
     }
-
+    
 
     $.ajax({
-        url: 'AdultAjax',
+        url: 'AdultAjax/'+id,
         data: { adult: adult, guestNumberMax: guestNumberMax, guestNumber: $("#guestNumber").val()  },
         method : "get",
         
     }).done(function (results) {
+      
+        if(adult == ''){
+            adult = 1;
+            $("#adult").val(1);
+            alert(results);
+        }
             
-  
-        alert(results);
+        if(adult == 0){
+            
+            alert(results);
+            
+            // $("#errorAdult").empty();
+            // $("#errorAdult").html("<label style='text-align: center; font-size: 20; color: red;' id='errorAdult' for='adult'>Người Lớn (nhập lại)</label>");
+            
+        }
+      
+        if(guestNumberMax < (Number(adult) + Number(baby) + Number(children))){
+            alert(results);
+            
+           
+        }
+        else{
+            alert(results);
+            guestNumber(adult, baby, children);
+            
+        }
+
            
    
     }).fail(function (data) {
         
 
-        let errors = data.responseJSON;
-        console.log(errors);
+       
     }); 
 }
 
-function childrenCheck() {
-    children = $("#children").val();
-
-    if(children == ''){
-        children = 0;
-        $("#children").val(0);
-    }
-    guestNumber(adult, baby, children)
+// function childrenCheck() {
+//     children = $("#children").val();
+//     guestNumberMax = $("#guestNumber").attr("guestNumberMax");
     
-    // Điều này xóa phần tử bật lên
-    ent = document.getElementById("ent");
-    if (ent) {
-        document.body.removeChild(ent);
-    }
-}
+//     // Điều này xóa phần tử bật lên
+//     ent = document.getElementById("ent");
+//     if (ent) {
+//         document.body.removeChild(ent);
+//     }
 
-function babyCheck() {
-    baby = $("#baby").val();
-  
-    if(baby == ''){
-        baby = 0;
-        $("#baby").val(0);
-    }
-  
-    guestNumber(adult, baby, children)
+//     $.ajax({
+//         url: 'AdultAjax/'+,
+//         data: { adult: adult, guestNumberMax: guestNumberMax, guestNumber: $("#guestNumber").val()  },
+//         method : "get",
+        
+//     }).done(function (results) {
+        
+//         if(children == ''){
+//             children = 0;
+//             $("#children").val(0);
+//             alert("Vui lòng nhập đúng số  ( >= 0 )");
+//         }
 
-    // Điều này xóa phần tử bật lên
-    ent = document.getElementById("ent");
-    if (ent) {
-        document.body.removeChild(ent);
-    }
-}
+//         if(guestNumberMax < (Number(adult) + Number(baby) + Number(children))){
+//             alert("Không được nhập quá số chỗ trống của Tour ( "+guestNumberMax+")          Vui Lòng nhập lại");
+            
+//         }
+//         else{
+            
+//             guestNumber(adult, baby, children);
+            
+//         }
+
+           
+   
+//     }).fail(function (data) {
+        
+
+//         let errors = data.responseJSON;
+//         console.log(errors);
+//     }); 
+// }
+
+// function babyCheck() {
+//     baby = $("#baby").val();
+//     guestNumberMax = $("#guestNumber").attr("guestNumberMax");
+
+//     // Điều này xóa phần tử bật lên
+//     ent = document.getElementById("ent");
+//     if (ent) {
+//         document.body.removeChild(ent);
+//     }
+
+//     $.ajax({
+//         url: 'AdultAjax',
+//         data: { adult: adult, guestNumberMax: guestNumberMax, guestNumber: $("#guestNumber").val()  },
+//         method : "get",
+        
+//     }).done(function (results) {
+        
+//         if(baby == ''){
+//             baby = 0;
+//             $("#baby").val(0);
+//             alert("Vui lòng nhập đúng số  ( >= 0 )");
+//         }
+
+//         if(guestNumberMax < (Number(adult) + Number(baby) + Number(children))){
+//             alert("Không được nhập quá số chỗ trống của Tour ( "+guestNumberMax+")          Vui Lòng nhập lại");
+            
+//         }
+//         else{
+            
+//             guestNumber(adult, baby, children);
+            
+//         }
+
+           
+   
+//     }).fail(function (data) {
+        
+
+//         let errors = data.responseJSON;
+//         console.log(errors);
+//     }); 
+// }
 
 function guestNumber(adult, baby, children) { 
 
     return $("#guestNumber").val(Number(adult)+Number(baby)+Number(children));
     
 }
-
-
 
 
 

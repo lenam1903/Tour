@@ -68,7 +68,7 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         
-        <script src="js/script.js" type="text/javascript" async></script>
+        <script src="js/js.js" type="text/javascript" async></script>
 
     </head>
     
@@ -129,7 +129,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
     "></script>
 
-   
  
     
         @yield('script')

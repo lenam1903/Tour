@@ -132,7 +132,13 @@ Route::get('/CheckOutInfo/{id}', 'PageController@CheckOutInfo');
 
 Route::post('/CheckOut-Info/{id}', 'PageController@postCheckOutInfo');
 
-Route::get('AdultAjax', 'PageController@adultAjax');
+Route::get('/AdultAjax/{id}', 'PageController@adultAjax');
+
+Route::get('/ChildrenAjax/{id}', 'PageController@childrenAjax');
+
+Route::get('/BabyAjax/{id}', 'PageController@babyAjax');
+
+
 
 // Route::get('loaitin/{id}/{TenKhongDau}.html','PagesController@loaitin');
 // Route::get('tintuc/{id}/{TenKhongDau}.html','PagesController@tintuc');

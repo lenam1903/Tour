@@ -70,20 +70,76 @@ class PageController extends Controller
         }
     }
     
-    public function adultAjax(Request $request){
+    public function adultAjax(Request $request, $id){
+        $idTour = Tour::find($id);
+
        
         if (isset($_GET['adult']) && isset($_GET['guestNumberMax']) && isset($_GET['guestNumber'])) {
             $adult = $_GET['adult'];
             $guestNumberMax = $_GET['guestNumberMax'];
             $guestNumber = $_GET['guestNumber'];
 
-            // if ($guestNumber <= $guestNumberMax && $guestNumber >= 0) {
-            //     return view('pages.contact');
-            // }
+            if($adult == ""){
+                return "";
+            }
 
-
-            return response()->json($guestNumber);
+            if($guestNumberMax < $guestNumber){
+                return ""; 
+                
+            }
+            else{
+                if($adult == 0){
+                    return "";
+                }
+                else{
+                    return view('pages.formAdult',['idTour'=>$idTour, 'adult'=>$adult]);
+                }  
+            }
         }
-	}
+    }
+
+    public function childrenAjax(Request $request, $id){
+        $idTour = Tour::find($id);
+
+        if (isset($_GET['children']) && isset($_GET['guestNumberMax']) && isset($_GET['guestNumber'])) {
+            $children = $_GET['children'];
+            $guestNumberMax = $_GET['guestNumberMax'];
+            $guestNumber = $_GET['guestNumber'];
+
+            if($children == ""){
+                return "";
+            }
+
+            if($guestNumberMax < $guestNumber){
+                return ""; 
+            }
+            else{
+                return view('pages.formChildren',['idTour'=>$idTour, 'children'=>$children]);
+            }
+        }
+    }
+
+    public function babyAjax(Request $request, $id){
+        $idTour = Tour::find($id);
+
+        if (isset($_GET['baby']) && isset($_GET['guestNumberMax']) && isset($_GET['guestNumber'])) {
+            $baby = $_GET['baby'];
+            $guestNumberMax = $_GET['guestNumberMax'];
+            $guestNumber = $_GET['guestNumber'];
+
+            if($baby == ""){
+                return "";
+            }
+
+            if($guestNumberMax < $guestNumber){
+                return ""; 
+            }
+            else{
+                return view('pages.formBaby',['idTour'=>$idTour, 'baby'=>$baby]);
+            }
+        }
+    }
+    
+    
 
 }
