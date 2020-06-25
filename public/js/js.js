@@ -459,7 +459,36 @@ function singleRoom(value, id, price, idGuest) {
     }
 }
 
-function dateCheckoutInfo(id, value){
+function departureDay (id, value){
     
+    var departureDay1 = $("#dateCheckoutAdult0").attr("departureDay");
+    var tourTime = $("#dateCheckoutAdult0").attr("tourTime");
+    departureDay1 = new Date(departureDay1);
+    var departureDay2 = new Date(value);
+    var minDepartureDayAdult = new Date(value);
 
+
+    tourTime = tourTime.slice(1,3)
+        // ngày xuất phát + số ngày của tour 
+    departureDay1.setDate(Number(tourTime) + Number(departureDay1.getDate()));
+    console.log(departureDay1);
+        // ngày ít nhất của người lớn
+    minDepartureDayAdult.setFullYear(Number(departureDay1.getFullYear()) - Number(12) );
+    minDepartureDayAdult.setDate(departureDay1.getDate());
+    minDepartureDayAdult.setMonth(departureDay1.getMonth());
+   
+    
+    if (id.indexOf("dateCheckoutAdult") == 0) {
+        if (departureDay2.getTime() <  minDepartureDayAdult.getTime() ) {
+            
+        }else{
+            minDepartureDayAdult.
+            
+            alert("Ngày sinh & độ tuổi Người lớn không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : "+ departureDay1.getDate() + "/"+  (Number(departureDay1.getMonth())+Number(1)) +"/"+ departureDay1.getFullYear() +")");
+
+        }
+    }
+    
+    
 }
+

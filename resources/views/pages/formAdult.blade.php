@@ -30,7 +30,7 @@
         </div>
         <div class="form-group col-md-3">
             <label>Ngày Sinh</label>
-            <input id="dateCheckoutAdult{{$i}}" onblur="dateCheckoutInfo(this.id, this.value)" type="date" name="dateCheckoutAdult{{$i}}"
+            <input id="dateCheckoutAdult{{$i}}" onblur="departureDay(this.id, this.value, {{$idTour->Tour_Time}})" type="date" name="dateCheckoutAdult{{$i}}"
                 placeholder="Nhập Ngày Khởi Hành" />
         </div>
         <div class="form-group col-md-3">

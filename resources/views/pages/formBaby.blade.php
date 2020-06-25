@@ -30,8 +30,8 @@
                         type="text" class="form-control" value="Em Bé" readonly>
         </div>
         <div class="form-group col-md-3">
-            <label>{{$idTour->Departure_Day}}</label>
-            <input id="dateCheckoutBaby{{$i}}" onblur="dateCheckoutInfo(this.id, this.value)" type="date" name="dateCheckoutBaby{{$i}}"
+            <label>Ngày Sinh</label>
+            <input id="dateCheckoutBaby{{$i}}" onblur="departureDay(this.id, this.value)" tourTime="{{$idTour->Tour_Time}}" type="date" name="dateCheckoutBaby{{$i}}"
                 placeholder="Nhập Ngày Khởi Hành" />
         </div>
         <div class="form-group col-md-3">
