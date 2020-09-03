@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('welcome');
+});
 
 
 Route::get('admin/login','UserController@getLoginAdmin');
@@ -113,24 +116,30 @@ Route::post('/Delete-Item-List-Cart/{id}', 'CartController@DeleteItemListCart');
 
 Route::post('/Save-Item-List-Cart/{id}/{quanty}', 'CartController@SaveListItemCart');
 
-Route::get('/List-Cart', 'CartController@ViewListCart');
 
 
 
-Route::post('/Select-Check-Out/{id}', 'CartController@SelectCheckOut');
+
+
 
 
 
 
 Route::get('home','PageController@home');
 
+Route::get('DetailTour/{id}','PageController@detailTour');
+
+Route::post('Review/{idTour}/{idUser}','PageController@review');
+
+Route::get('List-Cart','PageController@listCart');
+
 Route::post('register','PageController@postRegister');
+
+Route::get('check-out/{id}','PageController@checkOut');
 
 Route::get('contact','PageController@contact');
 
-Route::get('/CheckOutInfo/{id}', 'PageController@CheckOutInfo');
-
-Route::post('/CheckOut-Info/{id}', 'PageController@postCheckOutInfo');
+Route::post('/CheckOut-Info/{idTour}/{idUser}', 'PageController@postCheckOutInfo');
 
 Route::get('/AdultAjax/{id}', 'PageController@adultAjax');
 
@@ -138,12 +147,21 @@ Route::get('/ChildrenAjax/{id}', 'PageController@childrenAjax');
 
 Route::get('/BabyAjax/{id}', 'PageController@babyAjax');
 
+Route::get('Search','PageController@search');
+
+Route::get('SearchPlaces/{id}','PageController@searchPlaces');
+
+Route::get('SearchMaxMin','PageController@searchMaxMin');
+
+Route::get('SearchMinMax','PageController@searchMinMax');
+
+Route::get('SearchStar','PageController@searchStar');
+
+Route::get('Bill','PageController@bill');
+
 
 
 // Route::get('loaitin/{id}/{TenKhongDau}.html','PagesController@loaitin');
 // Route::get('tintuc/{id}/{TenKhongDau}.html','PagesController@tintuc');
 
 
-Route::get('dang-ky','RegisterController@getRegister');
-
-Route::post('dang-ky','RegisterController@postRegister');

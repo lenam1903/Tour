@@ -153,12 +153,16 @@ class UserController extends Controller
 
         if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password]))
         {
-            return redirect('admin/user/list');
-            
+            if(Auth::attempt(['email'=>$request->email,'password'=>$request->password, 'Level'=>'1'])){
+                return redirect('admin/user/list');
+            }
+            else{
+                return redirect('home');
+            }
         }
         else
         {
-            return redirect('admin/login')->with('loi','error');
+            return redirect('admin/login')->with('loi','Vui Lòng Nhập Lại');
         }  
     }
 

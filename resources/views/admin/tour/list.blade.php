@@ -65,7 +65,7 @@
                             <td>{{$t->Place_Of_Departure}}</td>
                             <td>{{$t->Transportation}}</td>
                             <td>{{$t->Departure_Day}}</td>
-                            <td>{{$t->Describe}}</td>
+                            <td>{{substr($t->Describe, 0, 500)}}...</td>
                             <td><img width="200px" height="200px" src="upload/tour/{{$t->Image}}"> </td>
                             <td>{{$t->Number_Of_Seats_Available}}</td>
                             <td>{{$t->Price}}</td>

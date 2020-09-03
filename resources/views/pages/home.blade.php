@@ -1,98 +1,112 @@
-
-
 @extends('layout.index')
-
-
 
 @section('content')
 
-<!-- Page Content -->
-<div class="container-fluid">
-
-	@include('layout.slide')
-
-	<div class="space20"></div>
-
-	<div id="content" class="row main-left" style="background-image: url(image/background.jpg)">
-		@include('layout.menu')
-
-		<div class="col-md-9">
-			<div class="panel panel-default">
-			<div id="change-list-cart">
-				<div class="panel-heading" style="background-color:#337AB7; color:white;">
-					<h2 style="margin-top:0px; margin-bottom:0px;">Tour</h2>
-				</div>
-				<div class="panel-body"
-					style="background-image: url(image/background1.jpg); background-repeat: no-repeat; position: relative;background-size: cover;">
-					<!-- item -->
-					<div class="row-item row">
-						@foreach($tour as $t)
-						<div class="col-md-4 border-right"
-							style="float: left; width: 33.33%; padding: 1px 1px 50px 30px; text-align: center; ">
-							<a href="">
-								<img width="400px" height="300px" src="upload/tour/{{$t->Image}}"
-									alt="{{$t->Tour_Name}}">
-							</a>
-							<h3>
-								<a style="text-decoration: none; color:blue;" href="tour.html">{{$t->Tour_Name}}</a>
-							</h3>
-							<p><span class="glyphicon glyphicon-time"></span> Thời gian : {{$t->Tour_Time}}
-							</p>
-							<p>Địa Điểm : {{$t->places1->Name_Places}} </p>
-							<p>{{number_format($t->Price)}} đ</p>
-							<a onclick="AddCart({{$t->ID}})" class="btn btn-primary" href="javascript:"> Add Cart <span
-									class="add-cart-large"></span></a>
-						</div>
-						@endforeach
-					</div>
-					<!-- end item -->
-				</div>
-			</div>
-			</div>
-		</div>
-	</div>
-	<!-- /.row -->
-</div>
-
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Đăng Ký</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+<!-- Begin Li's Content Wraper Area -->
+<div class="content-wraper pt-60 pb-60 pt-sm-30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9 order-1 order-lg-2">
+                <!-- Begin Slider Area -->
+                <div class="slider-area">
+                    <div class="slider-active owl-carousel">
+                        <!-- Begin Single Slide Area -->
+                        <div class="single-slide align-center-left animation-style-01 bg-1">
+                            <div class="slider-progress"></div>
+                            <div class="slider-content">
+                                <h5>Sale Offer <span>-20% Off</span> This Week</h5>
+                                
+                                <h3>Starting at <span>1200000</span></h3>
+                            </div>
+                        </div>
+                        <!-- Single Slide Area End Here -->
+                        <!-- Begin Single Slide Area -->
+                        <div class="single-slide align-center-left animation-style-02 bg-2">
+                            <div class="slider-progress"></div>
+                            <div class="slider-content">
+                                <h5>Sale Offer <span>Black Friday</span> This Week</h5>
+                                <h2>Work Desk Surface Studio 2018</h2>
+                                <h3>Starting at <span>824.000đ</span></h3>
+                            </div>
+                        </div>
+                        <!-- Single Slide Area End Here -->
+                        <!-- Begin Single Slide Area -->
+                        <div class="single-slide align-center-left animation-style-01 bg-3">
+                            <div class="slider-progress"></div>
+                            <div class="slider-content">
+                                <h5>Sale Offer <span>-10% Off</span> This Week</h5>
+                                <h2>Phantom 4 Pro+ Obsidian</h2>
+                                <h3>Starting at <span>1849.000 đ</span></h3>
+                            </div>
+                        </div>
+                        <!-- Single Slide Area End Here -->
+                    </div>
+                </div>
+                <!-- Slider Area End Here -->
+                <!-- shop-products-wrapper start -->
+                <div class="shop-products-wrapper">
+                    <div class="tab-content">
+                    <div id="list-view" class="tab-pane fade product-list-view active show" role="tabpanel">
+                            <div class="row">
+                                <div class="col">
+                                    @foreach($tourPaginate as $t)
+                                        <div class="row product-layout-list">
+                                            <div class="col-lg-3 col-md-5 ">
+                                                <div class="product-image">
+                                                    <a href="DetailTour/{{$t->ID}}">
+                                                        <img width="500px" height="200px" src="upload/tour/{{$t->Image}}" alt="{{$t->Tour_Name}}">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5 col-md-7">
+                                                <div class="product_desc">
+                                                    <div class="product_desc_info">
+                                                        <div class="product-review">
+                                                            <h5 class="manufacturer">
+                                                                <a ><i class="far fa-calendar-alt"></i> {{$t->Departure_Day}} - Ngày xuất phát</a>
+                                                                <a  style="padding-left:50px"><i class="fas fa-couch"></i>Số ghế: {{$t->Number_Of_Seats_Available}}</a>
+                                                            </h5>
+                                                        </div>
+                                                        <h4><a class="product_name" href="DetailTour/{{$t->ID}}">{{$t->Tour_Name}}</a></h4>
+                                                        <div class="price-box">
+                                                            <span class="new-price" style="color: red;">{{number_format($t->Price)}} VNĐ</span>
+                                                        </div>
+                                                        <p><i class='fas fa-crosshairs'
+                                                                style='font-size:26px'></i><b>{{$t->places1->Name_Places}}</b></p>
+                                                        <p > {!! substr($t->Describe, 0 , 500) !!}...</p>
+                                                        <div class="comment-review">
+                                                            <span>Tổng Đánh Giá: {{round($t->Rate, 5)}}/5 <b> </b> <i class="fa fa-star" style="font-size:48px;color:red"></i> 
+                                                            </span>   
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="shop-add-action mb-xs-30">
+                                                    <ul class="add-actions-link">
+                                                        <li class="add-cart"><a onclick="AddCart({{$t->ID}})" href="javascript:"> Add Cart <span class="add-cart-large"></span></a></li>
+                                                        
+                                                        <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i>{{$t->views}}</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                    @endforeach
+                                   
+                                </div>
+                            </div>
+                            {!! $tourPaginate->links() !!}
+                        </div>
+                       
+                    </div>
+                </div>
+                <!-- shop-products-wrapper end -->
             </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="" method="POST" id="form-register">
-                    
-                    @csrf
-                    
-                    <div class="form-group" style="text-align: left">
-                        <label for="email">Họ Tên:</label>
-                        <input type="text" name="name" class="form-control" placeholder="Enter name">
-                        <span class="error-form"></span>
-                    </div>
-                    <div class="form-group" style="text-align: left">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" class="form-control" placeholder="Enter email">
-                        <span class="error-form"></span>
-                    </div>
-                    <div class="form-group" style="text-align: left">
-                        <label for="pwd">Mật Khẩu:</label>
-                        <input type="password" name="password" class="form-control" placeholder="Enter password" id="pwd">
-                        <span class="error-form"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary js-btn-login">Đăng Ký</button>
-                </form>
-            </div>
+            @include('layout.menu')
         </div>
     </div>
 </div>
 
-<!-- end Page Content -->
 @endsection
-
 

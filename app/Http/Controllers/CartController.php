@@ -9,11 +9,6 @@ use App\Cart;
 use App\Tour;
 class CartController extends Controller
 {
-    
-    // public function Index(){
-        
-    // 	return view('test'); 
-    // }
 
     public function AddCart(Request $request ,$id, $quantyCart){
 		$product = DB::table('tour')->where('ID', $id)->first();
@@ -58,12 +53,9 @@ class CartController extends Controller
 			$request->Session()->forget('Cart');
 		}
 
-    	return view('pages.list-cart');
+    	return view('pages.ajaxListCart');
     }
 
-    public function ViewListCart(){
-    	return view('pages.list-cart');
-	}
 	
     public function SaveListItemCart(Request $request, $id, $quanty){
     	$oldCart = Session('Cart') ? Session('Cart') : null;
@@ -87,7 +79,7 @@ class CartController extends Controller
 		}
 		$request->session()->put('Cart', $newCart);
 		
-    	return view('pages.list-cart');
+    	return view('pages.ajaxListCart');
 	}
 
 

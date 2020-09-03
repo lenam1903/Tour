@@ -1,118 +1,126 @@
-
-<html lang="en">
-
-    <head>
-    
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html class="no-js" lang="zxx">
+<head>
+    <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Shop Left Sidebar || limupa - Digital Products Store eCommerce Bootstrap 4 Template</title>
         <meta name="description" content="">
-        <meta name="author" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Tour - Laravel</title>
-    
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <base href="{{asset('')}}">
-        <!-- Bootstrap Core CSS -->
-        <link href="css/shop-homepage.css" rel="stylesheet">
-            
-        <!-- Custom CSS -->
-    
-    
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    
-    
-
-       
-      
-    
-        <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/themify-icons.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/nice-select.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/style.css" type="text/css">
-    
-        <!-- Google Font -->
-
-
-      
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+        <!-- Material Design Iconic Font-V2.2.0 -->
+        <link rel="stylesheet" href="css/material-design-iconic-font.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <!-- Font Awesome Stars-->
+        <link rel="stylesheet" href="css/fontawesome-stars.css">
+        <!-- Meanmenu CSS -->
+        <link rel="stylesheet" href="css/meanmenu.css">
+        <!-- owl carousel CSS -->
+        <link rel="stylesheet" href="css/owl.carousel.min.css">
+        <!-- Slick Carousel CSS -->
+        <link rel="stylesheet" href="css/slick.css">
+        <!-- Animate CSS -->
+        <link rel="stylesheet" href="css/animate.css">
+        <!-- Jquery-ui CSS -->
+        <link rel="stylesheet" href="css/jquery-ui.min.css">
+        <!-- Venobox CSS -->
+        <link rel="stylesheet" href="css/venobox.css">
+        <!-- Nice Select CSS -->
+        <link rel="stylesheet" href="css/nice-select.css">
+        <!-- Magnific Popup CSS -->
+        <link rel="stylesheet" href="css/magnific-popup.css">
+        <!-- Bootstrap V4.1.3 Fremwork CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- Helper CSS -->
+        <link rel="stylesheet" href="css/helper.css">
+        <!-- Main Style CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Responsive CSS -->
+        <link rel="stylesheet" href="css/responsive.css">
+        
+        
+        <!-- Modernizr js -->
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        
         <style>
-            a:hover {
-                
-                color: #fff;
-            }
-            ul li {
-                font-size: 20;
-            }
-            .error-form{
+            .error-form {
                 color: red;
+            }    
+            input:invalid {
+                border-color: red;
             }
+            input,
+            input:valid {
+                border-color: #ccc;
+            }
+            .feedback-area .br-theme-fontawesome-stars .br-widget a {
+	            font-size: 50px;
+            }
+            
         </style>
-        
-        @yield('css')
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        
-        <script src="js/js.js" type="text/javascript" async></script>
+</head>
 
-    </head>
-    
-    <body>
+<body>
+    <!-- Begin Body Wrapper -->
+    <div class="body-wrapper">
         <div id="father" >
             
-        @include('layout.header')
-    
-        @yield('content')
-    
-        @include('layout.footer')
+            @include('layout.header')
+
+            @yield('content')
+
+            @include('layout.footer')
+        
         </div>
-    
-       
-        
-        
-        <script src="js/my.js"></script>
-    <!-- Bootstrap Core JavaScript -->
+    </div>
 
-
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    <!-- Bootstrap Core JavaScript -->
+    <!-- jQuery-V1.12.4 -->
+    <script src="js/vendor/jquery-1.12.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/vendor/popper.min.js"></script>
+    <!-- Bootstrap V4.1.3 Fremwork js -->
     <script src="js/bootstrap.min.js"></script>
-  
-     
-    <!-- Js Plugins -->
-        <!-- //ajax -->
-    
+    <!-- Ajax Mail js -->
+    <script src="js/ajax-mail.js"></script>
+    <!-- Meanmenu js -->
+    <script src="js/jquery.meanmenu.min.js"></script>
+    <!-- Wow.min js -->
+    <script src="js/wow.min.js"></script>
+    <!-- Slick Carousel js -->
+    <script src="js/slick.min.js"></script>
+    <!-- Owl Carousel-2 js -->
+    <script src="js/owl.carousel.min.js"></script>
+    <!-- Magnific popup js -->
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <!-- Isotope js -->
+    <script src="js/isotope.pkgd.min.js"></script>
+    <!-- Imagesloaded js -->
+    <script src="js/imagesloaded.pkgd.min.js"></script>
+    <!-- Mixitup js -->
+    <script src="js/jquery.mixitup.min.js"></script>
+    <!-- Countdown -->
+    <script src="js/jquery.countdown.min.js"></script>
+    <!-- Counterup -->
+    <script src="js/jquery.counterup.min.js"></script>
+    <!-- Waypoints -->
+    <script src="js/waypoints.min.js"></script>
+    <!-- Barrating -->
+    <script src="js/jquery.barrating.min.js"></script>
+    <!-- Jquery-ui -->
+    <script src="js/jquery-ui.min.js"></script>
+    <!-- Venobox -->
+    <script src="js/venobox.min.js"></script>
+    <!-- Nice Select js -->
+    <script src="js/jquery.nice-select.min.js"></script>
+    <!-- ScrollUp js -->
+    <script src="js/scrollUp.min.js"></script>
+    <!-- Main/Activator js -->
+    <script src="js/main.js"></script>
+    <!-- All js -->
+    <script src="js/all.js"></script>
 
-
-    
-    <script src="assets/js/jquery-ui.min.js"></script>
-    <script src="assets/js/jquery.countdown.min.js"></script>
-    <script src="assets/js/jquery.nice-select.min.js"></script>
-    <script src="assets/js/jquery.zoom.min.js"></script>
-    <script src="assets/js/jquery.dd.min.js"></script>
-    <script src="assets/js/jquery.slicknav.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/main.js"></script>
-  
-
-   
 
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     
@@ -129,13 +137,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
     "></script>
 
- 
+    <script src="js/js.js" type="text/javascript" async></script>
+
+
+    
+    <noscript>bật js lên đ**</noscript>
+    
     
         @yield('script')
-      
-   
-        
-    </body>
-    
-    </html>
-    
+  
+</body>
+
+</html>
+

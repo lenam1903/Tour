@@ -37,7 +37,7 @@ class TourController extends Controller
     {
         $this->validate($request,
             [
-                'tour' => 'required|min:3|max:50|unique:tour,Tour_Name',
+                'tour' => 'required|min:3|max:225|unique:tour,Tour_Name',
                 'transportation' => 'required',
                 'tour_time' => 'required',
                 'place_of_departure' => 'required',
@@ -55,7 +55,7 @@ class TourController extends Controller
                 'tour.required'=>'Bạn chưa nhập Tên Tour',
                 'tour.min'=>'Độ dài kí tự phải trên 3',
                 'tour.unique'=>'Tên Tour đã tồn tại.',
-                'tour.max'=>'Độ dài kí tự không quá 50',
+                'tour.max'=>'Độ dài kí tự không quá 225',
                 'iddirectory.required'=>'Chưa nhập Danh Mục',
                 'idplaces.required'=>'Chưa nhập Địa Điểm',
                 'tour_time.required'=>'Chưa chọn thời gian tour',

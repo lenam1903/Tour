@@ -1,182 +1,197 @@
-<div id="preloder">
-    <div class="loader"></div>
-</div>
-
-<!-- Header Section Begin -->
-<header class="header-section">
+<!-- Begin Header Area -->
+<header>
+    <!-- Begin Header Top Area -->
     <div class="header-top">
         <div class="container">
-            <div class="ht-left">
-                <div class="mail-service">
-                    <i class=" fa fa-envelope"></i>
-                    a.com
-                </div>
-                <div class="phone-service">
-                    <i class=" fa fa-phone"></i>
-                    +65 11.188.888
-                </div>
-            </div>
-            <div class="ht-right">
-
-
-                <div class="top-social">
-                    <a href="#"><i class="ti-facebook"></i></a>
-                    <a href="#"><i class="ti-twitter-alt"></i></a>
-                    <a href="#"><i class="ti-linkedin"></i></a>
-                    <a href="#"><i class="ti-pinterest"></i></a>
+            <div class="row">
+                <!-- Begin Header Top Left Area -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="header-top-left">
+                        <ul class="phone-wrap">
+                            <li><span>Telephone :</span><a href="#"> 0333 766 842 </a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="inner-header">
+    <!-- Header Top Area End Here -->
+    <!-- Begin Header Middle Area -->
+    <div class="header-middle pl-sm-0 pr-sm-0 pl-xs-0 pr-xs-0">
+        <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-md-2">
-                    <div class="logo">
-                        <a href="#">
-                            <img src="assets/img/logo.png" alt="">
+                <!-- Begin Header Logo Area -->
+                <div class="col-lg-3">
+                    <div class="logo pb-sm-30 pb-xs-30">
+                        <a href="home">
+                            <img src="image/menu/logo/travel.jpg" alt="">
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-7">
-                    <div class="advanced-search">
-                        <button type="button" class="category-btn">All Categories</button>
-                        <form action="#" class="input-group">
-                            <input type="text" placeholder="What do you need?">
-                            <button type="button"><i class="ti-search"></i></button>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-lg-3 text-right col-md-3">
-                    <ul class="nav-right">
-                        <li class="heart-icon"><a href="#">
-                                <i class="icon_heart_alt"></i>
-                                <span>1</span>
-                            </a>
-                        </li>
-                        <li class="cart-icon"><a>
-                                <i class="icon_bag_alt"></i>
-                                @if(Session::has("Cart") != null)
-                                <span id="total-quanty-show">
-                                    {{Session::get('Cart')->totalQuanty}}</span>
-                                @else
-                                <span id="total-quanty-show">0</span>
-                                @endif
-                            </a>
-                            <div class="cart-hover">
-                                <div id="change-item-cart">
-                                    @if(Session::has("Cart") != null)
-
-                                    <div class="select-items">
-                                        <table>
-                                            <tbody>
-                                                @foreach(Session::get('Cart')->products as $item)
-                                                <tr>
-                                                    <td class="si-pic"><img width="100px" height="100px"
-                                                            src="upload/tour/{{$item['productInfo']->Image}}" alt="">
-                                                    </td>
-                                                    <td class="si-text">
-                                                        <div class="product-selected">
-                                                            <p id="quantyCart-{{$item['productInfo']->ID}}"
-                                                                style="width: max-content;"
-                                                                quantyCart="{{$item['quanty']}}"
-                                                                quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}">
-                                                                {{number_format($item['productInfo']->Price)}} ₫ x
-                                                                {{$item['quanty']}}</p>
-                                                            <h6>{{$item['productInfo']->Tour_Name}}</h6>
-                                                        </div>
-                                                    </td>
-                                                    <td class="si-close">
-                                                        <i class="ti-close" data-id="{{$item['productInfo']->ID}}"></i>
-
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="select-total">
-                                        <span>total:</span>
-                                        <h5>{{number_format(Session::get('Cart')->totalPrice)}}₫</h5>
-                                    </div>
-
-                                    @endif
-                                </div>
-
-                                <div class="select-button">
-                                    <input type="button" value="Xem" class="list-cart" listCart="listCart"
-                                        style="width: 100%; height: 50px; background-color: green; text-align:center">
-                                </div>
-                            </div>
-                        </li>
-                        <!-- Navigation -->
-
-                        <!-- Example single danger button -->
-
-                        <li class="dropdown">
-                            <nav class="navbar navbar-default navbar-static-top" role="navigation"
-                                style="margin-bottom: 0">
-                                <a class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-user" style="font-size:48px;color:blue"></i>
+                <!-- Header Logo Area End Here -->
+                <!-- Begin Header Middle Right Area -->
+                <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
+                    <!-- Begin Header Middle Searchbox Area -->
+                        <input maxlength="50" id="search" name="search" oninput="search()" type="text" placeholder="Enter your search key ..." style="width: 80%;">
+                        <button style="margin-right: 150px;" class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+                    
+                    <!-- Header Middle Searchbox Area End Here -->
+                    <!-- Begin Header Middle Right Area -->
+                    <div class="header-middle-right">
+                        <ul class="hm-menu">
+                            <!-- Begin Header Middle Wishlist Area -->
+                            <li class="hm-wishlist">
+                                <a href="wishlist.html" style="padding-top: 11.2px">
+                                    <span class="cart-item-count wishlist-item-count">0</span>
+                                    <i class="fa fa-heart-o"></i>
                                 </a>
-                                <ul class="dropdown-menu dropdown-user" style="text-align: center;">
-                                    @if(Auth::check())
-                                    <li><i class="fa fa-user"
-                                            style="font-size:20px;color:blue">{{Auth::user()->email}}</i>
-                                    </li>
-                                    <li><a href="admin/user/edit/{{Auth::user()->id}}"><i
-                                                class="fa fa-gear fa-fw"></i>Settings</a>
-                                    </li>
-                                    <li><a href="admin/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                                    </li>
+                            </li>
+
+                            <li class="hm-wishlist">
+                                
+                                    <a class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-user" style="font-size:48px;color:blue"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user" style="text-align: center;">
+                                        @if(Auth::check())
+                                        <li><i
+                                                style="font-size:20px;color:blue">{{Auth::user()->email}}</i>
+                                        </li>
+                                        <li><a href="Bill"><i></i> Hóa Đơn</a>
+                                        </li>
+                                        <li><a href="admin/user/edit/{{Auth::user()->id}}"><i
+                                                    ></i>Settings</a>
+                                        </li>
+                                        <li><a href="admin/logout"><i></i> Logout</a>
+                                        </li>
+                                        @else
+                                        <li style="margin: auto; padding: 20px;"><a href="admin/login"><button type="button"
+                                                class="btn btn-primary">
+                                                Đăng Nhập
+                                            </button></a></li>
+                                            <li style="margin: auto;"><button type="button"
+                                                class="btn btn-primary js-modal-register">
+                                                Đăng Ký
+                                            </button></li>
+                                        @endif
+                                    </ul>
+                            </li>
+
+                            <!-- Header Middle Wishlist Area End Here -->
+                            <!-- Begin Header Mini Cart Area -->
+                            <li id="iconCart" class="hm-minicart">
+                                <div  class="hm-minicart-trigger">
+                                    <span class="item-icon"></span>
+                                    @if(Session::has("Cart") != null)
+                                    <span id="total-price" class="item-text">-
+                                        <span id="total-quanty-show" class="cart-item-count">{{Session::get('Cart')->totalQuanty}}</span>
+                                    </span>
                                     @else
-                                    <li style="margin: auto;"><button type="button"
-                                            class="btn btn-primary js-modal-register">
-                                            Đăng Ký
-                                        </button></li>
+                                    <span  id="total-price"  class="item-text">-
+                                        <span id="total-quanty-show" class="cart-item-count">0</span>
+                                    </span>
                                     @endif
-                                </ul>
-                        </li>
-                        <!-- /.dropdown -->
-                        </nav>
-                        <!-- /.navbar-top-links -->
-                    </ul>
+                                </div>
+                                <span></span>
+                                <div id="change-item-cart" class="minicart">
+                                    @if(Session::has("Cart") != null)
+                                    <ul class="minicart-product-list">
+                                        @foreach(Session::get('Cart')->products as $item)
+                                        <li>
+                                            <a href="DetailTour/{{$item['productInfo']->ID}}" class="minicart-product-image">
+                                                <img width="200" height="70px"
+                                                    src="upload/tour/{{$item['productInfo']->Image}}">
+                                            </a>
+                                            <div class="minicart-product-details">
+                                                <h6><a
+                                                        href="DetailTour/{{$item['productInfo']->ID}}">{{$item['productInfo']->Tour_Name}}</a>
+                                                </h6>
+                                                <span id="quantyCart-{{$item['productInfo']->ID}}"
+                                                    quantyCart="{{$item['quanty']}}"
+                                                    quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}">{{number_format($item['productInfo']->Price)}}
+                                                    đ x
+                                                    {{$item['quanty']}}</span>
+                                            </div>
+                                            <button id="deleteItemCart" onclick="deleteItemCart({{$item['productInfo']->ID}})" class="close" title="Remove"> X
+                                                
+                                            </button>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+
+                                    <p class="minicart-total">Tổng TIền:
+                                        <span id="totalPrice" >{{number_format(Session::get('Cart')->totalPrice)}} đ</span></p>
+                                    <input hidden id="total-quanty-cart" type="number"
+                                        value="{{Session::get('Cart')->totalQuanty}}">
+                                   
+                                    <div class="minicart-button">
+                                        <a href="List-Cart" style="color: brown;" class="li-button li-button-fullwidth">
+                                            Thanh Toán
+                                        </a>
+                                    </div>
+                                    @endif
+                                </div>
+                            </li>
+                            <!-- Header Mini Cart Area End Here -->
+                        </ul>
+                    </div>
+                    <!-- Header Middle Right Area End Here -->
                 </div>
+                <!-- Header Middle Right Area End Here -->
             </div>
         </div>
     </div>
-
-    <div class="nav-item">
+    <!-- Header Middle Area End Here -->
+    <!-- Begin Header Bottom Area -->
+    <div class="header-bottom mb-0 header-sticky stick d-none d-lg-block d-xl-block">
         <div class="container">
-            <div class="nav-depart">
-                <div class="depart-btn">
-                    <i class="ti-menu"></i>
-                    <span>All departments</span>
-                    <ul class="depart-hover">
-                        <li class="active"><a href="#">Women’s Clothing</a></li>
-                        <li><a href="#">Men’s Clothing</a></li>
-                        <li><a href="#">Underwear</a></li>
-                        <li><a href="#">Kid's Clothing</a></li>
-                        <li><a href="#">Brand Fashion</a></li>
-                        <li><a href="#">Accessories/Shoes</a></li>
-                        <li><a href="#">Luxury Brands</a></li>
-                        <li><a href="#">Brand Outdoor Apparel</a></li>
-                    </ul>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Begin Header Bottom Menu Area -->
+                    <div class="hb-menu">
+                        <nav>
+                            <ul>
+                                <li class="dropdown-holder"><a href="#">Du lịch</a>
+                                    <ul class="hb-dropdown">
+                                        <li><a href="#">Du lịch ngoài nước</a></li>
+                                        <li><a href="#">Du lịch trong nước</a></li>
+                                        <li><a href="#">Du lịch tự chọn</a></li>
+                                        <li><a href="#">Du học</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-holder"><a href="#">Vận chuyển</a>
+                                    <ul class="hb-dropdown">
+                                        <li><a href="#">Thuê xe</a></li>
+                                        <li><a href="#">Vé máy bay</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-holder"><a href="#">Tin tức</a>
+                                    <ul class="hb-dropdown">
+                                        <li><a href="#">Tin tức</a></li>
+                                        <li><a href="#">Cẩm nang du lịch</a></li>
+                                        <li><a href="#">Kinh nghiệm du lịch</a></li>
+                                        <li><a href="#">Thông tin visa</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-holder"><a href="#">Khuyến mãi</a>
+                                    <ul class="hb-dropdown">
+                                        <li><a href="#">Mua tour trả chậm 0%</a></li>
+                                        <li><a href="#">Ưu đãi VNPay</a></li>
+                                        <li><a href="#">Ưu đãi Coopmart</a></li>
+                                        <li><a href="#">Hoàn tiền cùng MSB</a></li>
+                                        <li><a href="#">Hoàn tiền cùng Sacombank</a></li>
+                                    </ul>
+                                </li>
+                                <li style="padding-left: 20px"><a href="#">Khách sạn</a></li>
+                                <li><a href="#">Liên hệ</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- Header Bottom Menu Area End Here -->
                 </div>
             </div>
-            <nav class="nav-menu mobile-menu">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><a href="#">Collection</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Pages</a></li>
-                </ul>
-            </nav>
-            <div id="mobile-menu-wrap"></div>
         </div>
     </div>
-
+    <!-- Header Bottom Area End Here -->
 </header>
-<!-- Header End -->
+<!-- Header Area End Here -->

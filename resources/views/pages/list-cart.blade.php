@@ -1,99 +1,136 @@
-@if(Session::has("Cart") != null)
+@extends('layout.index')
 
-<div class="panel-heading" style="background-color:#337AB7; color:white;">
-    <h2 style="margin-top:0px; margin-bottom:0px;">Danh Sách Tour Đã Đặt </h2>
-</div>
-<div class="panel-body"
-    style="background-image: url(image/background1.jpg); background-repeat: no-repeat; position: relative;background-size: cover;">
-    <!-- item -->
+@section('content')
 
-    <div class="row">
-        <div class="col-lg-12" id="list-card">
+<!-- Page Content -->
+<div class="container-fluid">
 
-            <div>
-                         
-                <table class="table table-striped table-dark">
-                    <?php $i=1; ?>
-                    @if(Session::has("Cart") != null)
-                    @foreach(Session::get('Cart')->products as $item)
-                    <tr>
-                        <th style="padding: 1em;">STT</th>
-                        <td style="padding: 1em;">{{$i++}}</td>
-                        <td style="padding: 50px;" class="close-td"><i id="saveQuanty-{{$item['productInfo']->ID}}"
-                                onclick="SaveListItemCart({{$item['productInfo']->ID}})" quantyMax="{{$item['productInfo']->Number_Of_Seats_Available}}" class="ti-save"></i></td>
-                        <td style="padding: 50px;" class="close-td">
-                            <div><i class="ti-close" onclick="DeleteListItemCart({{$item['productInfo']->ID}})"></i>
-                            </div>
-                        </td>
+    <div id="content" class="row main-left">
+        <div class="col-md-12">
+            <div class="Shopping-cart-area pt-60 pb-60">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 style="margin-top:0px; margin-bottom:0px;">Danh Sách Tour Đã Đặt </h2>
+                            <form action="#" id="change-list-cart">
+                                @if(Session::has("Cart") != null)
+                                <div class="table-content table-responsive">
+                                    <table class="table">
+                                        
+                                        <thead>
+                                            <tr>
+                                                <th class="li-product-remove">STT</th>
+                                                <th class="li-product-thumbnail">Ảnh</th>
+                                                <th class="cart-product-name">Tên Tour</th>
+                                                <th class="li-product-price">Giá Tour</th>
+                                                <th class="li-product-quantity">Số Lượng</th>
+                                                <th class="li-product-subtotal">Tổng Tiền</th>
+                                                <th class="li-product-remove">Xóa</th>
+                                                <th class="li-product-remove">Sửa</th>
+                                                <th class="li-product-remove">Thanh Toán</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i=1; ?>
+                                            
+                                            @foreach(Session::get('Cart')->products as $item)
+                                            <tr>
+                                                <td class="li-product-name">{{$i++}}</td>
+                                                <td class="li-product-thumbnail"><a href="DetailTour/{{$item['productInfo']->ID}}"><img width="100px"
+                                                            height="100px"
+                                                            src="upload/tour/{{$item['productInfo']->Image}}"
+                                                            alt=""></a></td>
+                                                <td class="li-product-price"><a
+                                                        href="DetailTour/{{$item['productInfo']->ID}}">{{$item['productInfo']->Tour_Name}}</a></td>
+                                                <td class="li-product-price"><span
+                                                        class="amount">{{number_format($item['productInfo']->Price)}}
+                                                        đ</span></td>
+                                                <td class="quantity">
 
-                    </tr>
-                    <tr>
-                        <th>Ảnh</th>
-                        <td class="cart-pic"><img width="100px" height="100px"
-                                src="upload/tour/{{$item['productInfo']->Image}}" alt=""></td>
-                        <td onclick="CheckOutInfo({{$item['productInfo']->ID}})"  colspan="2" style="text-align: center; background-color: burlywood;"><img width="100px"
-                                height="100px" src="upload/tour/checkout.png" alt="Thanh Toán"></td>
+                                                    <div class="pro-qty">
+                                                        <input id="quanty-item-{{$item['productInfo']->ID}}"
+                                                            style="color:blue" required type="number"
+                                                            value="{{$item['quanty']}}" min="0" max="99" />
+                                                    </div>
+                                                </td>
+                                                <td class="li-product-price"><span
+                                                        class="amount">{{number_format($item['quanty'] * $item['productInfo']->Price)}}
+                                                        đ</span></td>
+                                                <td class="li-product-remove"><a href="javascript:"><i
+                                                            onclick="DeleteListItemCart({{$item['productInfo']->ID}})"
+                                                            class="fa fa-times"></i></a></td>
+                                                <td><i id="saveQuanty-{{$item['productInfo']->ID}}"
+                                                        onclick="SaveListItemCart({{$item['productInfo']->ID}})"
+                                                        quantyMax="{{$item['productInfo']->Number_Of_Seats_Available}}"
+                                                        class="fa fa-save" style="font-size:36px;"></i></td>
+                                                <td class="li-product-remove"><a href="check-out/{{$item['productInfo']->ID}}"><img width="100px"
+                                                            height="100px" src="upload/tour/checkout.png"
+                                                            alt="Thanh Toán"></a></td>
+                                            </tr>
+                                            @endforeach
 
-                    </tr>
-                    <tr>
-                        <th>Mã Tour</th>
-                        <td style="padding: 1em;">{{$item['productInfo']->Tour_Code}}</td>
-                    </tr>
-
-                    <tr>
-                        <th>Tên Tour</th>
-                        <td style="padding: 1em;">{{$item['productInfo']->Tour_Name}}</td>
-                    </tr>
-                    <tr>
-                        <th>Giá Tour</th>
-                        <td style="padding: 1em;">{{number_format($item['productInfo']->Price)}} đ</td>
-                    </tr>
-                    <tr>
-                        <th>Số Lượng</th>
-                        <td>
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input id="quanty-item-{{$item['productInfo']->ID}}" style="color:blue" required
-                                        type="number" value="{{$item['quanty']}}" min="0" max="100" />
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                                <div class="row">
+                                    <div class="col-md-5 ml-auto">
+                                        <div class="cart-page-total">
 
-                    <tr>
-                        <th>Tổng Giá</th>
-                        <td class="total-price">{{number_format($item['quanty'] * $item['productInfo']->Price)}} ₫</td>
-                    </tr>
-
-
-                    <tr>
-                        <th></th>
-                        <td style="padding: 1em;width: 100%;">
-                            <hr style="color: red; width: 100%; border-radius: 1px; border: 1px solid green;">
-                            <br><br><br><br><br>
-                        </td>
-                    </tr>
-
-                    @endforeach
-                    @endif
-
-
-
-                </table>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 offset-lg-8">
-                    <div class="proceed-checkout">
-                        <ul>
-                            <li class="subtotal">Tổng Số Lượng <span>{{Session::get('Cart')->totalQuanty}}</span></li>
-                            <li class="cart-total">Tổng Tiền
-                                <span>{{number_format(Session::get('Cart')->totalPrice)}}</span></li>
-                        </ul>
+                                            <ul>
+                                                <li>Tổng Số Lượng: <span>{{Session::get('Cart')->totalQuanty}}</span>
+                                                </li>
+                                                <li>Tổng Tiền:
+                                                    <span>{{number_format(Session::get('Cart')->totalPrice)}}</span>
+                                                </li>
+                                            </ul>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@endif
+    <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Đăng Ký</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="" method="POST" id="form-register">
+                    
+                    @csrf
+                    
+                    <div class="form-group" style="text-align: left">
+                        <label for="email">Họ Tên:</label>
+                        <input type="text" name="name" class="form-control" placeholder="Enter name">
+                        <span class="error-form"></span>
+                    </div>
+                    <div class="form-group" style="text-align: left">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" class="form-control" placeholder="Enter email">
+                        <span class="error-form"></span>
+                    </div>
+                    <div class="form-group" style="text-align: left">
+                        <label for="pwd">Mật Khẩu:</label>
+                        <input type="password" name="password" class="form-control" placeholder="Enter password" id="pwd">
+                        <span class="error-form"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary js-btn-login">Đăng Ký</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    @endsection

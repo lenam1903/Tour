@@ -1,31 +1,31 @@
 @if(Session::has("Cart") != null)
 
-<div class="select-items">
-    <table>
-        <tbody>
-            @foreach(Session::get('Cart')->products as $item)
-                <tr>
-                    <td class="si-pic"><img width="100px" height="100px" src="upload/tour/{{$item['productInfo']->Image}}" alt=""></td>
-                    <td class="si-text">
-                        <div class="product-selected">
-                            <p id="quantyCart-{{$item['productInfo']->ID}}" style="width: max-content;" quantyCart="{{$item['quanty']}}" quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}" >{{number_format($item['productInfo']->Price)}} ₫ x {{$item['quanty']}}</p>
-                            <h6>{{$item['productInfo']->Tour_Name}}</h6>
-                        </div>
-                    </td>
-                    <td class="si-close" >
-                        <i class="ti-close" data-id="{{$item['productInfo']->ID}}" ></i>
-                        
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-<div class="select-total">
-    <span>total:</span>
-    <h5>{{number_format(Session::get('Cart')->totalPrice)}}
-        ₫</h5>
-    <input hidden id="total-quanty-cart" type="number" value="{{Session::get('Cart')->totalQuanty}}">
-</div>
+<ul class="minicart-product-list">
+    @foreach(Session::get('Cart')->products as $item)
+    <li>
+        <a href="DetailTour/{{$item['productInfo']->ID}}" class="minicart-product-image">
+            <img width="200" height="80px" src="upload/tour/{{$item['productInfo']->Image}}">
+        </a>
+        <div class="minicart-product-details">
+            <h6><a href="DetailTour/{{$item['productInfo']->ID}}">{{$item['productInfo']->Tour_Name}}</a></h6>
+            <span id="quantyCart-{{$item['productInfo']->ID}}" 
+                quantyCart="{{$item['quanty']}}"
+                quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}">{{number_format($item['productInfo']->Price)}} đ x
+                        {{$item['quanty']}}</span>
+        </div>
+        <button id="deleteItemCart" onclick="deleteItemCart({{$item['productInfo']->ID}})" class="close" title="Remove"> X
+                                                
+        </button>
+    </li>
+    @endforeach
+</ul>
 
+<p class="minicart-total">Tổng TIền: <span id="totalPrice">{{number_format(Session::get('Cart')->totalPrice)}} đ</span></p>
+<input hidden id="total-quanty-cart" type="number" value="{{Session::get('Cart')->totalQuanty}}">
+
+<div class="minicart-button">
+    <a href="List-Cart" style="color: brown;" class="li-button li-button-fullwidth">
+        Thanh Toán
+    </a>
+</div>
 @endif

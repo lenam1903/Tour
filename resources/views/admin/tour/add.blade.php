@@ -83,7 +83,7 @@
 
                         <label>Chọn Đêm</label>
                         <label>
-                            <select id="mySelect1" class="form-control" name="tour_time[]" style="width: 50">
+                            <select id="mySelect2" class="form-control" name="tour_time[]" style="width: 50">
                                 @for ($i=0; $i < 31; $i++) { 
                                     echo "<option value="{{$i.' Đêm'}}"> {{$i}} </option>";
                                 @endfor
