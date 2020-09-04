@@ -706,7 +706,7 @@ function AddReview(idTour, idUser) {
             $("#ajaxReview").html(results);
             
             
-            alert("Đánh giá thành công !!! dã sửa nè");
+            alert("Đánh giá thành công !!!");
            
         })
         .fail(function (data) {
