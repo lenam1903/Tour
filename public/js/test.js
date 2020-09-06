@@ -1,1 +1,1 @@
-// gnugk
+// lenam ne
