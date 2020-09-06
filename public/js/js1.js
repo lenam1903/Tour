@@ -670,7 +670,7 @@ function postCheckOutInfo(idTour, idUser) {
     }
 
     
-    
+    // tesst demo
     
    
 }
