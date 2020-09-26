@@ -13,22 +13,22 @@
     
     <!-- Bootstrap Core CSS -->
 
-    <link href="public/admin_asset/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="admin_asset/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="public/admin_asset/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="admin_asset/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="public/admin_asset/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="admin_asset/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="public/admin_asset/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="admin_asset/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 
     <!-- DataTables Responsive CSS -->
-    <link href="public/admin_asset/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+    <link href="admin_asset/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
      <!-- input date -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -67,24 +67,24 @@
     <!-- /#wrapper -->
      <script src="https://code.jquery.com/jquery-latest.js"></script>
     <!-- jQuery -->
-    <script src="public/admin_asset/js/jquery-3.5.0.min.js"></script>
-    <script src="public/admin_asset/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="admin_asset/js/jquery-3.5.0.min.js"></script>
+    <script src="admin_asset/bower_components/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="public/admin_asset/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="admin_asset/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="public/admin_asset/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="admin_asset/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="public/admin_asset/dist/js/sb-admin-2.js"></script>
+    <script src="admin_asset/dist/js/sb-admin-2.js"></script>
 
     <!-- DataTables JavaScript -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 
         
     <!-- Textarea JavaScript -->
-     <script type="text/javascript" language="javascript" src="public/admin_asset/ckeditor/ckeditor.js" ></script>
+     <script type="text/javascript" language="javascript" src="admin_asset/ckeditor/ckeditor.js" ></script>
 
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
