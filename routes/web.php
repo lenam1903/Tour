@@ -17,10 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('register','UserController@postRegister');
 
-Route::get('admin/login','UserController@getLoginAdmin');
-Route::post('admin/login','UserController@postLoginAdmin');
-Route::get('admin/logout','UserController@getLogoutAdmin');
+Route::post('login','UserController@postLogin');
+
+Route::get('logout','UserController@getLogout');
 
 Route::group(['prefix'=>'admin', 'middleware' => 'adminLogin'], function(){
 
@@ -133,8 +134,6 @@ Route::post('Review/{idTour}/{idUser}','PageController@review');
 
 Route::get('List-Cart','PageController@listCart');
 
-Route::post('register','PageController@postRegister');
-
 Route::get('check-out/{id}','PageController@checkOut');
 
 Route::get('contact','PageController@contact');
@@ -160,8 +159,5 @@ Route::get('SearchStar','PageController@searchStar');
 Route::get('Bill','PageController@bill');
 
 
-
-// Route::get('loaitin/{id}/{TenKhongDau}.html','PagesController@loaitin');
-// Route::get('tintuc/{id}/{TenKhongDau}.html','PagesController@tintuc');
 
 

@@ -15,14 +15,21 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Session;
 use App\Cart;
+use Illuminate\Pagination\Paginator;
+
 
 class PageController extends Controller
 {
-    function home()
+
+
+    function home(Request $request)
     {
+        Paginator::useBootstrap();
         $tourPaginate = Tour::paginate(5);
+
     	return view('pages.home', ['tourPaginate'=>$tourPaginate]);
     }
+
 
     function listCart()
     {
@@ -42,37 +49,6 @@ class PageController extends Controller
     function contact()
     {
     	return view('pages.contact');
-    }
-
-    public function postRegister(Request $request)
-    {
-        $this->validate($request,
-        [
-            'name' => 'required|min:3|max:50',
-            'email' => 'required|email|unique:users,email', 
-            'password' => 'required',
-        ],
-        [
-            'name.required'=>'Bạn chưa nhập Tên.',
-            'name.min'=>'Độ dài kí tự phải trên 3',
-            'name.max'=>'Độ dài kí tự không quá 50',
-            'email.required'=>'Bạn chưa nhập Email.',
-            'email.unique'=>'Email đã tồn tại.',
-            'email.email'=>'Không đúng kiểu Email.',
-            'password.required'=>'Nhập Password '
-        ]
-        );
-        
-        if ($request->ajax()) {
-
-            $id =  User::insertGetId([
-                'Full_Name'     => $request->name,
-                'email'    => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-
-            return response()->json($request->name);
-        }
     }
 
     public function checkOut( $id){

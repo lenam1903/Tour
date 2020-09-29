@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
+use Hash;
 
 
 use App\User;
@@ -131,45 +133,85 @@ class UserController extends Controller
         return redirect('admin/user/edit/'.$id)->with('notification', 'Success Edit Email: '.$request->email);
     }
 
-    public function getLoginAdmin()
-    {
-        return view('admin.login');
-    }
 
-    public function postLoginAdmin(Request $request)
+    public function postLogin(Request $request)
     {
         $this->validate($request,
             [
-                'email'=>'required',
-                'password'=>'required|min:3|max:32'       
+                'emailLogin'=>'required|email|min:6|max:30',
+                'passwordLogin'=>'required|min:6|max:100'       
             ],
             [
-                'email.required'=>'Ban chua nhap email',
-                'password.required'=>'Ban chua nhap password',
-                'password.min'=>'password co do dai tu 3 -> 32 ki tu',
-                'password.max'=>'password co do dai tu 3 -> 32 ki tu'
+                'emailLogin.required'=>'Bạn chưa nhập Email.',
+                'emailLogin.email'=>'Bạn chưa nhập đúng định dạng Email.',
+                'emailLogin.min'=>'Độ dài Email phải ít nhất là 6 ký tự.',
+                'emailLogin.max'=>'Độ dài Email không được quá 30 ký tự.',
+                'passwordLogin.required'=>'Bạn phải nhập Password.',
+                'passwordLogin.min'=>'Độ dài Password phải ít nhất là 8 ký tự.',
+                'passwordLogin.max'=>'Độ dài Password không được quá 100 ký tự.'
             ]
         );
 
-        if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password]))
+        if(Auth::attempt(['email'=>$request->emailLogin,'password'=>$request->passwordLogin, 'Level'=>'0']))
         {
-            if(Auth::attempt(['email'=>$request->email,'password'=>$request->password, 'Level'=>'1'])){
-                return redirect('admin/user/list');
-            }
-            else{
-                return redirect('home');
-            }
+            return view('pages.logoUser');
         }
-        else
-        {
-            return redirect('admin/login')->with('loi','Vui Lòng Nhập Lại');
+        else if (Auth::attempt(['email'=>$request->emailLogin,'password'=>$request->passwordLogin, 'Level'=>'1'])){
+            return "admin";
+        }
+        else {
+            return "failed";
         }  
     }
 
-    public function getLogoutAdmin()
+    public function getLogout()
     {
         Auth::logout();
-        return redirect('admin/login');
+        return redirect('home');
+    }
+
+    public function postRegister(Request $request)
+    {
+        $this->validate($request,
+        [
+            'nameRegister' => 'required|min:3|max:50',
+            'emailRegister' => 'required|email|min:6|max:30|unique:users,email', 
+            'passwordRegister' => 'required|min:6|max:100',
+            'passwordConfirmRegister'=>'required|same:passwordRegister|min:6|max:100'
+        ],
+        [
+            'nameRegister.required'=>'Bạn chưa nhập Tên.',
+            'nameRegister.min'=>'Độ dài kí tự phải trên 3.',
+            'nameRegister.max'=>'Độ dài kí tự không quá 50',
+            'emailRegister.required'=>'Bạn chưa nhập Email.',
+            'emailRegister.email'=>'Bạn chưa nhập đúng định dạng Email.',
+            'emailRegister.unique'=>'Email đã tồn tại.',
+            'emailRegister.min'=>'Độ dài Email phải ít nhất là 6 ký tự.',
+            'emailRegister.max'=>'Độ dài Email không được quá 30 ký tự.',
+            'passwordRegister.required'=>'Bạn chưa nhập Password.',
+            'passwordRegister.min'=>'Độ dài Password phải ít nhất là 6 ký tự.',
+            'passwordRegister.max'=>'Độ dài Password không được quá 100 ký tự.',
+            'passwordConfirmRegister.required'=>'Bạn chưa nhập xác nhận Password.',
+            'passwordConfirmRegister.same'=>'Bạn nhập xác nhận Password không trùng với Password.',
+            'passwordConfirmRegister.min'=>'Độ dài xác nhận Password phải ít nhất là 6 ký tự.',
+            'passwordConfirmRegister.max'=>'Độ dài xác nhận Password không được quá 100 ký tự.',
+        ]
+        );
+        
+        if ($request->ajax()) {
+
+            $id =  User::insert([
+                'Full_Name'     => $request->nameRegister,
+                'email'    => $request->emailRegister,
+                'password' => Hash::make($request->passwordRegister),
+                'Level' => 0,
+            ]);
+        }
+
+        if(Auth::attempt(['email'=>$request->emailRegister,'password'=>$request->passwordRegister, 'Level'=>'0']))
+        {
+            return view('pages.logoUser');
+        }
     }
 
 

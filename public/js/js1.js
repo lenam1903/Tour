@@ -13,7 +13,6 @@ function AddCart(id) {
         type: "GET",
     }).done(function (response) {
         if (quantyCart == null) {
-            
             RenderCart(response);
             alertify.success("Đã thêm sản phẩm");
         } else {
@@ -29,9 +28,7 @@ function AddCart(id) {
     });
 }
 
-
 function deleteItemCart(id) {
-    
     $.ajax({
         url: "Delete-Item-Cart/" + id,
         type: "POST",
@@ -52,8 +49,6 @@ function DeleteListItemCart(id) {
         alertify.success("Đã xoá sản phẩm");
     });
 }
-
-
 
 function SaveListItemCart(id) {
     var quantyMax = $("#saveQuanty-" + id).attr("quantyMax");
@@ -77,17 +72,15 @@ function SaveListItemCart(id) {
     });
 }
 
-
 function RenderCart(response) {
     $("#change-item-cart").empty();
     $("#change-item-cart").html(response);
-    // $("#total-price").text($("#totalPrice").text());
-    $("#total-quanty-show").text($("#total-quanty-cart").val());
-    
-   
+
+    $("#total-quanty-show").text(Number($("#total-quanty-cart").val()));
+    if (isNaN($("#total-quanty-show").text())) {
+        $("#total-quanty-show").text(Number(0));
+    }
 }
-
-
 
 function CheckOutInfo(id) {
     $.ajax({
@@ -101,13 +94,19 @@ function CheckOutInfo(id) {
     });
 }
 
+function Redirect(url) {
+    window.location = url;
+}
+
 $(function () {
+    // register
+
     $(".js-modal-register").click(function (event) {
         event.preventDefault();
-        $("#myModal").modal("show");
+        $("#myModalRegister").modal("show");
     });
 
-    $(".js-btn-login").click(function (e) {
+    $(".js-btn-register").click(function (e) {
         e.preventDefault();
         $(".error-form").empty();
         let $this = $(this);
@@ -120,25 +119,134 @@ $(function () {
         })
             .done(function (results) {
                 // ẩn modal
-                $("#myModal").modal("hide");
-                alert("Đăng Ký Thành Công");
+                $("#myModalRegister").modal("hide");
+                alert("Đăng ký thành công");
                 // làm mới lại form khi đăng kí thành công
                 $("#form-register")[0].reset();
+                // làm mới lại user
+                $("#userLogo").empty();
+                $("#userLogo").html(results);
             })
             .fail(function (data) {
+                var nameRegister = [];
                 var errors = data.responseJSON;
-                $(".error-form er").empty();
+                $(".error-form").empty();
                 $.each(errors.errors, function (i, val) {
                     $domForm
                         .find("input[name=" + i + "]")
-                        .siblings(".error-form er")
+                        .siblings(".error-form")
                         .text(val[0]);
+
+                    console.log(i);
+                    // đẩy tất cả name vào 1 mảng
+                    nameRegister.push(i);
                 });
+
+                if (nameRegister.indexOf("nameRegister") >= 0) {
+                    document.getElementById("nameRegister").style.borderColor =
+                        "#FF0000";
+                } else {
+                    document.getElementById("nameRegister").style.borderColor =
+                        "#808080";
+                }
+                if (nameRegister.indexOf("emailRegister") >= 0) {
+                    document.getElementById("emailRegister").style.borderColor =
+                        "#FF0000";
+                } else {
+                    document.getElementById("emailRegister").style.borderColor =
+                        "#808080";
+                }
+                if (nameRegister.indexOf("passwordRegister") >= 0) {
+                    document.getElementById(
+                        "passwordRegister"
+                    ).style.borderColor = "#FF0000";
+                } else {
+                    document.getElementById(
+                        "passwordRegister"
+                    ).style.borderColor = "#808080";
+                }
+                if (nameRegister.indexOf("passwordConfirmRegister") >= 0) {
+                    document.getElementById(
+                        "passwordConfirmRegister"
+                    ).style.borderColor = "#FF0000";
+                } else {
+                    document.getElementById(
+                        "passwordConfirmRegister"
+                    ).style.borderColor = "#808080";
+                }
+            });
+    });
+
+    // login
+
+    $(".js-modal-login").click(function (event) {
+        event.preventDefault();
+        $("#myModalLogin").modal("show");
+    });
+
+    $(".js-btn-login").click(function (e) {
+        e.preventDefault();
+        $(".error-form").empty();
+        let $this = $(this);
+        let $domForm = $this.closest("form");
+
+        $.ajax({
+            url: "login",
+            data: $domForm.serialize(),
+            method: "POST",
+        })
+            .done(function (results) {
+
+                if (results == "admin") {
+                    alert("Đăng nhập thành công");
+                    Redirect("admin/user/list");
+                } else if (results == "failed") {
+                    alert("Đăng nhập thất bại. Vui lòng nhập lại.");
+
+                    document.getElementById("emailLogin").style.borderColor =
+                        "#FF0000";
+                    document.getElementById("passwordLogin").style.borderColor =
+                        "#FF0000";
+                } else {
+                    alert("Đăng nhập thành công");
+                    // ẩn modal
+                    $("#myModalLogin").modal("hide");
+                    $("#userLogo").empty();
+                    $("#userLogo").html(results);
+                }
+            })
+            .fail(function (data) {
+                var nameLogin = [];
+                var errors = data.responseJSON;
+                $(".error-form").empty();
+                $.each(errors.errors, function (i, val) {
+                    $domForm
+                        .find("input[name=" + i + "]")
+                        .siblings(".error-form")
+                        .text(val[0]);
+                     // đẩy tất cả name vào 1 mảng
+                     nameLogin.push(i);
+
+                    // document.getElementById(i).style.borderColor = "#FF0000";
+                });
+
+                if (nameLogin.indexOf("emailLogin") >= 0) {
+                    document.getElementById("emailLogin").style.borderColor =
+                        "#FF0000";
+                } else {
+                    document.getElementById("emailLogin").style.borderColor =
+                        "#808080";
+                }
+                if (nameLogin.indexOf("passwordLogin") >= 0) {
+                    document.getElementById("passwordLogin").style.borderColor =
+                        "#FF0000";
+                } else {
+                    document.getElementById("passwordLogin").style.borderColor =
+                        "#808080";
+                }
             });
     });
 });
-
-
 
 var ent;
 
@@ -184,22 +292,26 @@ function formAdult(results) {
     guestNumber(adult, baby, children);
     $("#formAdult").empty();
     $("#formAdult").html(results);
-   
-    
 }
 
 function totalPrice() {
-    let vat = ((Number(priceAdult) + Number(priceChildren) + Number(priceBaby)) *(10/100));
-   
-    return $("#tongTien").text(Number(priceAdult) + Number(priceChildren) + Number(priceBaby)+ Number(vat) );
-  
+    let vat =
+        (Number(priceAdult) + Number(priceChildren) + Number(priceBaby)) *
+        (10 / 100);
+
+    return $("#tongTien").text(
+        Number(priceAdult) +
+            Number(priceChildren) +
+            Number(priceBaby) +
+            Number(vat)
+    );
 }
 
 function adultAjax(id) {
     adult = $("#adult").val();
     let total = 0;
     guestNumberMax = $("#guestNumber").attr("guestNumberMax");
-  
+
     // Điều này xóa phần tử bật lên
     ent = document.getElementById("ent");
     if (ent) {
@@ -228,13 +340,11 @@ function adultAjax(id) {
                 adult = 1;
                 $("#adult").val(1);
                 formAdult(results);
-                
+
                 total += $("#priceAdult1").val();
                 priceAdult = total;
-                
-                
+
                 totalPrice();
-               
 
                 alert(
                     "Không được nhập quá số chỗ trống của Tour " +
@@ -261,10 +371,9 @@ function adultAjax(id) {
 
                     for (i = 1; i <= adult; i++) {
                         total += Number($("#priceAdult" + i).val());
-                        
                     }
                     priceAdult = total;
-                    
+
                     totalPrice();
                 }
             }
@@ -279,14 +388,13 @@ function formChildren(results) {
 }
 
 function childrenAjax(id) {
-    if(priceAdult == 0){
+    if (priceAdult == 0) {
         priceAdult = Number($("#priceAdult1").attr("maxprice"));
     }
     children = $("#children").val();
     guestNumberMax = $("#guestNumber").attr("guestNumberMax");
     let total = 0;
-    
- 
+
     // Điều này xóa phần tử bật lên
     ent = document.getElementById("ent");
     if (ent) {
@@ -313,14 +421,13 @@ function childrenAjax(id) {
                 guestNumberMax <
                 Number(adult) + Number(baby) + Number(children)
             ) {
-
                 children = 0;
                 $("#children").val(0);
                 formChildren(results);
-              
+
                 priceChildren = total;
                 totalPrice();
-                
+
                 alert(
                     "Không được nhập quá số chỗ trống của Tour " +
                         guestNumberMax +
@@ -351,7 +458,7 @@ function formBaby(results) {
 }
 
 function babyAjax(id) {
-    if(priceAdult == 0){
+    if (priceAdult == 0) {
         priceAdult = Number($("#priceAdult1").attr("maxprice"));
     }
     let total = 0;
@@ -378,7 +485,6 @@ function babyAjax(id) {
                 guestNumberMax <
                 Number(adult) + Number(baby) + Number(children)
             ) {
-
                 baby = 0;
                 $("#baby").val(0);
                 formBaby(results);
@@ -401,7 +507,7 @@ function babyAjax(id) {
                     total += Number($("#priceBaby" + i).val());
                 }
                 priceBaby = total;
-                
+
                 totalPrice();
             }
         })
@@ -413,8 +519,6 @@ function guestNumber(adult, baby, children) {
         Number(adult) + Number(baby) + Number(children)
     );
 }
-
-
 
 function singleRoom(value, id, price, idGuest) {
     let priceSingleRoom = 1000000;
@@ -499,11 +603,7 @@ function departureDay(id, valueDate) {
 
     for (let i = 1; i <= adult; i++) {
         if (id.indexOf("dateCheckoutAdult" + i) == 0) {
-            if (
-                departureDay2.getTime() < minDepartureDayAdult.getTime()
-                
-            ) {
-                
+            if (departureDay2.getTime() < minDepartureDayAdult.getTime()) {
             } else {
                 $("#dateCheckoutAdult" + i).val("");
                 alert(
@@ -515,22 +615,17 @@ function departureDay(id, valueDate) {
                         departureDay1.getFullYear() +
                         ")"
                 );
-                
             }
         }
     }
 
     for (let i = 1; i <= children; i++) {
         if (id.indexOf("dateCheckoutChildren" + i) == 0) {
-            if (
-                departureDay2.getTime() >=
-                    maxDepartureDayChildren.getTime()
-            ) {   
-                if(departureDay2.getTime() <
-                minDepartureDayChildren.getTime()){
-                    
-                }
-                else{
+            if (departureDay2.getTime() >= maxDepartureDayChildren.getTime()) {
+                if (
+                    departureDay2.getTime() < minDepartureDayChildren.getTime()
+                ) {
+                } else {
                     $("#dateCheckoutChildren" + i).val("");
                     alert(
                         "Ngày sinh & độ tuổi Trẻ Em không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : " +
@@ -542,8 +637,7 @@ function departureDay(id, valueDate) {
                             ")"
                     );
                 }
-            }
-            else {
+            } else {
                 $("#dateCheckoutChildren" + i).val("");
                 alert(
                     "Ngày sinh & độ tuổi Trẻ Em không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : " +
@@ -554,7 +648,6 @@ function departureDay(id, valueDate) {
                         departureDay1.getFullYear() +
                         ")"
                 );
-                
             }
         }
     }
@@ -562,8 +655,7 @@ function departureDay(id, valueDate) {
     for (let i = 1; i <= baby; i++) {
         if (id.indexOf("dateCheckoutBaby" + i) == 0) {
             if (
-                departureDay2.getTime() >=
-                    maxDepartureDayBaby.getTime() &&
+                departureDay2.getTime() >= maxDepartureDayBaby.getTime() &&
                 departureDay2.getTime() <= departureDay1.getTime()
             ) {
             } else {
@@ -582,94 +674,161 @@ function departureDay(id, valueDate) {
     }
 }
 
-
 function postCheckOutInfo(idTour, idUser) {
     // lấy data trong form gần nhất
     let $dataForm = $("#btnCheckoutInfo").closest("form");
 
-    if(priceAdult == 0){
+    if (priceAdult == 0) {
         priceAdult = Number($("#priceAdult1").attr("maxprice"));
     }
-    let vat = ((priceAdult + priceChildren + priceBaby) *(10/100));
-    let totalPrice = (priceAdult + priceChildren + priceBaby)+ vat ;
-    
+    let vat = (priceAdult + priceChildren + priceBaby) * (10 / 100);
+    let totalPrice = priceAdult + priceChildren + priceBaby + vat;
+
     adult = $("#adult").val();
     children = $("#children").val();
     baby = $("#baby").val();
 
-    let rules = document.getElementById('rules');
+    let rules = document.getElementById("rules");
+
     let isRules = rules.checked;
     let date = true;
-    for(let i= 1; i <=adult;i++){
-        if(isNaN(new Date($("#dateCheckoutAdult"+i).val()))){
-            alert("Ngày Sinh Khách Hàng (Người Lớn "+i+" ) không hợp lệ!    Vui lòng nhập lại");
+    for (let i = 1; i <= adult; i++) {
+        if (isNaN(new Date($("#dateCheckoutAdult" + i).val()))) {
+            alert(
+                "Ngày Sinh Khách Hàng (Người Lớn " +
+                    i +
+                    " ) không hợp lệ!    Vui lòng nhập lại"
+            );
+
             date = false;
-        }
-        else if($("#fullNameAdult"+i).val() == ""){
+        } else if ($("#fullNameAdult" + i).val() == "") {
+            alert(
+                "Họ Tên Khách Hàng (Người Lớn " +
+                    i +
+                    " ) không hợp lệ!    Vui lòng nhập lại"
+            );
             date = false;
-        }
-        else{
-          
+        } else {
         }
     }
 
-    for(let i= 1; i <=children;i++){
-        if(isNaN(new Date($("#dateCheckoutChildren"+i).val()))){
-            alert("Ngày Sinh Khách Hàng (Trẻ Em "+i+" ) không hợp lệ!    Vui lòng nhập lại");
+    for (let i = 1; i <= children; i++) {
+        if (isNaN(new Date($("#dateCheckoutChildren" + i).val()))) {
+            alert(
+                "Ngày Sinh Khách Hàng (Trẻ Em " +
+                    i +
+                    " ) không hợp lệ!    Vui lòng nhập lại"
+            );
             date = false;
-        }
-        else if($("#fullNameChildren"+i).val() == ""){
+        } else if ($("#fullNameChildren" + i).val() == "") {
+            alert(
+                "Họ Tên Khách Hàng (Trẻ Em " +
+                    i +
+                    " ) không hợp lệ!    Vui lòng nhập lại"
+            );
             date = false;
-        }
-        else{
-
-        }
-    }
-    
-
-    for(let i= 1; i <=baby;i++){
-        if(isNaN(new Date($("#dateCheckoutBaby"+i).val()))){
-            alert("Ngày Sinh Khách Hàng (Em Bé "+i+" ) không hợp lệ!    Vui lòng nhập lại");
-            date = false;
-        }
-        else if($("#fullNameBaby"+i).val() == ""){
-            date = false;
-        }
-        else{
+        } else {
         }
     }
 
-    if(isRules == true){
-        if(date == false){
+    for (let i = 1; i <= baby; i++) {
+        if (isNaN(new Date($("#dateCheckoutBaby" + i).val()))) {
+            alert(
+                "Ngày Sinh Khách Hàng (Em Bé " +
+                    i +
+                    " ) không hợp lệ!    Vui lòng nhập lại"
+            );
+            date = false;
+        } else if ($("#fullNameBaby" + i).val() == "") {
+            alert(
+                "Họ Tên Khách Hàng (Em Bé " +
+                    i +
+                    " ) không hợp lệ!    Vui lòng nhập lại"
+            );
+            date = false;
+        } else {
         }
-        else{
+    }
+
+    if (isRules == true) {
+        if (date == false) {
+        } else {
             $.ajax({
-            url: "CheckOut-Info/" + idTour +"/"+idUser,
-            data: $dataForm.serialize() + "&totalPrice="+totalPrice+"&test=1", 
-            
-            method: "POST",
+                url: "CheckOut-Info/" + idTour + "/" + idUser,
+
+                data:
+                    $dataForm.serialize() +
+                    "&totalPrice=" +
+                    totalPrice +
+                    "&test=1",
+
+                method: "POST",
             })
-            .done(function (results) {
-                console.log(results);
-            })
-            .fail(function (data) {
-                
-                let errors = data.responseJSON;
-                $(".error-form").empty();
+                .done(function (results) {
+                    RenderCart(results);
+                    alert(
+                        "Đặt Tour Thành Công (Đã xóa sản phẩm vừa thanh toán)"
+                    );
+
+                    window.location = "Bill";
+                })
+                .fail(function (data) {
+                    let errors = data.responseJSON;
+                    $(".error-form").empty();
                     $.each(errors.errors, function (i, val) {
                         $dataForm
                             .find("input[name=" + i + "]")
                             .siblings(".error-form")
                             .text(val[0]);
+                        alert(val[0]);
                     });
-            });
+                });
         }
-    }
-    else{
+    } else {
         alert("Quý khách cần chọn Điều khoản đăng ký online");
     }
-
-    
-    
-   
 }
+
+function AddReview(idTour, idUser) {
+    let $dataForm = $("#form-review");
+
+    $.ajax({
+        url: "Review/" + idTour + "/" + idUser,
+
+        data: $dataForm.serialize(),
+
+        method: "post",
+    })
+        .done(function (results) {
+            $("#ajaxReview").empty();
+            $("#ajaxReview").html(results);
+
+            alert("Đánh giá thành công !!! 123");
+        })
+        .fail(function (data) {
+            let errors = data.responseJSON;
+
+            $(".error-form-review").empty();
+            $.each(errors.errors, function (i, val) {
+                $(".error-form-review").html(val);
+            });
+        });
+}
+
+function search() {
+    let value = $("#search").val();
+
+    $.ajax({
+        url: "Search",
+        data: {
+            value: value,
+        },
+        method: "get",
+    })
+        .done(function (results) {
+            $("#list-view").empty();
+            $("#list-view").html(results);
+        })
+        .fail(function (data) {});
+}
+// js lenam

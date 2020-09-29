@@ -106,11 +106,15 @@ function CheckOutInfo(id) {
     });
 }
 
+$(".js-modal-register").click(function (event) {
+    event.preventDefault();
+    $("#myModal").modal("show");
+    console.log('alo');
+    
+});
+
 $(function () {
-    $(".js-modal-register").click(function (event) {
-        event.preventDefault();
-        $("#myModal").modal("show");
-    });
+   
 
     $(".js-btn-login").click(function (e) {
         e.preventDefault();
@@ -706,7 +710,7 @@ function AddReview(idTour, idUser) {
             $("#ajaxReview").html(results);
             
             
-            alert("Đánh giá thành công !!!");
+            alert("Đánh giá thành công !!! 123");
            
         })
         .fail(function (data) {

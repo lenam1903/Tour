@@ -2,8 +2,8 @@
 <head>
     <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Shop Left Sidebar || limupa - Digital Products Store eCommerce Bootstrap 4 Template</title>
-        <meta name="description" content="">
+        <title>@yield('title')</title>
+        <meta name="description" content="hello">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <base href="{{asset('')}}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -137,7 +137,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
     "></script>
 
-    <script src="js/js.js" type="text/javascript" async></script>
+    <script src="js/js1.js" type="text/javascript" async></script>
 
 
     

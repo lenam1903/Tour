@@ -1,4 +1,5 @@
 @extends('layout.index')
+@section('title', 'Chi Tiết Tour')
 
 @section('content')
 
