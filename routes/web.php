@@ -148,7 +148,7 @@ Route::get('/BabyAjax/{id}', 'PageController@babyAjax');
 
 Route::get('Search','PageController@search');
 
-Route::get('SearchPlaces/{id}','PageController@searchPlaces');
+Route::get('searchAdvanced','PageController@searchAdvanced');
 
 Route::get('SearchMaxMin','PageController@searchMaxMin');
 
@@ -158,6 +158,8 @@ Route::get('SearchStar','PageController@searchStar');
 
 Route::get('Bill','PageController@bill');
 
+
+Route::get('PLaces/{Directory_URL}/{Name_Places_URL}','PageController@places');
 
 
 

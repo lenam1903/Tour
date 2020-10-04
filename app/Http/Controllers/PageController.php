@@ -328,9 +328,11 @@ class PageController extends Controller
      
     } 
 
-    public function searchPlaces(Request $request, $id){
+    public function searchAdvanced(Request $request){
         
-        $searchTour = DB::table('tour')->where([['ID_Place', $id]])->get();
+        echo $request->isMaxMin;
+        $searchTour = DB::table('tour')->where([['ID_Place', $request->idPlaces]])->orderBy('Price', 'desc')
+        ->get();
                 
         return view('pages.search',['searchTour' => $searchTour]);
      
@@ -367,6 +369,22 @@ class PageController extends Controller
     public function bill(Request $request){
                 
         return view('pages.bill');
+     
+ 
+    } 
+
+    public function places(Request $request){
+        if(isset($_GET['maxMin'])) {
+            $desc = $_GET['maxMin'];
+        }
+        if(isset($_GET['places'])) {
+            $places = $_GET['places'];
+        } else {
+            $places = "";
+        }
+        $searchPlaces = DB::table('tour')->where([['ID_Place', $places]])->get();
+        
+        return view('pages.places', ['searchPlaces'=>$searchPlaces]);
      
  
     } 

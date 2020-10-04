@@ -12,7 +12,7 @@
                         <ul>
                         @foreach($places as $p)
                             @if($d->ID == $p->ID_Directory)
-                                <li><a onclick="searchPlaces('{{$p->ID}}', '{{$p->Name_Places}}')" href="javascript:">{{$p->Name_Places}}</a></li>
+                                <li><a href="PLaces/{{$d->Directory_URL}}/{{$p->Name_Places_URL}}/?places={{$p->ID}}&page=0">{{$p->Name_Places}}</a></li>
                             @endif
                         @endforeach
                         </ul>
@@ -37,7 +37,7 @@
             <div class="categori-checkbox">
                 <form action="#">
                     <ul>
-                        <li><a onclick="searchMaxMin()" href="javascript:">Giá (Cao -> Thấp)</a></li>
+                        <li><input id="maxMin" type="checkbox" value="desc" href="javascript:">Giá (Cao -> Thấp)</a></li>
                         <li><a onclick="searchMinMax()" href="javascript:">Giá (Thấp -> Cao)</a></li>
                      
                     </ul>
@@ -52,7 +52,7 @@
                 <form action="#">
                     <ul>
                         @for($i = 1 ; $i<=5 ; $i++)
-                        <li><a href="javascript:" onclick="searchStar({{$i}})">{{$i-1}}->{{$i}} <i class="fa fa-star" style="font-size:28px;color:red"></i></a></li>
+                        <li><input type="checkbox" href="javascript:" onclick="searchStar({{$i}})">{{$i-1}}->{{$i}} <i class="fa fa-star" style="font-size:28px;color:red"></i></a></li>
                         @endfor
                     </ul>
                 </form>
@@ -69,40 +69,37 @@
 @section('script')
 
 <script>
-    function searchPlaces(id, namePlaces){
-        
-        $.ajax({
-            url: "SearchPlaces/"+id,
-            
-            method: "get",
-        })
-        .done(function (results) {
-            
-            $("#list-view").empty();
-            $("#list-view").html(results);
-            alertify.success('Đã xuất hiện danh sách Tour ở: '+ '\xa0\xa0\xa0' +namePlaces);
-        })
-        .fail(function (data) {
-                
-        });
-    }
+    function searchAdvanced(idPlaces, namePlaces){
+        console.log(idPlaces);
+        console.log(namePlaces);
+        var maxMin = document.getElementById("maxMin");
 
-    function searchMaxMin(){
-        
-        $.ajax({
-            url: "SearchMaxMin",
-            
-            method: "get",
-        })
-        .done(function (results) {
-            
-            $("#list-view").empty();
-            $("#list-view").html(results);
-            alertify.success('Đã xuất hiện danh sách giá Tour từ Cao -> Thấp');
-        })
-        .fail(function (data) {
+        var isMaxMin = maxMin.checked;
+        desc = $("#maxMin").val();
+        // console.log(desc);
+        if(isMaxMin == true ) {
+            $.ajax({
+            url: "searchAdvanced",
+            data: {
+                idPlaces: idPlaces,
+                namePlaces: namePlaces,
+                desc: desc,
                 
-        });
+            },
+            method: "get",
+
+        
+            })
+            .done(function (results) {
+                
+                $("#list-view").empty();
+                $("#list-view").html(results);
+                alertify.success('Đã xuất hiện danh sách Tour ở: '+ '\xa0\xa0\xa0' +namePlaces);
+            })
+            .fail(function (data) {
+                    
+            });
+        }
     }
 
     function searchMinMax(){
