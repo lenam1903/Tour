@@ -1,3 +1,16 @@
+<?php
+    if(isset( $_GET['idPlaces']) ) {
+        $idPlaces =$_GET['idPlaces'];
+    } else {
+        $idPlaces = "";
+    }
+
+    if(isset( $_GET['page']) ) {
+        $page =$_GET['page'];
+    } else {
+        $page = "";
+    }
+?>
 <div class="col-md-3">
     <!--sidebar-categores-box start  -->
     <div class="sidebar-categores-box mt-sm-30 mt-xs-30">
@@ -12,7 +25,7 @@
                         <ul>
                         @foreach($places as $p)
                             @if($d->ID == $p->ID_Directory)
-                                <li><a href="PLaces/{{$d->Directory_URL}}/{{$p->Name_Places_URL}}/?places={{$p->ID}}&page=0">{{$p->Name_Places}}</a></li>
+                                <li><a id="idPlaces_{{$p->ID}}" namePlacesURL="{{$p->Name_Places_URL}}" directoryURL="{{$d->Directory_URL}}" href="PLaces/{{$d->Directory_URL}}/{{$p->Name_Places_URL}}/?idPlaces={{$p->ID}}&page=1">{{$p->Name_Places}}</a></li>
                             @endif
                         @endforeach
                         </ul>
@@ -32,13 +45,31 @@
         <button class="btn-clear-all mb-sm-30 mb-xs-30">Clear all</button>
         <!-- btn-clear-all end -->
         <!-- filter-sub-area start -->
+        
         <div class="filter-sub-area">
-            <h5 class="filter-sub-titel">Giá</h5>
+        <h5 class="filter-sub-titel">Giá 
+            {{-- @foreach(Session::get('search2') as $item)
+                {{$item}}
+            @endforeach --}}
+            moi ne
+            {{ Session::get('search') }}</h5>
             <div class="categori-checkbox">
                 <form action="#">
                     <ul>
-                        <li><input id="maxMin" type="checkbox" value="desc" href="javascript:">Giá (Cao -> Thấp)</a></li>
-                        <li><a onclick="searchMinMax()" href="javascript:">Giá (Thấp -> Cao)</a></li>
+                        <li>
+                            <input id="maxMin" type="radio" value="desc" name="order" onclick="searchMaxMin( {{$idPlaces}}, this.value ,{{$page}} ) " 
+                                @if (isset($order) && $order == "desc")
+                                    {{'checked'}}
+                                @endif
+                            >Giá (Cao -> Thấp)
+                        </li>
+                        <li>
+                            <input id="minMax" type="radio" value="asc" name="order" onclick="searchMaxMin( {{$idPlaces}}, this.value ,{{$page}} ) " 
+                                @if (isset($order) && $order == "asc")
+                                    {{'checked'}}
+                                @endif 
+                            >Giá (Thấp -> Cao)
+                        </li>
                      
                     </ul>
                 </form>
@@ -52,7 +83,7 @@
                 <form action="#">
                     <ul>
                         @for($i = 1 ; $i<=5 ; $i++)
-                        <li><input type="checkbox" href="javascript:" onclick="searchStar({{$i}})">{{$i-1}}->{{$i}} <i class="fa fa-star" style="font-size:28px;color:red"></i></a></li>
+                        <li onclick="searchMaxMin( {{$idPlaces}}, {{$i}} ,{{$page}} )">{{$i}}<i class="fa fa-star" style="font-size:28px;color:red"></i>-></li>
                         @endfor
                     </ul>
                 </form>
@@ -69,32 +100,58 @@
 @section('script')
 
 <script>
-    function searchAdvanced(idPlaces, namePlaces){
+    function searchMaxMin(idPlaces, order ,page) {
         console.log(idPlaces);
-        console.log(namePlaces);
+        console.log(order);
+        console.log(page);
+        namePlacesURL = $("#idPlaces_"+idPlaces+"").attr("namePlacesURL");
+        directoryURL = $("#idPlaces_"+idPlaces+"").attr("DirectoryURL");
+       
+
+        
         var maxMin = document.getElementById("maxMin");
 
         var isMaxMin = maxMin.checked;
-        desc = $("#maxMin").val();
-        // console.log(desc);
+
         if(isMaxMin == true ) {
+            
             $.ajax({
-            url: "searchAdvanced",
+            url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?order="+order+"&page="+page,
+            
             data: {
                 idPlaces: idPlaces,
-                namePlaces: namePlaces,
-                desc: desc,
+                order: order,
+                page: page,
                 
             },
             method: "get",
-
         
             })
             .done(function (results) {
                 
-                $("#list-view").empty();
-                $("#list-view").html(results);
-                alertify.success('Đã xuất hiện danh sách Tour ở: '+ '\xa0\xa0\xa0' +namePlaces);
+              
+                window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&order="+order+"&page="+page;
+            })
+            .fail(function (data) {
+                    
+            });
+        } else {
+            $.ajax({
+            url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?order="+order+"&page="+page,
+            
+            data: {
+                idPlaces: idPlaces,
+                order: order,
+                page: page,
+                
+            },
+            method: "get",
+        
+            })
+            .done(function (results) {
+                
+                
+                window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&order="+order+"&page="+page;
             })
             .fail(function (data) {
                     
