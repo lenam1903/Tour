@@ -66,7 +66,7 @@
                         <li>
                             <input id="maxMin" type="radio" value="desc" name="order" onclick="searchMaxMin( {{$idPlaces}}, [ this.value, 
                                 
-                                '{{ $star }}']) " 
+                            '{{ $star }}']) "
                                 @if (isset($order) && $order == "desc")
                                     {{'checked'}}
                                 @endif
