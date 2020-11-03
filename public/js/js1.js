@@ -189,7 +189,7 @@ $(function () {
         $(".error-form").empty();
         let $this = $(this);
         let $domForm = $this.closest("form");
-
+        
         $.ajax({
             url: "login",
             data: $domForm.serialize(),
@@ -198,17 +198,17 @@ $(function () {
             .done(function (results) {
 
                 if (results == "admin") {
-                    alert("Đăng nhập thành công");
+                    alert("Đăng nhập thành công. oke123");
                     Redirect("admin/user/list");
                 } else if (results == "failed") {
-                    alert("Đăng nhập thất bại. Vui lòng nhập lại.");
+                    alert("Đăng nhập thất bại. Vui lòng nhập lại. ngu");
 
                     document.getElementById("emailLogin").style.borderColor =
                         "#FF0000";
                     document.getElementById("passwordLogin").style.borderColor =
                         "#FF0000";
                 } else {
-                    alert("Đăng nhập thành công");
+                    alert("Đăng nhập thành công. oke123");
                     // ẩn modal
                     $("#myModalLogin").modal("hide");
                     $("#userLogo").empty();
@@ -224,8 +224,8 @@ $(function () {
                         .find("input[name=" + i + "]")
                         .siblings(".error-form")
                         .text(val[0]);
-                     // đẩy tất cả name vào 1 mảng
-                     nameLogin.push(i);
+                    // đẩy tất cả name vào 1 mảng
+                    nameLogin.push(i);
 
                     // document.getElementById(i).style.borderColor = "#FF0000";
                 });
@@ -301,9 +301,9 @@ function totalPrice() {
 
     return $("#tongTien").text(
         Number(priceAdult) +
-            Number(priceChildren) +
-            Number(priceBaby) +
-            Number(vat)
+        Number(priceChildren) +
+        Number(priceBaby) +
+        Number(vat)
     );
 }
 
@@ -348,8 +348,8 @@ function adultAjax(id) {
 
                 alert(
                     "Không được nhập quá số chỗ trống của Tour " +
-                        guestNumberMax +
-                        " Vui Lòng nhập lại"
+                    guestNumberMax +
+                    " Vui Lòng nhập lại"
                 );
             } else {
                 if (adult == 0) {
@@ -365,8 +365,8 @@ function adultAjax(id) {
                     formAdult(results);
                     alertify.success(
                         "Đã hiện " +
-                            (Number(adult) + Number(baby) + Number(children)) +
-                            " phiếu nhập thông tin"
+                        (Number(adult) + Number(baby) + Number(children)) +
+                        " phiếu nhập thông tin"
                     );
 
                     for (i = 1; i <= adult; i++) {
@@ -378,7 +378,7 @@ function adultAjax(id) {
                 }
             }
         })
-        .fail(function (data) {});
+        .fail(function (data) { });
 }
 
 function formChildren(results) {
@@ -430,15 +430,15 @@ function childrenAjax(id) {
 
                 alert(
                     "Không được nhập quá số chỗ trống của Tour " +
-                        guestNumberMax +
-                        " Vui Lòng nhập lại"
+                    guestNumberMax +
+                    " Vui Lòng nhập lại"
                 );
             } else {
                 formChildren(results);
                 alertify.success(
                     "Đã hiện " +
-                        (Number(adult) + Number(baby) + Number(children)) +
-                        " phiếu nhập thông tin"
+                    (Number(adult) + Number(baby) + Number(children)) +
+                    " phiếu nhập thông tin"
                 );
 
                 for (i = 1; i <= children; i++) {
@@ -448,7 +448,7 @@ function childrenAjax(id) {
                 totalPrice();
             }
         })
-        .fail(function (data) {});
+        .fail(function (data) { });
 }
 
 function formBaby(results) {
@@ -492,15 +492,15 @@ function babyAjax(id) {
                 totalPrice();
                 alert(
                     "Không được nhập quá số chỗ trống của Tour " +
-                        guestNumberMax +
-                        " Vui Lòng nhập lại"
+                    guestNumberMax +
+                    " Vui Lòng nhập lại"
                 );
             } else {
                 formBaby(results);
                 alertify.success(
                     "Đã hiện " +
-                        (Number(adult) + Number(baby) + Number(children)) +
-                        " phiếu nhập thông tin"
+                    (Number(adult) + Number(baby) + Number(children)) +
+                    " phiếu nhập thông tin"
                 );
 
                 for (i = 1; i <= baby; i++) {
@@ -511,7 +511,7 @@ function babyAjax(id) {
                 totalPrice();
             }
         })
-        .fail(function (data) {});
+        .fail(function (data) { });
 }
 
 function guestNumber(adult, baby, children) {
@@ -608,12 +608,12 @@ function departureDay(id, valueDate) {
                 $("#dateCheckoutAdult" + i).val("");
                 alert(
                     "Ngày sinh & độ tuổi Người lớn không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : " +
-                        departureDay1.getDate() +
-                        "/" +
-                        (Number(departureDay1.getMonth()) + Number(1)) +
-                        "/" +
-                        departureDay1.getFullYear() +
-                        ")"
+                    departureDay1.getDate() +
+                    "/" +
+                    (Number(departureDay1.getMonth()) + Number(1)) +
+                    "/" +
+                    departureDay1.getFullYear() +
+                    ")"
                 );
             }
         }
@@ -629,24 +629,24 @@ function departureDay(id, valueDate) {
                     $("#dateCheckoutChildren" + i).val("");
                     alert(
                         "Ngày sinh & độ tuổi Trẻ Em không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : " +
-                            departureDay1.getDate() +
-                            "/" +
-                            (Number(departureDay1.getMonth()) + Number(1)) +
-                            "/" +
-                            departureDay1.getFullYear() +
-                            ")"
-                    );
-                }
-            } else {
-                $("#dateCheckoutChildren" + i).val("");
-                alert(
-                    "Ngày sinh & độ tuổi Trẻ Em không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : " +
                         departureDay1.getDate() +
                         "/" +
                         (Number(departureDay1.getMonth()) + Number(1)) +
                         "/" +
                         departureDay1.getFullYear() +
                         ")"
+                    );
+                }
+            } else {
+                $("#dateCheckoutChildren" + i).val("");
+                alert(
+                    "Ngày sinh & độ tuổi Trẻ Em không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : " +
+                    departureDay1.getDate() +
+                    "/" +
+                    (Number(departureDay1.getMonth()) + Number(1)) +
+                    "/" +
+                    departureDay1.getFullYear() +
+                    ")"
                 );
             }
         }
@@ -662,12 +662,12 @@ function departureDay(id, valueDate) {
                 $("#dateCheckoutBaby" + i).val("");
                 alert(
                     "Ngày sinh & độ tuổi Em Bé không tương ứng. Quý khách cần kiểm tra lại ngày sinh( so với ngày về của tour : " +
-                        departureDay1.getDate() +
-                        "/" +
-                        (Number(departureDay1.getMonth()) + Number(1)) +
-                        "/" +
-                        departureDay1.getFullYear() +
-                        ")"
+                    departureDay1.getDate() +
+                    "/" +
+                    (Number(departureDay1.getMonth()) + Number(1)) +
+                    "/" +
+                    departureDay1.getFullYear() +
+                    ")"
                 );
             }
         }
@@ -696,16 +696,16 @@ function postCheckOutInfo(idTour, idUser) {
         if (isNaN(new Date($("#dateCheckoutAdult" + i).val()))) {
             alert(
                 "Ngày Sinh Khách Hàng (Người Lớn " +
-                    i +
-                    " ) không hợp lệ!    Vui lòng nhập lại"
+                i +
+                " ) không hợp lệ!    Vui lòng nhập lại"
             );
 
             date = false;
         } else if ($("#fullNameAdult" + i).val() == "") {
             alert(
                 "Họ Tên Khách Hàng (Người Lớn " +
-                    i +
-                    " ) không hợp lệ!    Vui lòng nhập lại"
+                i +
+                " ) không hợp lệ!    Vui lòng nhập lại"
             );
             date = false;
         } else {
@@ -716,15 +716,15 @@ function postCheckOutInfo(idTour, idUser) {
         if (isNaN(new Date($("#dateCheckoutChildren" + i).val()))) {
             alert(
                 "Ngày Sinh Khách Hàng (Trẻ Em " +
-                    i +
-                    " ) không hợp lệ!    Vui lòng nhập lại"
+                i +
+                " ) không hợp lệ!    Vui lòng nhập lại"
             );
             date = false;
         } else if ($("#fullNameChildren" + i).val() == "") {
             alert(
                 "Họ Tên Khách Hàng (Trẻ Em " +
-                    i +
-                    " ) không hợp lệ!    Vui lòng nhập lại"
+                i +
+                " ) không hợp lệ!    Vui lòng nhập lại"
             );
             date = false;
         } else {
@@ -735,15 +735,15 @@ function postCheckOutInfo(idTour, idUser) {
         if (isNaN(new Date($("#dateCheckoutBaby" + i).val()))) {
             alert(
                 "Ngày Sinh Khách Hàng (Em Bé " +
-                    i +
-                    " ) không hợp lệ!    Vui lòng nhập lại"
+                i +
+                " ) không hợp lệ!    Vui lòng nhập lại"
             );
             date = false;
         } else if ($("#fullNameBaby" + i).val() == "") {
             alert(
                 "Họ Tên Khách Hàng (Em Bé " +
-                    i +
-                    " ) không hợp lệ!    Vui lòng nhập lại"
+                i +
+                " ) không hợp lệ!    Vui lòng nhập lại"
             );
             date = false;
         } else {
@@ -817,11 +817,13 @@ function AddReview(idTour, idUser) {
 
 function search() {
     let value = $("#search").val();
-
+    console.log('dd');
     $.ajax({
         url: "Search",
         data: {
             value: value,
+        
+            
         },
         method: "get",
     })
@@ -829,6 +831,19 @@ function search() {
             $("#list-view").empty();
             $("#list-view").html(results);
         })
-        .fail(function (data) {});
+        .fail(function (data) { });
 }
+<<<<<<< HEAD
 // t mowis suas ne
+=======
+
+$(function () {
+
+    $("#btn-search").click(function (event) {
+        let value = $("#search").val();
+        console.log(value);
+        
+    });
+
+});
+>>>>>>> khuong
