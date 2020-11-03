@@ -833,6 +833,9 @@ function search() {
         })
         .fail(function (data) { });
 }
+<<<<<<< HEAD
+// t mowis suas ne
+=======
 
 $(function () {
 
@@ -843,3 +846,4 @@ $(function () {
     });
 
 });
+>>>>>>> khuong
