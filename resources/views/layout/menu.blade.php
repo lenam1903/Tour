@@ -2,7 +2,7 @@
     if(isset( $_GET['idPlaces']) ) {
         $idPlaces =$_GET['idPlaces'];
     } else {
-        $idPlaces = 0;
+        $idPlaces =0;
     }
 
     if(isset( $_GET['order']) ) {
