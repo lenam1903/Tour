@@ -1,4 +1,29 @@
 <!-- Begin Header Area -->
+<?php
+    if(isset( $_GET['idPlaces']) ) {
+        $idPlaces =$_GET['idPlaces'];
+    } else {
+        $idPlaces = "";
+    }
+
+    if(isset( $_GET['order']) ) {
+        $order =$_GET['order'];
+    } else {
+        $order = "";
+    }
+
+    if(isset( $_GET['rate']) ) {
+        $star =$_GET['rate'];
+    } else {
+        $star = "";
+    }
+
+    if(isset( $_GET['search']) ) {
+        $search =$_GET['search'];
+    } else {
+        $search = "";
+    }
+?>
 <header>
     <!-- Begin Header Top Area -->
     <div class="header-top">
@@ -32,8 +57,10 @@
                 <!-- Begin Header Middle Right Area -->
                 <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                     <!-- Begin Header Middle Searchbox Area -->
-                        <input maxlength="50" id="search" name="search" type="text" value="" placeholder="Enter your search key ..." style="width: 80%;">
-                        <button id="btn-search" style="margin-right: 150px;" class="li-btn" type="button"><i class="fa fa-search"></i></button>
+                        <input maxlength="50" id="search" name="search" type="text" value="{{$idPlaces}}" placeholder="Enter your search key ..." style="width: 80%;">
+                        <button onclick="searchMaxMin( {{$idPlaces}}, [ '{{ $order }}', 
+                                
+                        '{{ $star }}', '{{ $search }}']) "  style="margin-right: 150px;" class="li-btn" type="button"><i class="fa fa-search"></i></button>
                     
                     <!-- Header Middle Searchbox Area End Here -->
                     <!-- Begin Header Middle Right Area -->

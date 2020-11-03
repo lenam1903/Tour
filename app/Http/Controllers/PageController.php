@@ -359,35 +359,54 @@ class PageController extends Controller
         } else {
             $GLOBALS['rate'] = "";
         }
-        
-        if($request->order == 'desc' || $request->order == 'asc') {
-            
-            $searchPlaces = DB::table('tour')->where(function ($query) {
-                if($GLOBALS['rate'] >= 1 && $GLOBALS['rate'] <= 5){
-                    $query->where([['ID_Place', $GLOBALS['idPlaces']], ['Rate', '<=', $GLOBALS['rate']]]);
-                } else {
-                    $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
-                }
-               
-            })->orderBy('Price', $GLOBALS['order'])->paginate(1);
-            $countPage = $searchPlaces->count();
-
-            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => $request->order, 'rate' => $request->rate]);
-
+        if(isset($request->idPlaces)){
+            $GLOBALS['idPlaces'] = $request->idPlaces;
         } else {
-            
-            $searchPlaces = DB::table('tour')->where(function ($query) {
-                if($GLOBALS['rate'] >= 1 && $GLOBALS['rate'] <= 5){
-                    $query->where([['ID_Place', $GLOBALS['idPlaces']], ['Rate', '<=', $GLOBALS['rate']]]);
-                } else {
-                    $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
-                }
-               
-            })->paginate(1);
-            $countPage = $searchPlaces->count();
-            
-            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => '', 'rate' => $request->rate]);
+            $GLOBALS['idPlaces'] = "";
         }
+        if(isset($request->order)){
+            $GLOBALS['order'] = $request->order;
+        } else {
+            $GLOBALS['order'] = "";
+        }
+        if(isset($request->search)){
+            $GLOBALS['search'] = $request->search;
+        } else {
+            $GLOBALS['search'] = "";
+        }
+        echo $request->search;
+        echo $request->rate;
+        echo $request->order;
+        echo $request->idPlaces;
+        
+        // if($request->order == 'desc' || $request->order == 'asc') {
+            
+        //     $searchPlaces = DB::table('tour')->where(function ($query) {
+        //         if($GLOBALS['rate'] >= 1 && $GLOBALS['rate'] <= 5){
+        //             $query->where([['ID_Place', $GLOBALS['idPlaces']], ['Rate', '<=', $GLOBALS['rate']]]);
+        //         } else {
+        //             $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
+        //         }
+               
+        //     })->orderBy('Price', $GLOBALS['order'])->paginate(1);
+        //     $countPage = $searchPlaces->count();
+
+        //     return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => $request->order, 'rate' => $request->rate]);
+
+        // } else {
+            
+        //     $searchPlaces = DB::table('tour')->where(function ($query) {
+        //         if($GLOBALS['rate'] >= 1 && $GLOBALS['rate'] <= 5){
+        //             $query->where([['ID_Place', $GLOBALS['idPlaces']], ['Rate', '<=', $GLOBALS['rate']]]);
+        //         } else {
+        //             $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
+        //         }
+               
+        //     })->paginate(1);
+        //     $countPage = $searchPlaces->count();
+            
+        //     return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => '', 'rate' => $request->rate]);
+        // }
     }
         
     

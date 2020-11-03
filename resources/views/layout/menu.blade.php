@@ -2,7 +2,7 @@
     if(isset( $_GET['idPlaces']) ) {
         $idPlaces =$_GET['idPlaces'];
     } else {
-        $idPlaces = 0;
+        $idPlaces = "";
     }
 
     if(isset( $_GET['order']) ) {
@@ -15,6 +15,12 @@
         $star =$_GET['rate'];
     } else {
         $star = "";
+    }
+
+    if(isset( $_GET['search']) ) {
+        $search =$_GET['search'];
+    } else {
+        $search = "";
     }
 ?>
 <div class="col-md-3">
@@ -68,7 +74,7 @@
                         </li>
                         <li>
                             <input id="minMax" type="radio" value="asc" name="order" onclick="searchMaxMin( {{$idPlaces}}, [ this.value, 
-                                '{{ $star }}']) " 
+                                '{{ $star }}', '{{ $search }}']) " 
                                 @if (isset($order) && $order == "asc")
                                     {{'checked'}}
                                 @endif 
@@ -89,7 +95,7 @@
                         @for($i = 1 ; $i<=5 ; $i++)
                         <li onclick="searchMaxMin( {{ $idPlaces }}, 
                             ['{{ $order }}' ,
-                            '{{ $i }}']
+                            '{{ $i }}', '{{ $search }}']
                             )">{{$i}}<i class="fa fa-star" style="font-size:28px;color:red"></i>-></li>
                         @endfor
                     </ul>
@@ -118,7 +124,7 @@
     }
 
     function searchMaxMin(idPlaces, data ) {
-        if (idPlaces == 0) {
+        if (idPlaces == "") {
             alert('Vui lòng chọn địa điểm trước khi tìm kiếm nâng cao.')
         } else {
             namePlacesURL = $("#idPlaces_"+idPlaces+"").attr("namePlacesURL");
@@ -126,6 +132,7 @@
         
             order = "";
             rate = "";
+            search "";
             stringURL = "";
 
             if(data[0] == '')
@@ -141,53 +148,60 @@
             } else {
                 rate = '&rate='+data[1];
             }
-            stringURL = order + rate;
+
+            if(data[2] == '')
+            {
+                search = "";
+            } else {
+                search = '&search='+data[2];
+            }
+            echo stringURL = order + rate + search;
         
             var maxMin = document.getElementById("maxMin");
 
             var isMaxMin = maxMin.checked;
 
-            if(isMaxMin == true ) {
-                console.log('true');
-                console.log(stringURL);
+            // if(isMaxMin == true ) {
+            //     console.log('true');
+            //     console.log(stringURL);
                 
-                $.ajax({
-                url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL,
+            //     $.ajax({
+            //     url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL,
                 
-                data: {
+            //     data: {
                     
-                },
-                method: "get",
+            //     },
+            //     method: "get",
             
-                })
-                .done(function (results) {
+            //     })
+            //     .done(function (results) {
                 
-                    window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL;
-                })
-                .fail(function (data) {
+            //         window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL;
+            //     })
+            //     .fail(function (data) {
                         
-                });
-            } else {
-                console.log('false');
-                console.log(stringURL);
-                $.ajax({
-                    url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL,
+            //     });
+            // } else {
+            //     console.log('false');
+            //     console.log(stringURL);
+            //     $.ajax({
+            //         url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL,
                     
-                    data: {
+            //         data: {
                         
-                    },
-                    method: "get",
+            //         },
+            //         method: "get",
                 
-                    })
-                    .done(function (results) {
+            //         })
+            //         .done(function (results) {
                         
                         
-                        window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL;
-                    })
-                    .fail(function (data) {
+            //             window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL;
+            //         })
+            //         .fail(function (data) {
                         
-                });
-            }
+            //     });
+            // }
         }
         
     }
