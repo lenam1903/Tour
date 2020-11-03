@@ -189,7 +189,7 @@ $(function () {
         $(".error-form").empty();
         let $this = $(this);
         let $domForm = $this.closest("form");
-
+        
         $.ajax({
             url: "login",
             data: $domForm.serialize(),
@@ -198,17 +198,17 @@ $(function () {
             .done(function (results) {
 
                 if (results == "admin") {
-                    alert("Đăng nhập thành công");
+                    alert("Đăng nhập thành công. oke123");
                     Redirect("admin/user/list");
                 } else if (results == "failed") {
-                    alert("Đăng nhập thất bại. Vui lòng nhập lại.");
+                    alert("Đăng nhập thất bại. Vui lòng nhập lại. ngu");
 
                     document.getElementById("emailLogin").style.borderColor =
                         "#FF0000";
                     document.getElementById("passwordLogin").style.borderColor =
                         "#FF0000";
                 } else {
-                    alert("Đăng nhập thành công");
+                    alert("Đăng nhập thành công. oke123");
                     // ẩn modal
                     $("#myModalLogin").modal("hide");
                     $("#userLogo").empty();
@@ -817,11 +817,13 @@ function AddReview(idTour, idUser) {
 
 function search() {
     let value = $("#search").val();
-
+    console.log('dd');
     $.ajax({
         url: "Search",
         data: {
             value: value,
+        
+            
         },
         method: "get",
     })
@@ -832,4 +834,12 @@ function search() {
         .fail(function (data) { });
 }
 
-// dm
+$(function () {
+
+    $("#btn-search").click(function (event) {
+        let value = $("#search").val();
+        console.log(value);
+        
+    });
+
+});

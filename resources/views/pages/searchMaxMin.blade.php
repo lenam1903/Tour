@@ -3,7 +3,6 @@
 
 @section('content')
 
-
 <!-- Begin Li's Content Wraper Area -->
 <div class="content-wraper pt-60 pb-60 pt-sm-30">
     <div class="container-fluid">
@@ -113,7 +112,7 @@
 
                                 </div>
                             </div>
-                            {{ $searchPlaces->appends(['idPlaces' => $idPlaces, 'order' => $order])->links() }}
+                            {{ $searchPlaces->appends(['idPlaces' => $idPlaces, 'order' => $order, 'rate' => $rate  ])->links() }}
                         </div>
 
                     </div>  
@@ -124,6 +123,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- modal đăng ký star -->
 <div class="modal fade" id="myModalRegister">

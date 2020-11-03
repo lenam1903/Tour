@@ -161,6 +161,8 @@ Route::get('PLaces/{Directory_URL}/{Name_Places_URL}','PageController@places');
 
 Route::get('PLaces/{Directory_URL}/{Name_Places_URL}/search','PageController@searchMaxMin');
 
+Route::get('PLaces/{Directory_URL}/{Name_Places_URL}/searchRate','PageController@searchRate');
+
 
 
 

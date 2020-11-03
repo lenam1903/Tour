@@ -2,13 +2,19 @@
     if(isset( $_GET['idPlaces']) ) {
         $idPlaces =$_GET['idPlaces'];
     } else {
-        $idPlaces = "";
+        $idPlaces = 0;
     }
 
-    if(isset( $_GET['page']) ) {
-        $page =$_GET['page'];
+    if(isset( $_GET['order']) ) {
+        $order =$_GET['order'];
     } else {
-        $page = "";
+        $order = "";
+    }
+
+    if(isset( $_GET['rate']) ) {
+        $star =$_GET['rate'];
+    } else {
+        $star = "";
     }
 ?>
 <div class="col-md-3">
@@ -47,24 +53,22 @@
         <!-- filter-sub-area start -->
         
         <div class="filter-sub-area">
-        <h5 class="filter-sub-titel">Giá 
-            {{-- @foreach(Session::get('search2') as $item)
-                {{$item}}
-            @endforeach --}}
-            moi ne
-            {{ Session::get('search') }}</h5>
+        <h5 class="filter-sub-titel">Giá </h5>
             <div class="categori-checkbox">
                 <form action="#">
                     <ul>
                         <li>
-                            <input id="maxMin" type="radio" value="desc" name="order" onclick="searchMaxMin( {{$idPlaces}}, this.value ,{{$page}} ) " 
+                            <input id="maxMin" type="radio" value="desc" name="order" onclick="searchMaxMin( {{$idPlaces}}, [ this.value, 
+                                
+                                '{{ $star }}']) " 
                                 @if (isset($order) && $order == "desc")
                                     {{'checked'}}
                                 @endif
                             >Giá (Cao -> Thấp)
                         </li>
                         <li>
-                            <input id="minMax" type="radio" value="asc" name="order" onclick="searchMaxMin( {{$idPlaces}}, this.value ,{{$page}} ) " 
+                            <input id="minMax" type="radio" value="asc" name="order" onclick="searchMaxMin( {{$idPlaces}}, [ this.value, 
+                                '{{ $star }}']) " 
                                 @if (isset($order) && $order == "asc")
                                     {{'checked'}}
                                 @endif 
@@ -78,12 +82,15 @@
         <!-- filter-sub-area end -->
         <!-- filter-sub-area start -->
         <div class="filter-sub-area pt-sm-10 pt-xs-10">
-            <h5 class="filter-sub-titel">Đánh Giá</h5>
+            <h5 class="filter-sub-titel">Đánh Giá {{ $star }}</h5>
             <div class="categori-checkbox">
                 <form action="#">
                     <ul>
                         @for($i = 1 ; $i<=5 ; $i++)
-                        <li onclick="searchMaxMin( {{$idPlaces}}, {{$i}} ,{{$page}} )">{{$i}}<i class="fa fa-star" style="font-size:28px;color:red"></i>-></li>
+                        <li onclick="searchMaxMin( {{ $idPlaces }}, 
+                            ['{{ $order }}' ,
+                            '{{ $i }}']
+                            )">{{$i}}<i class="fa fa-star" style="font-size:28px;color:red"></i>-></li>
                         @endfor
                     </ul>
                 </form>
@@ -100,102 +107,92 @@
 @section('script')
 
 <script>
-    function searchMaxMin(idPlaces, order ,page) {
-        console.log(idPlaces);
-        console.log(order);
-        console.log(page);
-        namePlacesURL = $("#idPlaces_"+idPlaces+"").attr("namePlacesURL");
-        directoryURL = $("#idPlaces_"+idPlaces+"").attr("DirectoryURL");
-       
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
 
-        
-        var maxMin = document.getElementById("maxMin");
+    function isset (ref) { 
+        return typeof ref !== 'undefined'
+    }
 
-        var isMaxMin = maxMin.checked;
-
-        if(isMaxMin == true ) {
-            
-            $.ajax({
-            url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?order="+order+"&page="+page,
-            
-            data: {
-                idPlaces: idPlaces,
-                order: order,
-                page: page,
-                
-            },
-            method: "get",
-        
-            })
-            .done(function (results) {
-                
-              
-                window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&order="+order+"&page="+page;
-            })
-            .fail(function (data) {
-                    
-            });
+    function searchMaxMin(idPlaces, data ) {
+        if (idPlaces == 0) {
+            alert('Vui lòng chọn địa điểm trước khi tìm kiếm nâng cao.')
         } else {
-            $.ajax({
-            url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?order="+order+"&page="+page,
-            
-            data: {
-                idPlaces: idPlaces,
-                order: order,
-                page: page,
-                
-            },
-            method: "get",
+            namePlacesURL = $("#idPlaces_"+idPlaces+"").attr("namePlacesURL");
+            directoryURL = $("#idPlaces_"+idPlaces+"").attr("DirectoryURL");
         
-            })
-            .done(function (results) {
+            order = "";
+            rate = "";
+            stringURL = "";
+
+            if(data[0] == '')
+            {
+                order = "";
+            } else {
+                order = '&order='+data[0];
+            }
+
+            if(data[1] == '')
+            {
+                rate = "";
+            } else {
+                rate = '&rate='+data[1];
+            }
+            stringURL = order + rate;
+        
+            var maxMin = document.getElementById("maxMin");
+
+            var isMaxMin = maxMin.checked;
+
+            if(isMaxMin == true ) {
+                console.log('true');
+                console.log(stringURL);
                 
+                $.ajax({
+                url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL,
                 
-                window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&order="+order+"&page="+page;
-            })
-            .fail(function (data) {
+                data: {
                     
-            });
-        }
-    }
-
-    function searchMinMax(){
-        
-        $.ajax({
-            url: "SearchMinMax",
-            
-            method: "get",
-        })
-        .done(function (results) {
-            
-            $("#list-view").empty();
-            $("#list-view").html(results);
-            alertify.success('Đã xuất hiện danh sách giá Tour từ Thấp -> Cao');
-        })
-        .fail(function (data) {
-                
-        });
-    }
-
-    function searchStar(star){
-      
-        $.ajax({
-            url: "SearchStar",
-            data: {
-                'star': star
                 },
-            method: "get",
-        })
-        .done(function (results) {
+                method: "get",
             
-            $("#list-view").empty();
-            $("#list-view").html(results);
-            alertify.success('Đã xuất hiện danh sách Tour có: '+ '\xa0\xa0\xa0' + Number(star - 1) +'->'+star+' sao');
-        })
-        .fail(function (data) {
+                })
+                .done(function (results) {
                 
-        });
+                    window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL;
+                })
+                .fail(function (data) {
+                        
+                });
+            } else {
+                console.log('false');
+                console.log(stringURL);
+                $.ajax({
+                    url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL,
+                    
+                    data: {
+                        
+                    },
+                    method: "get",
+                
+                    })
+                    .done(function (results) {
+                        
+                        
+                        window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL;
+                    })
+                    .fail(function (data) {
+                        
+                });
+            }
+        }
+        
     }
+
+
 </script>
 
 @endsection

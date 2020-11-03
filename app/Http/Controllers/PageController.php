@@ -265,15 +265,12 @@ class PageController extends Controller
             ]
         );
 
-
         $comment = new Comment;
         $comment->ID_Users = $idUser;
         $comment->ID_Tour = $idTour;
         $comment->Content = $request->content;
         $comment->Rate = $request->rate;
         $comment->save();
-
-
 
         $average = DB::table('comment')->where('ID_Tour', $idTour)->avg('Rate');
 
@@ -288,6 +285,7 @@ class PageController extends Controller
 
     public function search(Request $request)
     {
+        
         if ($request->value == "") {
             $searchTour = DB::table('tour')->get();
             return view('pages.search', ['searchTour' => $searchTour]);
@@ -326,36 +324,21 @@ class PageController extends Controller
         }
     }
 
-
-
-    public function searchStar(Request $request)
-    {
-
-        $searchTour = DB::table('tour')->where('Rate', '<=', $request->star)->where('Rate', '>=', $request->star - 1)
-            ->get();
-
-        return view('pages.search', ['searchTour' => $searchTour]);
-    }
-
     public function bill(Request $request)
     {
 
         return view('pages.bill');
     }
 
-
-
-
-
-
     public function places(Request $request)
     {
-    
+
         if (isset($_GET['idPlaces'])) {
             $idPlaces = $_GET['idPlaces'];
         } else {
             $idPlaces = "";
         }
+        
         Paginator::useBootstrap();
         
         $searchPlaces = DB::table('tour')->where([['ID_Place', $idPlaces]])->paginate(1);
@@ -365,26 +348,47 @@ class PageController extends Controller
         return view('pages.searchPlaces', ['searchPlaces' => $searchPlaces, 'idPlaces' => $idPlaces, 'countPage' => $countPage]);
     }
 
+
     public function searchMaxMin(Request $request)
     {
         Paginator::useBootstrap();
-        // $request->session()->flush();
-        $request->session()->put('search', '123');
-        
-
-        if(isset($request->order)) {
-            $searchPlaces = DB::table('tour')->where([['ID_Place', $request->idPlaces]])->orderBy('Price', $request->order)->paginate(1);
-            $countPage = $searchPlaces->count();
-
-            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'order' => $request->order, 'countPage' => $countPage]);
-
+        $GLOBALS['idPlaces'] = $request->idPlaces;
+        $GLOBALS['order'] = $request->order;
+        if(isset($request->rate)){
+            $GLOBALS['rate'] = $request->rate;
         } else {
-            $searchPlaces = DB::table('tour')->where([['ID_Place', $request->idPlaces]])->paginate(1);
-            $countPage = $searchPlaces->count();
-
-            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage]);
+            $GLOBALS['rate'] = "";
         }
         
-        
+        if($request->order == 'desc' || $request->order == 'asc') {
+            
+            $searchPlaces = DB::table('tour')->where(function ($query) {
+                if($GLOBALS['rate'] >= 1 && $GLOBALS['rate'] <= 5){
+                    $query->where([['ID_Place', $GLOBALS['idPlaces']], ['Rate', '<=', $GLOBALS['rate']]]);
+                } else {
+                    $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
+                }
+               
+            })->orderBy('Price', $GLOBALS['order'])->paginate(1);
+            $countPage = $searchPlaces->count();
+
+            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => $request->order, 'rate' => $request->rate]);
+
+        } else {
+            
+            $searchPlaces = DB::table('tour')->where(function ($query) {
+                if($GLOBALS['rate'] >= 1 && $GLOBALS['rate'] <= 5){
+                    $query->where([['ID_Place', $GLOBALS['idPlaces']], ['Rate', '<=', $GLOBALS['rate']]]);
+                } else {
+                    $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
+                }
+               
+            })->paginate(1);
+            $countPage = $searchPlaces->count();
+            
+            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => '', 'rate' => $request->rate]);
+        }
     }
+        
+    
 }
