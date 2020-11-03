@@ -2,7 +2,7 @@
     if(isset( $_GET['idPlaces']) ) {
         $idPlaces =$_GET['idPlaces'];
     } else {
-        $idPlaces = "";
+        $idPlaces = 0;
     }
 
     if(isset( $_GET['order']) ) {
@@ -124,7 +124,7 @@
     }
 
     function searchMaxMin(idPlaces, data ) {
-        if (idPlaces == "") {
+        if (idPlaces == 0) {
             alert('Vui lòng chọn địa điểm trước khi tìm kiếm nâng cao.')
         } else {
             namePlacesURL = $("#idPlaces_"+idPlaces+"").attr("namePlacesURL");
@@ -155,7 +155,8 @@
             } else {
                 search = '&search='+data[2];
             }
-            echo stringURL = order + rate + search;
+            stringURL = order + rate + search;
+            console.log(stringURL);
         
             var maxMin = document.getElementById("maxMin");
 
