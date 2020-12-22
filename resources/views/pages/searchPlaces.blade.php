@@ -5,6 +5,7 @@
 
 
 <!-- Begin Li's Content Wraper Area -->
+
 <div class="content-wraper pt-60 pb-60 pt-sm-30">
     <div class="container-fluid">
         <div class="row">
@@ -47,6 +48,10 @@
                 <!-- Slider Area End Here -->
                 <!-- shop-products-wrapper start -->
                 <div class="shop-products-wrapper">
+                    <div style="padding: 50px">
+                    <input maxlength="50" id="search-advanced" name="search" type="text" value="" placeholder="Enter your search key ..." style="width: 80%;">
+                        <button id="btn-search-advanced" style="margin: 350px 260px 0px 00px;"  class="li-btn" type="button"><i class="fa fa-search"></i></button>
+                    </div>
                     <div class="tab-content">
                         <div id="list-view" class="tab-pane fade product-list-view active show" role="tabpanel">
                             <div class="row">

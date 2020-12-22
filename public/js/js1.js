@@ -833,17 +833,9 @@ function search() {
         })
         .fail(function (data) { });
 }
-<<<<<<< HEAD
-// t mowis suas ne
-=======
 
-$(function () {
 
-    $("#btn-search").click(function (event) {
-        let value = $("#search").val();
-        console.log(value);
-        
-    });
 
-});
->>>>>>> khuong
+function searchNe(id){
+    console.log(id)
+}
