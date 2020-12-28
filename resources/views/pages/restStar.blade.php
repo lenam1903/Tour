@@ -6,7 +6,7 @@
     </span>
 </div>
 
-@foreach($comment as $c)
+@foreach($comment1 as $c)
     @if($c->ID_Tour == $idTour)
         <div class="comment-author-infos pt-25">
             <span>{{$c->ID_Users}}</span>

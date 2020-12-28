@@ -1,3 +1,29 @@
+<?php
+    if(isset( $_GET['idPlaces']) ) {
+        $idPlaces =$_GET['idPlaces'];
+    } else {
+        $idPlaces =0;
+    }
+
+    if(isset( $_GET['order']) ) {
+        $order =$_GET['order'];
+    } else {
+        $order = "";
+    }
+
+    if(isset( $_GET['rate']) ) {
+        $star =$_GET['rate'];
+    } else {
+        $star = "";
+    }
+
+    if(isset( $_GET['search']) ) {
+        $search =$_GET['search'];
+    } else {
+        $search = "";
+    }
+?>
+
 @extends('layout.index')
 @section('title', 'Home')
 
@@ -49,8 +75,11 @@
                 <!-- shop-products-wrapper start -->
                 <div class="shop-products-wrapper">
                     <div style="padding: 50px">
-                    <input maxlength="50" id="search-advanced" name="search" type="text" value="" placeholder="Enter your search key ..." style="width: 80%;">
-                        <button id="btn-search-advanced" style="margin: 350px 260px 0px 00px;"  class="li-btn" type="button"><i class="fa fa-search"></i></button>
+                    <input maxlength="50" id="search-advanced" name="search" type="text" value="{{$search}}" placeholder="Enter your search key ..." style="width: 80%;">
+                        <button onclick="searchMaxMin( {{ $idPlaces }}, 
+                        ['{{ $order }}' ,
+                        '{{ $star }}', document.getElementById('search-advanced').value]
+                        )" id="btn-search-advanced" style="margin: 350px 260px 0px 00px;"  class="li-btn" type="button"><i class="fa fa-search"></i></button>
                     </div>
                     <div class="tab-content">
                         <div id="list-view" class="tab-pane fade product-list-view active show" role="tabpanel">
@@ -210,9 +239,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary js-btn-login">Đăng nhập</button>
                 </form>
-                <button type="button" class="btn btn-primary js-modal-register">
-                    Đăng ký
-                </button>
+              
             </div>
         </div>
     </div>

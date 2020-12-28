@@ -836,6 +836,14 @@ function search() {
 
 
 
-function searchNe(id){
-    console.log(id)
-}
+
+
+
+
+
+
+
+
+
+
+

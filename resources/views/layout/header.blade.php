@@ -40,12 +40,12 @@
                     <div class="header-middle-right">
                         <ul class="hm-menu">
                             <!-- Begin Header Middle Wishlist Area -->
-                            <li class="hm-wishlist">
+                            {{-- <li class="hm-wishlist">
                                 <a href="wishlist.html" style="padding-top: 11.2px">
                                     <span class="cart-item-count wishlist-item-count">0</span>
                                     <i class="fa fa-heart-o"></i>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             <li id="userLogo" class="hm-wishlist">
                                 

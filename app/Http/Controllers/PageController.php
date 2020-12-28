@@ -25,7 +25,7 @@ class PageController extends Controller
     function home(Request $request)
     {
         Paginator::useBootstrap();
-        $tourPaginate = Tour::paginate(1);
+        $tourPaginate = Tour::paginate(3);
 
         return view('pages.home', ['tourPaginate' => $tourPaginate]);
     }
@@ -279,8 +279,9 @@ class PageController extends Controller
         ]);
 
         $id = Tour::find($idTour);
+        $comment1 = Comment::all();
 
-        return view('pages.restStar', ['average' => $average, 'idTour' => $idTour, 'id' => $id]);
+        return view('pages.restStar', ['average' => $average, 'idTour' => $idTour, 'id' => $id, 'comment1' => $comment1]);
     }
 
     public function search(Request $request)
@@ -341,7 +342,7 @@ class PageController extends Controller
         
         Paginator::useBootstrap();
         
-        $searchPlaces = DB::table('tour')->where([['ID_Place', $idPlaces]])->paginate(1);
+        $searchPlaces = DB::table('tour')->where([['ID_Place', $idPlaces]])->paginate(3);
         // echo $currentPage = $searchPlaces->currentPage();
         $countPage = $searchPlaces->count();
 
@@ -354,6 +355,7 @@ class PageController extends Controller
         Paginator::useBootstrap();
         $GLOBALS['idPlaces'] = $request->idPlaces;
         $GLOBALS['order'] = $request->order;
+        $GLOBALS['search'] = $request->search;
         if(isset($request->rate)){
             $GLOBALS['rate'] = $request->rate;
         } else {
@@ -369,10 +371,40 @@ class PageController extends Controller
                     $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
                 }
                
-            })->orderBy('Price', $GLOBALS['order'])->paginate(1);
+            })->where(function ($query) {
+                if(isset($GLOBALS['search'])){
+                    $query->where([
+
+                        ['Tour_Name', 'LIKE', '%' . $GLOBALS['search'] . '%']
+        
+                    ])->orWhere([
+
+                        ['Price', 'LIKE', '%' . $GLOBALS['search'] . '%']
+        
+                    ])->orWhere([
+        
+                        ['Describe', 'LIKE', '%' .$GLOBALS['search'] . '%']
+        
+                    ])
+                        ->orWhere([
+        
+                            ['Departure_Day', 'LIKE', '%' . $GLOBALS['search'] . '%']
+        
+                        ])
+                        ->orWhere([
+        
+                            ['Number_Of_Seats_Available', 'LIKE', '%' . $GLOBALS['search'] . '%']
+        
+                        ])->get();
+                } else {
+                    $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
+                }
+               
+            })
+            ->orderBy('Price', $GLOBALS['order'])->paginate(3);
             $countPage = $searchPlaces->count();
 
-            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => $request->order, 'rate' => $request->rate]);
+            return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => $request->order, 'rate' => $request->rate, 'search' => $GLOBALS['search']]);
 
         } else {
             
@@ -383,7 +415,7 @@ class PageController extends Controller
                     $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
                 }
                
-            })->paginate(1);
+            })->paginate(3);
             $countPage = $searchPlaces->count();
             
             return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => '', 'rate' => $request->rate]);

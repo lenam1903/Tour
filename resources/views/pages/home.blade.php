@@ -201,9 +201,6 @@
                     </div>
                     <button type="submit" class="btn btn-primary js-btn-login">Đăng nhập</button>
                 </form>
-                <button type="button" class="btn btn-primary js-modal-register">
-                    Đăng ký
-                </button>
             </div>
         </div>
     </div>

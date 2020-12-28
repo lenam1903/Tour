@@ -16,6 +16,12 @@
     } else {
         $star = "";
     }
+
+    if(isset( $_GET['search']) ) {
+        $search =$_GET['search'];
+    } else {
+        $search = "";
+    }
 ?>
 <div class="col-md-3">
     <!--sidebar-categores-box start  -->
@@ -48,7 +54,7 @@
             <h2>Tùy Chọn Nâng Cao</h2>
         </div>
         <!-- btn-clear-all start -->
-        <button class="btn-clear-all mb-sm-30 mb-xs-30">Clear all</button>
+        {{-- <button class="btn-clear-all mb-sm-30 mb-xs-30">Clear all</button> --}}
         <!-- btn-clear-all end -->
         <!-- filter-sub-area start -->
         
@@ -60,7 +66,7 @@
                         <li>
                             <input id="maxMin" type="radio" value="desc" name="order" onclick="searchMaxMin( {{$idPlaces}}, [ this.value, 
                                 
-                                '{{ $star }}']) " 
+                                '{{ $star }}', '{{ $search }}']) " 
                                 @if (isset($order) && $order == "desc")
                                     {{'checked'}}
                                 @endif
@@ -68,7 +74,7 @@
                         </li>
                         <li>
                             <input id="minMax" type="radio" value="asc" name="order" onclick="searchMaxMin( {{$idPlaces}}, [ this.value, 
-                                '{{ $star }}']) " 
+                                '{{ $star }}', '{{ $search }}']) " 
                                 @if (isset($order) && $order == "asc")
                                     {{'checked'}}
                                 @endif 
@@ -89,7 +95,7 @@
                         @for($i = 1 ; $i<=5 ; $i++)
                         <li onclick="searchMaxMin( {{ $idPlaces }}, 
                             ['{{ $order }}' ,
-                            '{{ $i }}']
+                            '{{ $i }}', '{{ $search }}']
                             )">{{$i}}<i class="fa fa-star" style="font-size:28px;color:red"></i>-></li>
                         @endfor
                     </ul>
@@ -126,6 +132,7 @@
         
             order = "";
             rate = "";
+            search =""
             stringURL = "";
 
             if(data[0] == '')
@@ -141,15 +148,20 @@
             } else {
                 rate = '&rate='+data[1];
             }
-            stringURL = order + rate;
-        
+
+            if(data[2] == '')
+            {
+                search = "";
+            } else {
+                search = '&search='+data[2];
+            }
+            stringURL = order + rate + search;
+            console.log(stringURL)
             var maxMin = document.getElementById("maxMin");
 
             var isMaxMin = maxMin.checked;
 
             if(isMaxMin == true ) {
-                console.log('true');
-                console.log(stringURL);
                 
                 $.ajax({
                 url: "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL,

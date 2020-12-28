@@ -237,7 +237,10 @@
                                 
                                     @else
                                     <div style="font-size: 25; color: red;"><br>
-                                        Muốn đánh giá thì vui lòng đăng nhập trước ( <a href="admin/login">bấm vào đây để đăng nhập</a> )
+                                        Muốn đánh giá thì vui lòng đăng nhập trước ( <a href="javascript:"><button type="button"
+                                            class="btn btn-primary js-modal-login">
+                                            Đăng nhập
+                                        </button></a> )
                                     </div>
                                     @endif
                                    
@@ -357,6 +360,94 @@
         </div>
     </div>
 </div>
+
+
+<!-- modal đăng ký star -->
+<div class="modal fade" id="myModalRegister">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Đăng ký</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="" method="POST" id="form-register">
+
+                    @csrf
+
+                    <div class="form-group" style="text-align: left">
+                        <label for="nameRegister">Họ tên:</label>
+                        <input id="nameRegister" type="text" name="nameRegister" class="form-control"
+                            placeholder="Nhập họ và tên">
+                        <span class="error-form"></span>
+                    </div>
+                    <div class="form-group" style="text-align: left">
+                        <label for="emailRegister">Email:</label>
+                        <input id="emailRegister" type="email" name="emailRegister" class="form-control"
+                            placeholder="Nhập Email">
+                        <span class="error-form"></span>
+                    </div>
+                    <div class="form-group" style="text-align: left">
+                        <label for="passwordRegister">Mật Khẩu:</label>
+                        <input id="passwordRegister" type="password" name="passwordRegister" class="form-control"
+                            placeholder="Nhập Password" id="passwordRegister">
+                        <span class="error-form"></span>
+                    </div>
+                    <div class="form-group" style="text-align: left">
+                        <label for="passwordConfirmRegister">Xác Nhân Mật Khẩu:</label>
+                        <input id="passwordConfirmRegister" type="password" name="passwordConfirmRegister"
+                            class="form-control" placeholder="Nhập xác nhận Password" id="passwordConfirmRegister">
+                        <span class="error-form"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary js-btn-register">Đăng Ký</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- model đăng ký end -->
+
+<!-- modal đăng nhập star -->
+<div class="modal fade" id="myModalLogin">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Đăng nhập</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="" method="POST" id="form-login">
+
+                    @csrf
+
+                    <div class="form-group" style="text-align: left">
+                        <label for="emailLogin">Email:</label>
+                        <input id="emailLogin" type="email" name="emailLogin" class="form-control"
+                            placeholder="Nhâp Email">
+                        <span class="error-form"></span>
+                    </div>
+                    <div class="form-group" style="text-align: left">
+                        <label for="passwordLogin">Mật khẩu:</label>
+                        <input type="password" name="passwordLogin" class="form-control" placeholder="Nhập Password"
+                            id="passwordLogin">
+                        <span class="error-form"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary js-btn-login">Đăng nhập</button>
+                </form>
+             
+            </div>
+        </div>
+    </div>
+</div>
+<!-- model đăng nhập end -->
 
 @endsection
 
