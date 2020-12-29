@@ -84,7 +84,7 @@
                                     <span class="item-icon"></span>
                                     @if(Session::has("Cart") != null)
                                     <span id="total-price" class="item-text">-
-                                        <span id="total-quanty-show" class="cart-item-count">{{Session::get('Cart')->totalQuanty}}</span>
+                                        <span id="total-quanty-show" class="cart-item-count">*</span>
                                     </span>
                                     @else
                                     <span  id="total-price"  class="item-text">-
