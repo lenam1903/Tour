@@ -5,8 +5,30 @@ $.ajaxSetup({
 });
 
 function AddCart(id) {
+    // var quantyCart = $("#quantyCart-" + id).attr("quantyCart");
+    // var quantyCartMax = $("#quantyCart-" + id).attr("quantyCartMax");
+
+    // $.ajax({
+    //     url: "Add-Cart/" + id + "/" + quantyCart,
+    //     type: "GET",
+    // }).done(function (response) {
+    //     if (quantyCart == null) {
+    //         RenderCart(response);
+    //         alertify.success("Đã thêm sản phẩm");
+    //     } else {
+    //         if (Number(quantyCart) < quantyCartMax) {
+    //             RenderCart(response);
+    //             alertify.success("Đã thêm sản phẩm");
+    //         } else {
+    //             alertify.error(
+    //                 "Đã thêm thất bại , số chỗ trống còn: " + quantyCartMax
+    //             );
+    //         }
+    //     }
+    // });
+
     var quantyCart = $("#quantyCart-" + id).attr("quantyCart");
-    var quantyCartMax = $("#quantyCart-" + id).attr("quantyCartMax");
+ 
 
     $.ajax({
         url: "Add-Cart/" + id + "/" + quantyCart,
@@ -14,14 +36,14 @@ function AddCart(id) {
     }).done(function (response) {
         if (quantyCart == null) {
             RenderCart(response);
-            alertify.success("Đã thêm sản phẩm");
+            alertify.success("Đã thêm sản phẩm cc");
         } else {
-            if (Number(quantyCart) < quantyCartMax) {
+            if (Number(quantyCart) < 1) {
                 RenderCart(response);
                 alertify.success("Đã thêm sản phẩm");
             } else {
                 alertify.error(
-                    "Đã thêm thất bại , số chỗ trống còn: " + quantyCartMax
+                    "Đã tồn tại "
                 );
             }
         }
@@ -46,7 +68,7 @@ function DeleteListItemCart(id) {
         $("#iconCart").empty();
         $("#change-list-cart").empty();
         $("#change-list-cart").html(response);
-        alertify.success("Đã xoá sản phẩm");
+        alertify.success("Đã xoá sản phẩm nha");
     });
 }
 
@@ -815,40 +837,3 @@ function AddReview(idTour, idUser) {
         });
 }
 
-function search() {
-    let value = $("#search").val();
-    console.log('dd');
-    $.ajax({
-        url: "Search",
-        data: {
-            value: value,
-        
-            
-        },
-        method: "get",
-    })
-        .done(function (results) {
-            $("#list-view").empty();
-            $("#list-view").html(results);
-        })
-        .fail(function (data) { });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function searchNe(id){
-    console.log(id)
-}

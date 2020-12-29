@@ -263,7 +263,7 @@
                                     <div class="product-desc" style="padding-top: 50px">Mô Tả
                                         <p>
                                             <span>
-                                                <b ><p > {!! substr($idTour->Describe, 0 , 1000) !!}...</p></b>
+                                                <b ><p > {!! substr($idTour->Describe, 0 , 900) !!}...</p></b>
                                             </span>
                                         </p>
 

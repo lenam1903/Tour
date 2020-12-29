@@ -16,7 +16,7 @@ class Cart extends Model
     	if ($cart) {
     		$this->products = $cart->products;
     		$this->totalPrice = $cart->totalPrice;
-    		$this->totalQuanty = $cart->totalQuanty;
+    		$this->totalQuanty = 0;
     	}
 
 	}
@@ -29,11 +29,11 @@ class Cart extends Model
     		}
     	}
 
-    	$newProduct['quanty']++;
-    	$newProduct['price'] = $newProduct['quanty'] * $product->Price;
+    	
+    	$newProduct['price'] = $product->Price;
     	$this->products[$id] = $newProduct;
     	$this->totalPrice += $product->Price;
-    	$this->totalQuanty++;
+  
     }
 
     public function DeleteItemCart($id){
@@ -50,7 +50,7 @@ class Cart extends Model
     	$this->products[$id]['quanty'] = $quanty;
     	$this->products[$id]['price'] = $quanty * $this->products[$id]['productInfo']->Price;
 
-    	$this->totalQuanty += $this->products[$id]['quanty'];
+    	$this->totalQuanty = 0;
     	$this->totalPrice += $this->products[$id]['price'];
 
 

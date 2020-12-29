@@ -107,10 +107,9 @@
                                                         href="DetailTour/{{$item['productInfo']->ID}}">{{$item['productInfo']->Tour_Name}}</a>
                                                 </h6>
                                                 <span id="quantyCart-{{$item['productInfo']->ID}}"
-                                                    quantyCart="{{$item['quanty']}}"
+                                                    quantyCart="0"
                                                     quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}">{{number_format($item['productInfo']->Price)}}
-                                                    đ x
-                                                    {{$item['quanty']}}</span>
+                                                    đ</span>
                                             </div>
                                             <button id="deleteItemCart" onclick="deleteItemCart({{$item['productInfo']->ID}})" class="close" title="Remove"> X
                                                 
