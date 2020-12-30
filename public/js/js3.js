@@ -8,25 +8,29 @@ function AddCart(id) {
     var quantyCart = $("#quantyCart-" + id).attr("quantyCart");
     var quantyCartMax = $("#quantyCart-" + id).attr("quantyCartMax");
 
-    $.ajax({
-        url: "Add-Cart/" + id + "/" + quantyCart,
-        type: "GET",
-    }).done(function (response) {
-        if (quantyCart == null) {
-            RenderCart(response);
-            alertify.success("Đã thêm sản phẩm c1");
-        } else {
-            if (Number(quantyCart) < 0) {
-                console.log(quantyCart)
+
+    if (quantyCart == null || Number(quantyCart) < 0) {
+
+        $.ajax({
+            url: "Add-Cart/" + id + "/" + quantyCart,
+            type: "GET",
+        }).done(function (response) {
+            
                 RenderCart(response);
-                alertify.success("Đã thêm sản phẩm c2");
-            } else {
-                alertify.error(
-                    "Đã tồn tại"
-                );
-            }
+                alertify.success("Đã thêm sản phẩm");
+            
+        });
+    } else {
+        if (Number(quantyCart) < 0) {
+            console.log(quantyCart)
+            RenderCart(response);
+            alertify.success("Đã thêm sản phẩm");
+        } else {
+            alertify.error(
+                "Đã tồn tại"
+            );
         }
-    });
+    }
 }
 
 function deleteItemCart(id) {
