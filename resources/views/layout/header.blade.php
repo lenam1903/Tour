@@ -84,7 +84,7 @@
                                     <span class="item-icon"></span>
                                     @if(Session::has("Cart") != null)
                                     <span id="total-price" class="item-text">-
-                                        <span id="total-quanty-show" class="cart-item-count">*</span>
+                                        <span id="total-quanty-show" class="cart-item-count">{{Session::get('Cart')->totalQuanty}}</span>
                                     </span>
                                     @else
                                     <span  id="total-price"  class="item-text">-
@@ -107,9 +107,10 @@
                                                         href="DetailTour/{{$item['productInfo']->ID}}">{{$item['productInfo']->Tour_Name}}</a>
                                                 </h6>
                                                 <span id="quantyCart-{{$item['productInfo']->ID}}"
-                                                    quantyCart="0"
+                                                    quantyCart="{{$item['quanty']}}"
                                                     quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}">{{number_format($item['productInfo']->Price)}}
-                                                    đ</span>
+                                                    đ x
+                                                    {{$item['quanty']}}</span>
                                             </div>
                                             <button id="deleteItemCart" onclick="deleteItemCart({{$item['productInfo']->ID}})" class="close" title="Remove"> X
                                                 

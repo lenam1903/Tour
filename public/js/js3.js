@@ -14,11 +14,12 @@ function AddCart(id) {
     }).done(function (response) {
         if (quantyCart == null) {
             RenderCart(response);
-            alertify.success("Đã thêm sản phẩm cc");
+            alertify.success("Đã thêm sản phẩm c1");
         } else {
-            if (Number(quantyCart) < 1) {
+            if (Number(quantyCart) < 0) {
+                console.log(quantyCart)
                 RenderCart(response);
-                alertify.success("Đã thêm sản phẩm cc");
+                alertify.success("Đã thêm sản phẩm c2");
             } else {
                 alertify.error(
                     "Đã tồn tại"

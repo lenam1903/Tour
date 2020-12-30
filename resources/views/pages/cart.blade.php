@@ -9,9 +9,9 @@
         <div class="minicart-product-details">
             <h6><a href="DetailTour/{{$item['productInfo']->ID}}">{{$item['productInfo']->Tour_Name}}</a></h6>
             <span id="quantyCart-{{$item['productInfo']->ID}}" 
-                quantyCart="0"
-                quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}">{{number_format($item['productInfo']->Price)}} đ
-                        </span>
+                quantyCart="{{$item['quanty']}}"
+                quantyCartMax="{{$item['productInfo']->Number_Of_Seats_Available}}">{{number_format($item['productInfo']->Price)}} đ x
+                        {{$item['quanty']}}</span>
         </div>
         <button id="deleteItemCart" onclick="deleteItemCart({{$item['productInfo']->ID}})" class="close" title="Remove"> X
                                                 
@@ -21,7 +21,7 @@
 </ul>
 
 <p class="minicart-total">Tổng TIền: <span id="totalPrice">{{number_format(Session::get('Cart')->totalPrice)}} đ</span></p>
-{{-- <input hidden id="total-quanty-cart" type="number" value="{{Session::get('Cart')->totalQuanty}}"> --}}
+<input hidden id="total-quanty-cart" type="number" value="{{Session::get('Cart')->totalQuanty}}">
 
 <div class="minicart-button">
     <a href="List-Cart" style="color: brown;" class="li-button li-button-fullwidth">
