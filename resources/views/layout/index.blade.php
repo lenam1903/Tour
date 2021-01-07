@@ -43,6 +43,8 @@
         
         <!-- Modernizr js -->
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
         
         <style>
             .error-form {
@@ -64,7 +66,10 @@
 
 <body>
     <!-- Begin Body Wrapper -->
+    <span id="minutes"></span><span id="seconds"></span>
     <div class="body-wrapper">
+        
+        
         <div id="father" >
             
             @include('layout.header')
@@ -137,7 +142,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
     "></script>
 
-    <script src="js/js3.js" type="text/javascript" async></script>
+    <script src="js/js5.js" type="text/javascript" async></script>
 
 
     

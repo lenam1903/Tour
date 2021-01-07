@@ -202,7 +202,7 @@ $(function () {
             .done(function (results) {
 
                 if (results == "admin") {
-                    alert("Đăng nhập thành công. oke123");
+                    alert("Đăng nhập thành công");
                     Redirect("admin/user/list");
                 } else if (results == "failed") {
                     alert("Đăng nhập thất bại. Vui lòng nhập lại. ngu");
@@ -212,7 +212,7 @@ $(function () {
                     document.getElementById("passwordLogin").style.borderColor =
                         "#FF0000";
                 } else {
-                    alert("Đăng nhập thành công. oke123");
+                    alert("Đăng nhập thành công");
                     // ẩn modal
                     $("#myModalLogin").modal("hide");
                     $("#userLogo").empty();
@@ -807,7 +807,7 @@ function AddReview(idTour, idUser) {
             $("#ajaxReview").empty();
             $("#ajaxReview").html(results);
 
-            alert("Đánh giá thành công !!! 123");
+            alert("Đánh giá thành công !!!");
         })
         .fail(function (data) {
             let errors = data.responseJSON;
@@ -819,9 +819,9 @@ function AddReview(idTour, idUser) {
         });
 }
 
-function search() {
-    let value = $("#search").val();
-    console.log('dd');
+function search(value) {
+    // let value = $("#search").val();
+    console.log(value);
     $.ajax({
         url: "Search",
         data: {
@@ -836,23 +836,4 @@ function search() {
             $("#list-view").html(results);
         })
         .fail(function (data) { });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function searchNe(id){
-    console.log(id)
 }

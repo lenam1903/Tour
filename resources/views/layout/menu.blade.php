@@ -22,6 +22,11 @@
     } else {
         $search = "";
     }
+    if(isset( $_GET['valueSearch']) ) {
+        $valueSearch =$_GET['valueSearch'];
+    } else {
+        $valueSearch = "";
+    }
 ?>
 <div class="col-md-3">
     <!--sidebar-categores-box start  -->
@@ -192,7 +197,6 @@
                 
                     })
                     .done(function (results) {
-                        
                         
                         window.location = "PLaces/"+directoryURL+"/"+namePlacesURL+"/search?idPlaces="+idPlaces+"&page=1"+stringURL;
                     })

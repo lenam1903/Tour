@@ -11,6 +11,8 @@ use App\Tour;
 use App\BillDetails;
 use App\Bill;
 use App\Comment;
+use App\lich_su_nap_tien;
+use App\Check_tranid;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -44,8 +46,6 @@ class PageController extends Controller
         return view('pages.detailTour', ['idTour' => $idTour]);
     }
 
-
-
     function contact()
     {
         return view('pages.contact');
@@ -57,7 +57,7 @@ class PageController extends Controller
         return view('pages.checkOut', ['idTour' => $idTour]);
     }
 
-    public function postCheckOutInfo(Request $request, $idTour, $idUser)
+    public function postCheckOutInfo(Request $request, $idTour, $idUser, $balance)
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
@@ -84,7 +84,6 @@ class PageController extends Controller
                 'address.max' => 'Độ dài kí tự không quá 100',
                 'address.required' => 'Bạn chưa nhập địa chỉ.',
                 'note.max' => 'Độ dài kí tự không quá 100',
-
 
             ]
         );
@@ -166,6 +165,10 @@ class PageController extends Controller
                 }
             }
 
+            DB::table('users')->where('ID', $idUser)->update([
+                'balance'    =>    $balance - $request->totalPrice
+            ]);
+    
             $oldCart = Session('Cart') ? Session('Cart') : null;
             $newCart = new Cart($oldCart);
             $newCart->DeleteItemCart($idTour);
@@ -286,43 +289,141 @@ class PageController extends Controller
 
     public function search(Request $request)
     {
+        Paginator::useBootstrap();
         
-        if ($request->value == "") {
-            $searchTour = DB::table('tour')->get();
-            return view('pages.search', ['searchTour' => $searchTour]);
+   
+        if ($request->valueSearch == "") {
+            // $searchTour = DB::table('tour')->paginate(3);
+            // return view('pages.search', ['searchTour' => $searchTour]);
         } else {
             $searchTour = DB::table('tour')->where([
 
-                ['Tour_Name', 'LIKE', '%' . $request->value . '%']
+                ['Tour_Name', 'LIKE', '%' . $request->valueSearch . '%']
 
             ])->orWhere([
 
-                ['Price', 'LIKE', '%' . $request->value . '%']
+                ['Price', 'LIKE', '%' . $request->valueSearch . '%']
 
             ])->orWhere([
 
-                ['Describe', 'LIKE', '%' . $request->value . '%']
+                ['Describe', 'LIKE', '%' . $request->valueSearch . '%']
 
             ])
                 ->orWhere([
 
-                    ['Departure_Day', 'LIKE', '%' . $request->value . '%']
+                    ['Departure_Day', 'LIKE', '%' . $request->valueSearch . '%']
 
                 ])
                 ->orWhere([
 
-                    ['Number_Of_Seats_Available', 'LIKE', '%' . $request->value . '%']
+                    ['Number_Of_Seats_Available', 'LIKE', '%' . $request->valueSearch . '%']
 
                 ])
                 ->orWhere([
+                    ['Rate', 'LIKE', '%' . $request->valueSearch . '%']
+                ])->paginate(3);
 
-                    ['Rate', 'LIKE', '%' . $request->value . '%']
-
-                ])->get();
-
-
-            return view('pages.search', ['searchTour' => $searchTour]);
+                $countPage = $searchTour->count();
+            return view('pages.search', ['searchTour' => $searchTour, 'countPage' => $countPage, 'valueSearch' => $request->valueSearch]);
         }
+    }
+
+    public function thanhtoan()
+    {
+        $data_send = [
+            "key" => "7c3b214dbcce2605f3ea698d6eee9603",
+            "phone" => "0333766842",
+            "limit" => 20 
+           
+        ];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.gatepay.vn/api/momo/lichsugiaodich",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_POSTFIELDS => json_encode($data_send),
+            CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json",
+            "Accept" => "application/json"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        
+        $data = json_decode($response,true);
+        foreach($data['data'] as $lenam){
+
+         
+           
+            $check_tranid_0 = DB::table('check_tranid')->where('tranid', $lenam['tranid'])->count();
+            if($check_tranid_0 > 0 ){
+                
+            } else {
+             
+                $cmt = substr( $lenam['comment'],  0, 7);
+                if($lenam['type'] == 1 && $cmt == 'NAPTIEN'){
+
+                    $email_naptien =  strstr($lenam['comment'], ' ');
+                    $length = strlen($email_naptien);
+                    $email_naptien = substr( $email_naptien,  1, $length);
+                    $amount = $lenam['amount'];
+                    $partnerId = $lenam['partnerId'];
+                    
+                    
+
+                    $length_email = strlen($email_naptien);
+                    if($length_email > 0){
+                        
+                        $balance = DB::table('users')->where('email', $email_naptien)->count();
+                        if($balance > 0){
+                            $balance = DB::table('users')->where('email', $email_naptien)->get();
+                            $balance =  json_decode($balance, true);
+                            
+                            $balance = $balance[0]['balance'];
+                        
+                            DB::table('users')->where('email', $email_naptien)->update(['balance' =>  $balance + $amount]);
+
+                            $check_tranid = new Check_tranid();
+                            $check_tranid->tranid = $lenam['tranid'];
+                    
+                            $check_tranid->save();
+
+
+                            $lich_su_nap_tien = new lich_su_nap_tien();
+                            $lich_su_nap_tien->numberphone = $partnerId;
+                            $lich_su_nap_tien->id_users = Auth::user()->id;
+                            $lich_su_nap_tien->ID_naptien = $lenam['tranid'];
+                            $lich_su_nap_tien->amount = $amount;
+                    
+                            $lich_su_nap_tien->save();
+                            
+
+                        } else {
+                            
+                        }
+                    } else {
+                        
+                    }
+
+                } else {
+                    
+                }
+
+            }
+        }
+
+
+        return "";
     }
 
     public function bill(Request $request)
@@ -421,6 +522,10 @@ class PageController extends Controller
             return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => '', 'rate' => $request->rate]);
         }
     }
-        
+    
+
+    public function history_naptien(){
+        return view('pages.history_naptien');
+    }
     
 }

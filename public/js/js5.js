@@ -5,50 +5,32 @@ $.ajaxSetup({
 });
 
 function AddCart(id) {
-    
-    // var quantyCart = $("#quantyCart-" + id).attr("quantyCart");
-    // var quantyCartMax = $("#quantyCart-" + id).attr("quantyCartMax");
-
-    // $.ajax({
-    //     url: "Add-Cart/" + id + "/" + quantyCart,
-    //     type: "GET",
-    // }).done(function (response) {
-    //     if (quantyCart == null) {
-    //         RenderCart(response);
-    //         alertify.success("Đã thêm sản phẩm");
-    //     } else {
-    //         if (Number(quantyCart) < quantyCartMax) {
-    //             RenderCart(response);
-    //             alertify.success("Đã thêm sản phẩm");
-    //         } else {
-    //             alertify.error(
-    //                 "Đã thêm thất bại , số chỗ trống còn: " + quantyCartMax
-    //             );
-    //         }
-    //     }
-    // });
-
     var quantyCart = $("#quantyCart-" + id).attr("quantyCart");
- 
+    var quantyCartMax = $("#quantyCart-" + id).attr("quantyCartMax");
 
-    $.ajax({
-        url: "Add-Cart/" + id + "/" + quantyCart,
-        type: "GET",
-    }).done(function (response) {
-        if (quantyCart == null) {
-            RenderCart(response);
-            alertify.success("Đã thêm sản phẩm cc");
-        } else {
-            if (Number(quantyCart) < 1) {
+
+    if (quantyCart == null || Number(quantyCart) < 0) {
+
+        $.ajax({
+            url: "Add-Cart/" + id + "/" + quantyCart,
+            type: "GET",
+        }).done(function (response) {
+            
                 RenderCart(response);
                 alertify.success("Đã thêm sản phẩm");
-            } else {
-                alertify.error(
-                    "Đã tồn tại "
-                );
-            }
+            
+        });
+    } else {
+        if (Number(quantyCart) < 0) {
+            console.log(quantyCart)
+            RenderCart(response);
+            alertify.success("Đã thêm sản phẩm");
+        } else {
+            alertify.error(
+                "Đã tồn tại"
+            );
         }
-    });
+    }
 }
 
 function deleteItemCart(id) {
@@ -69,7 +51,7 @@ function DeleteListItemCart(id) {
         $("#iconCart").empty();
         $("#change-list-cart").empty();
         $("#change-list-cart").html(response);
-        alertify.success("Đã xoá sản phẩm nha");
+        alertify.success("Đã xoá sản phẩm");
     });
 }
 
@@ -104,7 +86,6 @@ function RenderCart(response) {
         $("#total-quanty-show").text(Number(0));
     }
 }
-
 function CheckOutInfo(id) {
     $.ajax({
         url: "CheckOutInfo/" + id,
@@ -221,17 +202,17 @@ $(function () {
             .done(function (results) {
 
                 if (results == "admin") {
-                    alert("Đăng nhập thành công. oke123");
+                    alert("Đăng nhập thành công");
                     Redirect("admin/user/list");
                 } else if (results == "failed") {
-                    alert("Đăng nhập thất bại. Vui lòng nhập lại. ngu");
+                    alert("Đăng nhập thất bại. Vui lòng nhập lại.");
 
                     document.getElementById("emailLogin").style.borderColor =
                         "#FF0000";
                     document.getElementById("passwordLogin").style.borderColor =
                         "#FF0000";
                 } else {
-                    alert("Đăng nhập thành công. oke123");
+                    alert("Đăng nhập thành công");
                     // ẩn modal
                     $("#myModalLogin").modal("hide");
                     $("#userLogo").empty();
@@ -544,7 +525,8 @@ function guestNumber(adult, baby, children) {
 }
 
 function singleRoom(value, id, price, idGuest) {
-    let priceSingleRoom = 1000000;
+    // tiền phòng khách sạn
+    let priceSingleRoom = 1000;
 
     if (idGuest.indexOf("singleRoomAdult" + id) == 0) {
         if (value == "Có") {
@@ -697,7 +679,7 @@ function departureDay(id, valueDate) {
     }
 }
 
-function postCheckOutInfo(idTour, idUser) {
+function postCheckOutInfo(idTour, idUser, balance) {
     // lấy data trong form gần nhất
     let $dataForm = $("#btnCheckoutInfo").closest("form");
 
@@ -773,39 +755,44 @@ function postCheckOutInfo(idTour, idUser) {
         }
     }
 
-    if (isRules == true) {
+    if (isRules == true ) {
         if (date == false) {
         } else {
-            $.ajax({
-                url: "CheckOut-Info/" + idTour + "/" + idUser,
-
-                data:
-                    $dataForm.serialize() +
-                    "&totalPrice=" +
-                    totalPrice +
-                    "&test=1",
-
-                method: "POST",
-            })
-                .done(function (results) {
-                    RenderCart(results);
-                    alert(
-                        "Đặt Tour Thành Công (Đã xóa sản phẩm vừa thanh toán)"
-                    );
-
-                    window.location = "Bill";
+            if(balance > 0){
+                $.ajax({
+                    url: "CheckOut-Info/" + idTour + "/" + idUser + "/" + balance,
+    
+                    data:
+                        $dataForm.serialize() +
+                        "&totalPrice=" +
+                        totalPrice +
+                        "&test=1",
+    
+                    method: "POST",
                 })
-                .fail(function (data) {
-                    let errors = data.responseJSON;
-                    $(".error-form").empty();
-                    $.each(errors.errors, function (i, val) {
-                        $dataForm
-                            .find("input[name=" + i + "]")
-                            .siblings(".error-form")
-                            .text(val[0]);
-                        alert(val[0]);
+                    .done(function (results) {
+                        RenderCart(results);
+                        alert(
+                            "Đặt Tour Thành Công (Đã xóa sản phẩm vừa thanh toán)"
+                        );
+    
+                        window.location = "Bill";
+                    })
+                    .fail(function (data) {
+                        let errors = data.responseJSON;
+                        $(".error-form").empty();
+                        $.each(errors.errors, function (i, val) {
+                            $dataForm
+                                .find("input[name=" + i + "]")
+                                .siblings(".error-form")
+                                .text(val[0]);
+                            alert(val[0]);
+                        });
                     });
-                });
+            } else {
+                alert("Số dư không đủ, vui lòng nạp thêm tiền");
+            }
+            
         }
     } else {
         alert("Quý khách cần chọn Điều khoản đăng ký online");
@@ -826,7 +813,7 @@ function AddReview(idTour, idUser) {
             $("#ajaxReview").empty();
             $("#ajaxReview").html(results);
 
-            alert("Đánh giá thành công !!! 123");
+            alert("Đánh giá thành công !!!");
         })
         .fail(function (data) {
             let errors = data.responseJSON;
@@ -837,4 +824,46 @@ function AddReview(idTour, idUser) {
             });
         });
 }
+
+function search(value) {
+    
+    console.log(value);
+    if(value == ""){
+        alert('chưa nhập từ cần tìm')
+
+    } else {
+        $.ajax({
+            url: "Search?valueSearch="+value+"&page=1",
+            data: {
+                
+            
+            },
+            method: "get",
+        })
+            .done(function (results) {
+                // sửa đoạn này nha, chwua xong
+                window.location = "Search?valueSearch="+value+"&page=1";
+               
+            })
+            .fail(function (data) { });
+    }
+
+}
+
+ 
+function pad (val) { return val > 9 ? val : "0" + val; } 
+
+setInterval(function(){ 
+    $.ajax({
+        url: "thanhtoan",
+        data: {
+            
+        },
+        method: "post",
+    })
+        .done(function (results) {
+            
+        })
+        .fail(function (data) { });
+}, 2000);
 

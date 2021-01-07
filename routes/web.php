@@ -138,7 +138,7 @@ Route::get('check-out/{id}','PageController@checkOut');
 
 Route::get('contact','PageController@contact');
 
-Route::post('/CheckOut-Info/{idTour}/{idUser}', 'PageController@postCheckOutInfo');
+Route::post('/CheckOut-Info/{idTour}/{idUser}/{balance}', 'PageController@postCheckOutInfo');
 
 Route::get('/AdultAjax/{id}', 'PageController@adultAjax');
 
@@ -162,6 +162,10 @@ Route::get('PLaces/{Directory_URL}/{Name_Places_URL}','PageController@places');
 Route::get('PLaces/{Directory_URL}/{Name_Places_URL}/search','PageController@searchMaxMin');
 
 Route::get('PLaces/{Directory_URL}/{Name_Places_URL}/searchRate','PageController@searchRate');
+
+Route::post('thanhtoan','PageController@thanhtoan');
+
+Route::get('history_naptien','PageController@history_naptien');
 
 
 

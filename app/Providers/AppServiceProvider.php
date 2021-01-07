@@ -14,6 +14,7 @@ use App\Tag;
 use App\Slide;
 use App\Bill;
 use App\BillDetails;
+use App\lich_su_nap_tien;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -48,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
         $slide = Slide::all();
         $bill = Bill::all();
         $billDetails = BillDetails::all();
+        $lich_su_nap_tien = lich_su_nap_tien::all();
        
         view()->share('directory', $directory);
         view()->share('comment', $comment);
@@ -59,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
         view()->share('slide', $slide);
         view()->share('bill', $bill);
         view()->share('billDetails', $billDetails);
+        view()->share('lich_su_nap_tien', $lich_su_nap_tien);
        
       
         

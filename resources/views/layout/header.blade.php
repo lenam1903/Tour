@@ -1,3 +1,34 @@
+<?php
+    if(isset( $_GET['idPlaces']) ) {
+        $idPlaces =$_GET['idPlaces'];
+    } else {
+        $idPlaces =0;
+    }
+
+    if(isset( $_GET['order']) ) {
+        $order =$_GET['order'];
+    } else {
+        $order = "";
+    }
+
+    if(isset( $_GET['rate']) ) {
+        $star =$_GET['rate'];
+    } else {
+        $star = "";
+    }
+
+    if(isset( $_GET['search']) ) {
+        $search =$_GET['search'];
+    } else {
+        $search = "";
+    }
+    if(isset( $_GET['valueSearch']) ) {
+        $valueSearch =$_GET['valueSearch'];
+    } else {
+        $valueSearch = "";
+    }
+?>
+
 <!-- Begin Header Area -->
 <header>
     <!-- Begin Header Top Area -->
@@ -32,9 +63,8 @@
                 <!-- Begin Header Middle Right Area -->
                 <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                     <!-- Begin Header Middle Searchbox Area -->
-                <input maxlength="50" id="search" name="search" type="text" value="" placeholder="Enter your search key ..." style="width: 80%;">
-                        <button id="btn-search" style="margin-right: 150px;" class="li-btn" type="button"><i class="fa fa-search"></i></button>
-                    
+                <input maxlength="50" id="search" name="search" type="text" value="{{$valueSearch}}" placeholder="Enter your search key ..." style="width: 80%;">
+                        <button onclick="search(document.getElementById('search').value)" id="btn-search" style="margin-right: 150px;" class="li-btn" type="button"><i class="fa fa-search"></i></button>
                     <!-- Header Middle Searchbox Area End Here -->
                     <!-- Begin Header Middle Right Area -->
                     <div class="header-middle-right">
@@ -57,7 +87,11 @@
                                         <li><i
                                                 style="font-size:20px;color:blue">{{Auth::user()->email}}</i>
                                         </li>
+                                        <li><i></i>Số dư:<b style="color: red;">{{number_format(Auth::user()->balance)}}
+                                            đ</b>
+                                        <li><a href="history_naptien"><i></i> lịch sử nạp tiền</a>
                                         <li><a href="Bill"><i></i> Hóa đơn</a>
+                                            
                                         </li>
                                         <li><a href="admin/user/edit/{{Auth::user()->id}}"><i
                                                     ></i>Cài đặt</a>
@@ -126,7 +160,7 @@
                                    
                                     <div class="minicart-button">
                                         <a href="List-Cart" style="color: brown;" class="li-button li-button-fullwidth">
-                                            Thanh Toán
+                                            Xem
                                         </a>
                                     </div>
                                     @endif

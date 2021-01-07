@@ -5,50 +5,32 @@ $.ajaxSetup({
 });
 
 function AddCart(id) {
-    
-    // var quantyCart = $("#quantyCart-" + id).attr("quantyCart");
-    // var quantyCartMax = $("#quantyCart-" + id).attr("quantyCartMax");
-
-    // $.ajax({
-    //     url: "Add-Cart/" + id + "/" + quantyCart,
-    //     type: "GET",
-    // }).done(function (response) {
-    //     if (quantyCart == null) {
-    //         RenderCart(response);
-    //         alertify.success("Đã thêm sản phẩm");
-    //     } else {
-    //         if (Number(quantyCart) < quantyCartMax) {
-    //             RenderCart(response);
-    //             alertify.success("Đã thêm sản phẩm");
-    //         } else {
-    //             alertify.error(
-    //                 "Đã thêm thất bại , số chỗ trống còn: " + quantyCartMax
-    //             );
-    //         }
-    //     }
-    // });
-
     var quantyCart = $("#quantyCart-" + id).attr("quantyCart");
- 
+    var quantyCartMax = $("#quantyCart-" + id).attr("quantyCartMax");
 
-    $.ajax({
-        url: "Add-Cart/" + id + "/" + quantyCart,
-        type: "GET",
-    }).done(function (response) {
-        if (quantyCart == null) {
-            RenderCart(response);
-            alertify.success("Đã thêm sản phẩm cc");
-        } else {
-            if (Number(quantyCart) < 1) {
+
+    if (quantyCart == null || Number(quantyCart) < 0) {
+
+        $.ajax({
+            url: "Add-Cart/" + id + "/" + quantyCart,
+            type: "GET",
+        }).done(function (response) {
+            
                 RenderCart(response);
                 alertify.success("Đã thêm sản phẩm");
-            } else {
-                alertify.error(
-                    "Đã tồn tại "
-                );
-            }
+            
+        });
+    } else {
+        if (Number(quantyCart) < 0) {
+            console.log(quantyCart)
+            RenderCart(response);
+            alertify.success("Đã thêm sản phẩm");
+        } else {
+            alertify.error(
+                "Đã tồn tại"
+            );
         }
-    });
+    }
 }
 
 function deleteItemCart(id) {
@@ -69,7 +51,7 @@ function DeleteListItemCart(id) {
         $("#iconCart").empty();
         $("#change-list-cart").empty();
         $("#change-list-cart").html(response);
-        alertify.success("Đã xoá sản phẩm nha");
+        alertify.success("Đã xoá sản phẩm");
     });
 }
 
@@ -104,7 +86,6 @@ function RenderCart(response) {
         $("#total-quanty-show").text(Number(0));
     }
 }
-
 function CheckOutInfo(id) {
     $.ajax({
         url: "CheckOutInfo/" + id,
@@ -221,7 +202,7 @@ $(function () {
             .done(function (results) {
 
                 if (results == "admin") {
-                    alert("Đăng nhập thành công. oke123");
+                    alert("Đăng nhập thành công");
                     Redirect("admin/user/list");
                 } else if (results == "failed") {
                     alert("Đăng nhập thất bại. Vui lòng nhập lại. ngu");
@@ -231,7 +212,7 @@ $(function () {
                     document.getElementById("passwordLogin").style.borderColor =
                         "#FF0000";
                 } else {
-                    alert("Đăng nhập thành công. oke123");
+                    alert("Đăng nhập thành công");
                     // ẩn modal
                     $("#myModalLogin").modal("hide");
                     $("#userLogo").empty();
@@ -826,7 +807,7 @@ function AddReview(idTour, idUser) {
             $("#ajaxReview").empty();
             $("#ajaxReview").html(results);
 
-            alert("Đánh giá thành công !!! 123");
+            alert("Đánh giá thành công !!!");
         })
         .fail(function (data) {
             let errors = data.responseJSON;
@@ -838,3 +819,53 @@ function AddReview(idTour, idUser) {
         });
 }
 
+function search(value) {
+    
+    // console.log(value);
+    // if(value == ""){
+    //     alert('chưa nhập từ cần tìm')
+
+    // } else {
+    //     $.ajax({
+    //         url: "http://localhost/Tour/public/home?valueSearch="+value+"&page=1",
+    //         data: {
+    //             value: value,
+            
+                
+    //         },
+    //         method: "get",
+    //     })
+    //         .done(function (results) {
+    //             // sửa đoạn này nha, chwua xong
+    //             // $("#list-view").empty();
+    //             // $("#list-view").html(results);
+    //             alertify.success("Thông tin cần tìm đã xuất hiện");
+    //         })
+    //         .fail(function (data) { });
+    // }
+
+
+
+
+    console.log("ngu nha");
+    if(value == ""){
+        alert('chưa nhập từ cần tìm')
+
+    } else {
+        // $.ajax({
+        //     url: "http://localhost/Tour/public/home?valueSearch="+value+"&page=1",
+        //     data: {
+        //         value: value,
+            
+                
+        //     },
+        //     method: "get",
+        // })
+        //     .done(function (results) {
+           
+        //         alertify.success("Thông tin cần tìm đã xuất hiện");
+        //     })
+        //     .fail(function (data) { });
+    }
+    
+}

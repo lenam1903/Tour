@@ -62,7 +62,7 @@
                                             <div class="shipping-text">
                                                 <h2 style="border-bottom: 1px solid; padding-bottom: 27px">Phụ thu
                                                     phòng đơn </h2>
-                                                <p style="color: red;">1,000,000 VNĐ</p>
+                                                <p style="color: red;">1,000 VNĐ</p>
                                             </div>
                                         </div>
                                     </div>
@@ -325,7 +325,7 @@
                     <div class="col-md-3">
                         <label>Giá Tiền:</label>
                             <input style="text-align: center; font-size: 20; color: red;" class="form-control" name="Adult1[]"
-                                id="priceAdult1" maxprice="{{$idTour->Price + 1000000}}" value="{{$idTour->Price + 1000000}}" readonly />
+                                id="priceAdult1" maxprice="{{$idTour->Price + 1000}}" value="{{$idTour->Price + 1000}}" readonly />
                     </div>
                 </div>
             </div>
@@ -336,7 +336,7 @@
 
             <div class="form-group col-md-12" style="text-align:right;">
                 Tổng Tiền (đã tính thuế VAT(+10%):<label style="font-size: 20; font-weight: bold; color: red;" id="tongTien"
-                    for="tongTien">{{(($idTour->Price + 1000000)*(0.1))+($idTour->Price + 1000000)}}</label>
+                    for="tongTien">{{(($idTour->Price + 1000)*(0.1))+($idTour->Price + 1000)}}</label>
             </div>
             <div class="col-md-3">
                 <div style="font-size: 20;">
@@ -350,21 +350,25 @@
                 <div class="checkout-form-list">
                     <label>Phương Thức Thanh Toán <span style="color: red;" class="required">*</span></label>
                     <select  class="form-control" name="payments">
-                        <option selected value="Tiền Mặt">Tiền Mặt</option>
-                        <option value="ATM">ATM</option>
+                        <option  value="Tiền Mặt">Tiền Mặt</option>
+                        <option selected value="Số dư">
+                            <b style="color: red;">Số dư: {{number_format(Auth::user()->balance)}}
+                                đ</b>
+                        </option>
+                     
                     </select>
                 </div>
             </div>
             <div class="col-md-12" style="padding-top: 20px;">
                 <div class="checkout-form-list">
                    
-                    <input type="checkbox" id="rules" name="rules" value="1" /> <label for="rules"><br>Tôi đồng ý với các điều kiện trên  <span style="color: red; font-size: 20;" class="required">*</span> </label>
+                    <input type="checkbox" id="rules" name="rules" value="1" /> <label for="rules">Tôi đồng ý với các điều kiện trên  <span style="color: red; font-size: 20;" class="required">*</span> </label>
                 </div>
             </div>
            
    
             <div class="form-group col-md-12">
-                <button id="btnCheckoutInfo" onclick="postCheckOutInfo({{$idTour->ID}}, {{Auth::user()->id}})"
+                <button id="btnCheckoutInfo" onclick="postCheckOutInfo({{$idTour->ID}}, {{Auth::user()->id}}, {{Auth::user()->balance}})"
                     style="text-align: center; color: chartreuse; font-size: 20;" type="button" class="btn btn-primary">Đặt
                     Tour</button>
             </div>
