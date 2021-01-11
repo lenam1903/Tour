@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label>Hình Ảnh</label>
                         <p id="img1"> </p>
-                        <input type="file" name="img" id="img">
+                        <input type="file"  name="img" id="img">
                     </div>
                     <button type="submit" class="btn btn-default">Add</button>
                     <button type="reset" class="btn btn-default">Reset</button>

@@ -44,6 +44,7 @@
         <!-- Modernizr js -->
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
+        {{-- ajax check thanh toan --}}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
         
         <style>

@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label>Ảnh</label>
                         <p id="img1">
-                        <img width='900px' height='300px' src="upload/slide/{{$slide1->Image}}">
+                        <img width='900px' height='300px' src="css/images/slider/{{$slide1->Image}}">
                         </p>
                         <input type="file" name="image" id="img">
                     </div>

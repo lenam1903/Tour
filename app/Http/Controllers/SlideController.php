@@ -51,10 +51,10 @@ class SlideController extends Controller
             }
             $name = $file->getClientOriginalExtension();
             $Hinh = str_random(4)."_". $name;
-            while (file_exists("upload/slide/".$Hinh)) {
+            while (file_exists("css/images/slider/".$Hinh)) {
                 $Hinh = str_random(4)."_". $name;
             }
-            $file->move("upload/slide",$Hinh);
+            $file->move("css/images/slider/",$Hinh);
             $slide->Image = $Hinh;
         }
         else
@@ -102,24 +102,23 @@ class SlideController extends Controller
             }
             $name = $file->getClientOriginalExtension();
             $image = str_random(4)."_". $name;
-            while (file_exists("upload/slide/".$image)) {
+            while (file_exists("css/images/slider/".$image)) {
                 $image = str_random(4)."_". $name;
             }
-            $file->move("upload/slide",$image);
+            $file->move("css/images/slider",$image);
             Slide::where('ID', $id)->update(['Image' => $image]);
         }
         else
         {
             Slide::where('ID', $id)->update(['Image' => $slide->Image]);
         }
-
         return redirect('admin/slide/edit/'.$id)->with('notification','Bạn đã sửa thành công');
     }
 
     public function getDelete($id)
     {
         Slide::where('ID', $id)->delete();
-
+    
         return redirect('admin/slide/list')->with('notification','Bạn đã xóa thành công ID: '.$id.' ');
     }
 

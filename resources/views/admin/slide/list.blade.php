@@ -33,7 +33,7 @@
                             <td>{{$sd->ID}}</td>
                             <td>{{$sd->Slide_Name}}</td>
                             <td>
-                                <img max-width: 400px; height="250px" src="upload/slide/{{$sd->Image}}">
+                                <img max-width: 400px; height="250px" src="css/images/slider/{{$sd->Image}}">
                             </td>
                             <td>{{$sd->Link}}</td>
                             <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a href="admin/slide/delete/{{$sd->ID}}"> Delete</a></td>

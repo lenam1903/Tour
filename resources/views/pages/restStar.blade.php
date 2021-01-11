@@ -9,7 +9,13 @@
 @foreach($comment1 as $c)
     @if($c->ID_Tour == $idTour)
         <div class="comment-author-infos pt-25">
-            <span>{{$c->ID_Users}}</span>
+            <span>
+                @if($c->ID_Users == Auth::user()->id)
+                    Tôi
+                @else
+                    {{$c->users->Full_Name}}
+                @endif
+            </span>
             <p>{{$c->Content}}</p>
             <em>{{$c->created_at}}</em>
             <div class="comment-review">

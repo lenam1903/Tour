@@ -28,6 +28,7 @@
         $valueSearch = "";
     }
 ?>
+
 <div class="col-md-3">
     <!--sidebar-categores-box start  -->
     <div class="sidebar-categores-box mt-sm-30 mt-xs-30">
@@ -112,6 +113,7 @@
         
        
 </div>
+
 
 <!-- Content Wraper Area End Here -->
 

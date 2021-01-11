@@ -89,12 +89,20 @@
                                         </li>
                                         <li><i></i>Số dư:<b style="color: red;">{{number_format(Auth::user()->balance)}}
                                             đ</b>
-                                        <li><a href="history_naptien"><i></i> lịch sử nạp tiền</a>
+                            
+                                        <li><a href="nap-tien"><i></i>Nạp tiền</a>
                                         <li><a href="Bill"><i></i> Hóa đơn</a>
                                             
                                         </li>
-                                        <li><a href="admin/user/edit/{{Auth::user()->id}}"><i
+                                        <li>
+                                            @if(Auth::user()->Level == 1)
+                                            
+                                            <a href="admin/user/edit/{{Auth::user()->id}}"><i
                                                     ></i>Cài đặt</a>
+                                            @else 
+                                            <a href="edit-users/{{Auth::user()->id}}"><i
+                                                ></i>Cài đặt</a>
+                                            @endif
                                         </li>
                                         <li><a href="logout"><i></i> Đăng xuất</a>
                                         </li>

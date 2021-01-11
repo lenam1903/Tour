@@ -11,11 +11,13 @@ use App\Tour;
 use App\BillDetails;
 use App\Bill;
 use App\Comment;
+use App\thongke;
 use App\lich_su_nap_tien;
 use App\Check_tranid;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Session;
+use Carbon\Carbon;
 use App\Cart;
 use Illuminate\Pagination\Paginator;
 
@@ -103,6 +105,7 @@ class PageController extends Controller
                 'Voucher'     => $request->voucher,
                 'Date_Of_Payment'     => date("Y-m-d H:i:s"),
                 'Total_Price'     => $request->totalPrice,
+                'soDu' => $request->sodu,
             ]);
 
             for ($i = 1; $i <= $request->adult; $i++) {
@@ -168,6 +171,28 @@ class PageController extends Controller
             DB::table('users')->where('ID', $idUser)->update([
                 'balance'    =>    $balance - $request->totalPrice
             ]);
+
+            $tk = thongke::where('date',date('Y-m-d'))->first();
+            if(!is_null($tk))
+            {
+                DB::table('thongke')
+                ->where(
+                            'date',date('Y-m-d')
+                            )
+                ->update([
+                'soluong' => $tk->soluong+1,
+                'tongtien' => $tk->tongtien+$request->totalPrice,
+    
+                    ]);
+            }
+            else{
+            $tk = new thongke();
+
+            $tk->soluong = 1;
+            $tk->date = date('Y-m-d');
+            $tk->tongtien = $request->totalPrice;
+            $tk->save();
+            } 
     
             $oldCart = Session('Cart') ? Session('Cart') : null;
             $newCart = new Cart($oldCart);
@@ -321,6 +346,9 @@ class PageController extends Controller
                 ])
                 ->orWhere([
                     ['Rate', 'LIKE', '%' . $request->valueSearch . '%']
+                ])
+                ->orWhere([
+                    ['Tour_Code', 'LIKE', '%' . $request->valueSearch . '%']
                 ])->paginate(3);
 
                 $countPage = $searchTour->count();
@@ -330,9 +358,11 @@ class PageController extends Controller
 
     public function thanhtoan()
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        
         $data_send = [
-            "key" => "7c3b214dbcce2605f3ea698d6eee9603",
-            "phone" => "0333766842",
+            "key" => "80a1695c06d1cac8a31c958cf25c4934",
+            "phone" => "0356094694",
             "limit" => 20 
            
         ];
@@ -393,20 +423,22 @@ class PageController extends Controller
                         
                             DB::table('users')->where('email', $email_naptien)->update(['balance' =>  $balance + $amount]);
 
-                            $check_tranid = new Check_tranid();
-                            $check_tranid->tranid = $lenam['tranid'];
-                    
-                            $check_tranid->save();
+                            $check_tranid_0 = DB::table('check_tranid')->where('tranid', $lenam['tranid'])->count();
+                            if($check_tranid_0 > 0 ){
+                                
 
+                            } else {
+                                $check_tranid = new Check_tranid();
+                                $check_tranid->tranid = $lenam['tranid'];                    
+                                $check_tranid->save();
 
-                            $lich_su_nap_tien = new lich_su_nap_tien();
-                            $lich_su_nap_tien->numberphone = $partnerId;
-                            $lich_su_nap_tien->id_users = Auth::user()->id;
-                            $lich_su_nap_tien->ID_naptien = $lenam['tranid'];
-                            $lich_su_nap_tien->amount = $amount;
-                    
-                            $lich_su_nap_tien->save();
-                            
+                                $lich_su_nap_tien = new lich_su_nap_tien();
+                                $lich_su_nap_tien->numberphone = $partnerId;
+                                $lich_su_nap_tien->id_users = Auth::user()->id;
+                                $lich_su_nap_tien->ID_naptien = $lenam['tranid'];
+                                $lich_su_nap_tien->amount = $amount;                    
+                                $lich_su_nap_tien->save();
+                            }
 
                         } else {
                             
@@ -423,13 +455,25 @@ class PageController extends Controller
         }
 
 
-        return "";
+        return $check_tranid_0;
     }
 
     public function bill(Request $request)
     {
 
         return view('pages.bill');
+    }
+
+    public function napTien(Request $request)
+
+    {
+        if(Auth::check()){
+            $sumAmount = DB::table('lich_su_nap_tien')->where('id_users', Auth::user()->id)->sum('amount');
+        } else {
+            return "vui lòng đăng nhập để xem";
+        }
+
+        return view('pages.napTien', ['sumAmount' => $sumAmount]) ;
     }
 
     public function places(Request $request)
@@ -496,6 +540,11 @@ class PageController extends Controller
         
                             ['Number_Of_Seats_Available', 'LIKE', '%' . $GLOBALS['search'] . '%']
         
+                        ])
+                        ->orWhere([
+        
+                            ['Tour_Code', 'LIKE', '%' . $GLOBALS['search'] . '%']
+        
                         ])->get();
                 } else {
                     $query->where([['ID_Place', $GLOBALS['idPlaces']]]);
@@ -522,10 +571,173 @@ class PageController extends Controller
             return view('pages.searchMaxMin', ['searchPlaces' => $searchPlaces, 'idPlaces' => $request->idPlaces, 'countPage' => $countPage, 'order' => '', 'rate' => $request->rate]);
         }
     }
-    
 
-    public function history_naptien(){
-        return view('pages.history_naptien');
+    public function thongke(){
+        return  view('pages.thongke');
     }
     
+
+    public function filter_by_date(Request $req)
+    {
+
+        $from_date = $req->from_date;
+        $to_date = $req->to_date;
+
+        $sub365ngay = Carbon::now('Asia/Ho_Chi_Minh')->subdays(365)->toDateString();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        if($from_date == null)
+        {
+            $get = thongke::whereBetween('date',[$sub365ngay,$to_date])->orderBy('date','ASC')->get();
+        }
+        elseif ($to_date == null)
+        {
+            $get = thongke::whereBetween('date',[$from_date,$now])->orderBy('date','ASC')->get();
+        }
+        else{
+        $get = thongke::whereBetween('date',[$from_date,$to_date])->orderBy('date','ASC')->get();
+        }
+        foreach($get as $key => $val)
+        {
+            $chart_data[] = array(
+                'preiod' => $val->date,
+                'profit' => $val->tongtien,
+                'quantify' => $val->soluong
+
+            );
+        }
+
+        echo $data = json_encode($chart_data);
+    }
+
+    public function chart30days(Request $req)
+    {
+        $data = $req->all();
+        $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
+        $get = thongke::whereBetween('date',[$dauthangnay,$now])->orderBy('date','ASC')->get();
+
+        foreach($get as $key => $val)
+        {
+            $chart_data[] = array(
+                'preiod' => $val->date,
+               
+                'profit' => $val->tongtien,
+                'quantify' => $val->soluong
+
+            );
+        }
+
+        echo $data = json_encode($chart_data);
+    }
+
+    public function dasboard_filter(Request $req)
+    {
+        $data = $req->all();
+
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+        $dauthangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
+        $cuoithangtruoc = Carbon::now('Asia/Ho_chi_Minh')->subMonth()->endOfMonth()->toDateString();
+
+        $sub7ngay = Carbon::now('Asia/Ho_Chi_Minh')->subdays(7)->toDateString();
+        $sub365ngay = Carbon::now('Asia/Ho_Chi_Minh')->subdays(365)->toDateString();
+
+        $get1 = ThongKe::whereBetween('date',[$dauthangnay,$now])->orderBy('date','ASC')->get();
+
+        if($data['dasboard_value'] == '7ngay')
+        {
+            $get = ThongKe::whereBetween('date',[$sub7ngay,$now])->orderBy('date','ASC')->get();
+        }
+        elseif($data['dasboard_value'] == 'thangtruoc')
+        {
+            $get = ThongKe::whereBetween('date',[$dauthangtruoc,$cuoithangtruoc])->orderBy('date','ASC')->get();
+        }
+
+        elseif($data['dasboard_value'] == 'thangnay')
+        {
+            $get = ThongKe::whereBetween('date',[$dauthangnay,$now])->orderBy('date','ASC')->get();
+        }
+        else{
+            $get = ThongKe::whereBetween('date',[$sub365ngay,$now])->orderBy('date','ASC')->get();
+        }
+
+        
+        
+            
+        foreach($get as $key => $val)
+        {
+            
+            $chart_data[] = array(
+                'preiod' => $val->date,
+              
+                'profit' => $val->tongtien,
+                'quantify' => $val->soluong
+
+            );
+        
+        }
+    
+        echo $data = json_encode($chart_data);
+    }
+
+    public function hoaDonFull(){
+        return view('pages.hoa_don_full');
+    }
+
+    public function get_edit_users($id){
+        $user = User::find($id);
+        return view('pages.edit_users', ['user'=>$user]);
+    }
+
+    public function post_edit_users(Request $request,$id){
+        $this->validate($request,
+            [
+                'full_name' => 'required|min:3',
+                'id_card_number'=>'max:12|min:9', 
+                'phone_number'=>'max:12'  
+            ],
+            [
+                'full_name.required'=>'You have not entered Full Name.',
+                'full_name.min'=>'Full Name is 3 or more in length.',
+                'id_card_number.max'=>'ID_Card_Number has a length of 9 -> 12 number.',
+                'id_card_number.min'=>'ID_Card_Number has a length of 9 -> 12 number.',
+                'phone_number'=>'Phone Number is less than 12 number long.'
+            ]
+        );
+     
+      
+     
+
+
+		User::where('id', $id)->update(['Full_Name' => $request->full_name, 
+										'Level' => $request->level,
+										'ID_Card_Number' => $request->id_card_number,
+										'Phone_Number' => $request->phone_number,
+										'Birthday' => $request->birthday,
+										'Address' => $request->address
+										]);
+
+		if ($request->changePassword == "on") {
+            $this->validate($request,
+            [
+                'password'=>'required|min:3|max:32',
+                'passwordAgain'=>'required|same:password'        
+            ],
+            [
+                'password.required'=>'You did not enter an Password',
+                'password.min'=>'Password is from 3 -> 32 characters long.',
+                'password.max'=>'Password is from 3 -> 32 characters long.',
+                'passwordAgain.required'=>'You have not entered the Password again.',
+                'passwordAgain.same'=>'Retype Password does not match.'
+            ]
+        );
+        User::where('id', $id)->update(['password' => bcrypt($request->password)]);
+        }
+
+        return redirect('edit-users/'.$id)->with('notification', 'Success Edit Email: '.$request->email);
+    
+    }
+
+  
 }

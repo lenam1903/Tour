@@ -1,5 +1,8 @@
-
+@if(Auth::check())
+@if(Auth::user()->Level == 1)
 <div  class="navbar-default sidebar" role="navigation">
+
+
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="sidebar-search">
@@ -80,10 +83,24 @@
                     <!-- /.nav-second-level -->
                 </li>
 
+                <li>
+                    <a style="color: blueviolet;" href=""><i class="fa fa-bar-chart-o fa-fw"></i>Lịch Sử Nạp Tiền<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="admin/lich-su-nap-tien/list">Danh Sách</a>
+                        </li>
+                        <li>
+                            <a href="admin/lich-su-nap-tien/add">Thêm</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
                 
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
     </div>
 
-    
+@endif
+@endif

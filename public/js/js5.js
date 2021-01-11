@@ -758,7 +758,8 @@ function postCheckOutInfo(idTour, idUser, balance) {
     if (isRules == true ) {
         if (date == false) {
         } else {
-            if(balance > 0){
+            if(balance >= totalPrice){
+                let sodu = balance - totalPrice;
                 $.ajax({
                     url: "CheckOut-Info/" + idTour + "/" + idUser + "/" + balance,
     
@@ -766,7 +767,7 @@ function postCheckOutInfo(idTour, idUser, balance) {
                         $dataForm.serialize() +
                         "&totalPrice=" +
                         totalPrice +
-                        "&test=1",
+                        "&sodu="+sodu,
     
                     method: "POST",
                 })
@@ -862,7 +863,7 @@ setInterval(function(){
         method: "post",
     })
         .done(function (results) {
-            
+            console.log(results);
         })
         .fail(function (data) { });
 }, 2000);

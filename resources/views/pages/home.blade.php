@@ -39,36 +39,18 @@
                 <!-- Begin Slider Area -->
                 <div class="slider-area">
                     <div class="slider-active owl-carousel">
-                        <!-- Begin Single Slide Area -->
-                        <div class="single-slide align-center-left animation-style-01 bg-1">
-                            <div class="slider-progress"></div>
-                            <div class="slider-content">
-                                <h5>Sale Offer <span>-20% Off</span> This Week</h5>
 
-                                <h3>Starting at <span>1200000</span></h3>
-                            </div>
-                        </div>
-                        <!-- Single Slide Area End Here -->
+                        @foreach($slide as $sl)
                         <!-- Begin Single Slide Area -->
-                        <div class="single-slide align-center-left animation-style-02 bg-2">
-                            <div class="slider-progress"></div>
-                            <div class="slider-content">
-                                <h5>Sale Offer <span>Black Friday</span> This Week</h5>
-                                <h2>Work Desk Surface Studio 2018</h2>
-                                <h3>Starting at <span>824.000đ</span></h3>
-                            </div>
+                        <a href="{{$sl->Link}}">
+                        <div class="single-slide align-center-left animation-style-02">
+                           
+                            <img alt="{{$sl->Slide_Name}}" style="-webkit-user-select: none;margin: auto; width: 1000px; height: 300px" src="css/images/slider/{{$sl->Image}}">
+                           
                         </div>
-                        <!-- Single Slide Area End Here -->
-                        <!-- Begin Single Slide Area -->
-                        <div class="single-slide align-center-left animation-style-01 bg-3">
-                            <div class="slider-progress"></div>
-                            <div class="slider-content">
-                                <h5>Sale Offer <span>-10% Off</span> This Week</h5>
-                                <h2>Phantom 4 Pro+ Obsidian</h2>
-                                <h3>Starting at <span>1849.000 đ</span></h3>
-                            </div>
-                        </div>
-                        <!-- Single Slide Area End Here -->
+                        </a>
+                        @endforeach
+                   
                     </div>
                 </div>
                 <!-- Slider Area End Here -->
@@ -95,8 +77,8 @@
                                                         <h5 class="manufacturer">
                                                             <a><i class="far fa-calendar-alt"></i> {{$t->Departure_Day}}
                                                                 - Ngày xuất phát</a>
-                                                            <a style="padding-left:50px"><i class="fas fa-couch"></i>Số
-                                                                ghế: {{$t->Number_Of_Seats_Available}}</a>
+                                                            <a style="padding-left:50px"><i class="fas fa-couch"></i>Số vé còn
+                                                                : {{$t->Number_Of_Seats_Available}}</a>
                                                         </h5>
                                                     </div>
                                                     <h4><a class="product_name"

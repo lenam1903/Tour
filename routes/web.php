@@ -103,6 +103,30 @@ Route::group(['prefix'=>'admin', 'middleware' => 'adminLogin'], function(){
 
 	});
 
+	Route::group(['prefix'=>'thongke'], function(){
+		Route::get('thongke','PageController@thongke');
+		Route::post('filter-by-day','PageController@filter_by_date');
+		Route::post('dasboard-filter','PageController@dasboard_filter');
+		Route::post('chart30days','PageController@chart30days');
+		
+	});
+
+	Route::group(['prefix'=>'lich-su-nap-tien'], function(){
+		
+		Route::get('list','LichSuGDController@index');
+
+		Route::get('add','LichSuGDController@add');
+		Route::post('add','LichSuGDController@postAdd');
+
+		Route::get('edit/{id}','LichSuGDController@getEdit');
+		Route::post('edit/{id}','LichSuGDController@postEdit');
+		
+		Route::get('delete/{id}','LichSuGDController@destroy');
+		
+	});
+
+
+
 });
 
 
@@ -165,7 +189,16 @@ Route::get('PLaces/{Directory_URL}/{Name_Places_URL}/searchRate','PageController
 
 Route::post('thanhtoan','PageController@thanhtoan');
 
-Route::get('history_naptien','PageController@history_naptien');
+
+Route::get('nap-tien','PageController@napTien');
+
+
+Route::get('hoa-don-full','PageController@hoaDonFull');
+
+Route::get('edit-users/{id}','PageController@get_edit_users');
+Route::post('edit-users/{id}','PageController@post_edit_users');
+
+
 
 
 

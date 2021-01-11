@@ -34,7 +34,7 @@ class AjaxController extends Controller
 
      public function getImgSlide($img)
      {
-          echo "<img width='900px' height='300px' src='upload/slide/".$img."'>";    
+          echo "<img width='900px' height='300px' src='css/images/slider/".$img."'>";    
      }
 }
 

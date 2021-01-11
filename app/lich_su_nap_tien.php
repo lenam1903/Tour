@@ -9,4 +9,9 @@ class lich_su_nap_tien extends Model
 {
     use HasFactory;
     protected $table = "lich_su_nap_tien";
+
+    public function users()
+    {
+    	return $this->belongsTo('App\User','id_users','ID');
+    }
 }

@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Page Content -->
-<div id="page-wrapper" style="width: 87%;">
+<div id="page-wrapper" style="width: 97%;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">

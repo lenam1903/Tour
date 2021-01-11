@@ -3,6 +3,17 @@
 @section('content')
   
 <!--Checkout Area Strat-->
+@if(Auth::check())
+<?php 
+    $i =1;
+    $i1 = 1;
+    $i2 = 1;
+    $i3 = 1;
+    $i4 = 1;
+?>
+<div class="col-md-12" style="text-align: center; height: 200px; ">
+    <h5 style="background-color: #f2f2f2 ; padding-bottom: 20px; padding-top: 20px">Hóa Đơn</h5>
+</div>
 @if($bill != null)
 @foreach($bill as $b)
 @if($b->ID_Users == Auth::user()->id)
@@ -10,12 +21,10 @@
     <div class="container-fluid">
         
         <div class="row">
-            <div class="col-md-12" style="text-align: center; height: 200px; ">
-                <h5 style="background-color: #f2f2f2 ; padding-bottom: 20px; padding-top: 20px">Cảm ơn quý khách đã sử dụng dịch vụ chúng tôi</h5>
-            </div>
+           
             <div class="col-lg-6 col-12">
                 <div class="your-order">
-                    <h3>PHIẾU XÁC NHẬN BOOKING </h3>
+                    <h3>PHIẾU XÁC NHẬN BOOKING ({{$i++}}) </h3>
                     <div class="row single-product-area">
                         <div class="col-lg-12 col-md-6">
                             <div class="product-details-view-content pt-60">
@@ -97,7 +106,7 @@
             </div>
             <div class="col-lg-6 col-12">
                 <div class="your-order">
-                    <h3>THÔNG TIN LIÊN LẠC</h3>
+                    <h3>THÔNG TIN LIÊN LẠC ({{$i1++}})</h3>
                     <div class="row single-product-area">
                         <div class="col-lg-12 col-md-6">
                             <div class="product-details-view-content pt-60">
@@ -160,7 +169,7 @@
             </div>
             <div class="col-lg-12 col-12" style="padding-top: 20px">
                 <div class="your-order">
-                    <h3 style="text-align: center;">CHI TIẾT BOOKING</h3>
+                    <h3 style="text-align: center;">CHI TIẾT BOOKING ({{$i2++}})</h3>
                     <div class="row single-product-area">
                         <div class="col-lg-12 col-md-6">
                             <div class="product-details-view-content pt-60">
@@ -204,17 +213,15 @@
                                             <div class="clear"></div>
                                         </div>
                                         <div class="col-lg-10 col-md-4 col-sm-6 col-xs-12 mg-bot10">
-                                            <div class="f-left l" id="f-left"> Booking đã tự hủy do quá thời hạn thanh toán </div>
+                                            <div class="f-left l" id="f-left"> @if($b->Payments != "Số dư")
+                                                Sau 24h kể từ Ngày đăng ký ({{$b->Date_Of_Payment}}) (Theo giờ Việt Nam) (Nếu quá thời hạn trên mà quý khách chưa thanh toán. Sẽ hủy booking này)
+                                                @else
+                                                Đã thanh toán
+                                                @endif</div>
                                             <div class="clear"></div>
                                         </div>
-                                        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12 mg-bot10">
-                                            <div class="f-left l"> Thời hạn thanh toán </div>
-                                            <div class="clear"></div>
-                                        </div>
-                                        <div class="col-lg-10 col-md-4 col-sm-6 col-xs-12 mg-bot10">
-                                            <div class="f-left l" id="f-left"> Sau 24h kể từ Ngày đăng ký ({{$b->Date_Of_Payment}}) (Theo giờ Việt Nam) (Nếu quá thời hạn trên mà quý khách chưa thanh toán. Sẽ hủy booking này) </div>
-                                            <div class="clear"></div>
-                                        </div>
+                                        
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -224,7 +231,7 @@
             </div>
             <div class="col-lg-12 col-12" style="padding-top: 20px">
                 <div class="your-order">
-                    <h3 style="text-align: center;">DANH SÁCH KHÁCH HÀNG ĐI TOUR</h3>
+                    <h3 style="text-align: center;">DANH SÁCH KHÁCH HÀNG ĐI TOUR ({{$i3++}})</h3>
                     <div class="row single-product-area">
                        
                      
@@ -286,6 +293,13 @@
                             <tr id="valuetour">
                                 <td colspan="8">Tổng cộng:<b style="color: red;">{{number_format($b->Total_Price)}}
                                                          đ</b> (đã tính thuế VAT(+10%)</td> 
+                                                         
+                             </tr>
+
+                             <tr id="valuetour">
+                                <td colspan="8">Số Dư Còn:<b style="color: red;">{{number_format($b->soDu)}}
+                                                         đ</b> </td> 
+                                                         
                              </tr>
                            
                         </table>
@@ -295,12 +309,16 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12" style="text-align: center; height: 200px; ">
+        <h5 style="background-color:green ; padding-bottom: 20px; padding-top: 20px">({{$i4++}})</h5>
+    </div>
 </div>
 
 @endif
 @endforeach
 
 
+@endif
 @endif
 <!--Checkout Area End-->
 @endsection

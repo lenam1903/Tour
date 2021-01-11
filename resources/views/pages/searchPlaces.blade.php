@@ -104,7 +104,7 @@
                                                                 <a><i class="far fa-calendar-alt"></i> {{$t->Departure_Day}}
                                                                     - Ngày xuất phát</a>
                                                                 <a style="padding-left:50px"><i class="fas fa-couch"></i>Số
-                                                                    ghế: {{$t->Number_Of_Seats_Available}}</a>
+                                                                    vé còn: {{$t->Number_Of_Seats_Available}}</a>
                                                             </h5>
                                                         </div>
                                                         <h4><a class="product_name"
